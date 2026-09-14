@@ -111,7 +111,7 @@ export function LeadForm({ formId }: { formId: string }) {
     return (
       <div className="border border-signal/40 bg-signal-dim p-8 text-center">
         <CheckCircle2 className="mx-auto size-8 text-signal" strokeWidth={1.5} />
-        <p className="capec-display mt-4 text-2xl">Thanks — you're in.</p>
+        <p className="capec-display mt-4 text-2xl">Thanks, you're in.</p>
         <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
           A member of our team will reach out within one business day to walk through your
           numbers and lock in your first-deal rate.
@@ -224,7 +224,7 @@ export function LeadForm({ formId }: { formId: string }) {
 
       {status === "error" && (
         <p role="alert" className="text-sm text-destructive">
-          We couldn't submit that just now. Please press the button again — if it keeps
+          We couldn't submit that just now. Please press the button again. If it keeps
           failing, email us at funding@capec.io.
         </p>
       )}

@@ -23,7 +23,7 @@ import { LeadForm } from "@/components/capec/LeadForm";
 import { Testimonials, type Testimonial } from "@/components/capec/Testimonials";
 
 /* =================================================================
- * EDITABLE COPY — change anything in this block without touching layout
+ * EDITABLE COPY: change anything in this block without touching layout
  * ================================================================= */
 
 /** One-line edit: drives every mention of the promo discount. */
@@ -31,7 +31,7 @@ const discountPercent = 25;
 
 /** Headline A/B variants. Set ACTIVE_HEADLINE to 0, 1 or 2. */
 const HEADLINES = [
-  "Fund Your Next Restock — Your First Deal, At a Discounted Rate.",
+  "Fund Your Next Restock. Your First Deal, At a Discounted Rate.",
   "Inventory Capital in 24 Hours. Your First Deal Costs Less.",
   "Stop Selling Out of Stock. Fund Your Restock at a First-Deal Discount.",
 ];
@@ -40,7 +40,7 @@ const ACTIVE_HEADLINE = 0;
 const SUBHEAD =
   "Approvals in 24 hours. Fund up to 2.5x your monthly sales. No credit checks, no personal guarantees.";
 
-/** Before/after fee example — placeholder numbers, edit freely. */
+/** Before/after fee example. Placeholder numbers, edit freely. */
 const FEE_EXAMPLE = {
   dealSize: "$100,000 purchase order",
   standardFee: "$8,000",
@@ -62,7 +62,7 @@ const STEPS = [
   },
   {
     title: "Fund your first restock",
-    body: `Take your funding at a discounted flat fee — ${discountPercent}% off. No interest, no hidden costs, no surprise draw fees.`,
+    body: `Take your funding at a discounted flat fee: ${discountPercent}% off. No interest, no hidden costs, no surprise draw fees.`,
   },
   {
     title: "Scale from there",
@@ -75,20 +75,20 @@ const REASONS = [
   { icon: UserRoundX, title: "No personal guarantees", body: "You don't put your house or your savings behind a purchase order." },
   { icon: FileX2, title: "No financials required", body: "No audited statements, no tax returns, no month-long underwriting." },
   { icon: Receipt, title: "Flat fee, not interest", body: "One number, agreed up front. Nothing compounds while you sell through." },
-  { icon: CalendarClock, title: "45-day grace period", body: "Repayments start 45 days after the invoice due date — room to actually sell." },
+  { icon: CalendarClock, title: "45-day grace period", body: "Repayments start 45 days after the invoice due date, giving you room to actually sell." },
   { icon: Boxes, title: "Inventory is the only collateral", body: "The funded inventory secures the deal. Nothing else on your balance sheet." },
 ];
 
 const ELIGIBILITY = [
   "6+ months of sales history",
   "$100K+ in annual revenue",
-  "Existing ASINs / SKUs with sales data — not brand-new launches",
+  "Existing ASINs / SKUs with sales data, not brand-new launches",
   "Private label preferred",
   "Sellers based in the US, Canada, EU or UK",
   "Purchase orders for physical inventory",
 ];
 
-/** PLACEHOLDER TESTIMONIALS — swap with real client quotes before launch. */
+/** PLACEHOLDER TESTIMONIALS: swap with real client quotes before launch. */
 const TESTIMONIALS: Testimonial[] = [
   {
     quote:
@@ -121,7 +121,7 @@ const FAQS = [
   },
   {
     q: "What's the rate?",
-    a: "It's a flat fee, not an interest rate. You agree to one number up front and that number never changes — nothing compounds, and there's no penalty for selling through early.",
+    a: "It's a flat fee, not an interest rate. You agree to one number up front and that number never changes. Nothing compounds, and there's no penalty for selling through early.",
   },
   {
     q: "What happens if I can't repay on time?",
@@ -133,7 +133,7 @@ const FAQS = [
   },
   {
     q: "Is there a catch?",
-    a: "No equity, no warrants, no lien on your business beyond the funded inventory. The discount applies to one deal — the first one — and it exists so you can test us with real money on the line.",
+    a: "No equity, no warrants, no lien on your business beyond the funded inventory. The discount applies to one deal, your first one, and it exists so you can test us with real money on the line.",
   },
 ];
 
@@ -144,13 +144,13 @@ const offerLine = `Limited-Time: ${discountPercent}% Off Your First Deal's Finan
 export const Route = createFileRoute("/capec")({
   head: () => ({
     meta: [
-      { title: `CapEc Inventory Financing — ${discountPercent}% Off Your First Deal` },
+      { title: `CapEc Inventory Financing | ${discountPercent}% Off Your First Deal` },
       {
         name: "description",
         content:
           "Fast inventory financing for Amazon and private-label sellers. Approvals in 24 hours, up to 2.5x monthly sales, no credit checks or personal guarantees.",
       },
-      { property: "og:title", content: `CapEc — ${discountPercent}% Off Your First Funded Deal` },
+      { property: "og:title", content: `CapEc | ${discountPercent}% Off Your First Funded Deal` },
       {
         property: "og:description",
         content:
@@ -244,7 +244,7 @@ function Hero() {
             {discountPercent}% OFF
           </span>
           <span className="px-3 py-2 text-left font-mono text-[0.7rem] leading-tight tracking-wide text-signal sm:leading-normal">
-            Limited-time — your first deal's financing fee
+            Limited-time: your first deal's financing fee
           </span>
         </div>
 
@@ -320,12 +320,12 @@ function OfferExplained() {
           ))}
         </ol>
 
-        {/* fee comparison — the second place we spend visual weight */}
+        {/* fee comparison: the second place we spend visual weight */}
         <div className="mt-14 border border-signal/30 bg-card/50">
           <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline px-6 py-4">
             <span className="font-display text-sm font-bold">Example deal</span>
             <span className="font-mono text-xs text-muted-foreground">
-              {FEE_EXAMPLE.dealSize} — placeholder figures
+              {FEE_EXAMPLE.dealSize} | placeholder figures
             </span>
           </div>
           <div className="grid sm:grid-cols-2">
@@ -383,7 +383,7 @@ function WhoWeFund() {
         <div>
           <h2 className="capec-display text-3xl sm:text-4xl">Who we fund.</h2>
           <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
-            We back sellers with a proven product and a supply problem — not first-time
+            We back sellers with a proven product and a supply problem, not first-time
             launches. If you tick most of these, you're likely a fit.
           </p>
           <a
@@ -414,7 +414,7 @@ function SocialProof() {
         <div className="flex flex-wrap items-end justify-between gap-3">
           <h2 className="capec-display text-3xl sm:text-4xl">Operators who restocked on time.</h2>
           <span className="font-mono text-xs text-muted-foreground">
-            Placeholder quotes — swap before launch
+            Placeholder quotes. Swap before launch
           </span>
         </div>
         <Testimonials testimonials={TESTIMONIALS} />
@@ -511,7 +511,7 @@ function Footer() {
             </a>
           </div>
           <p className="font-mono text-[0.7rem] text-muted-foreground/70">
-            © {new Date().getFullYear()} CapEc — capec.io
+            © {new Date().getFullYear()} CapEc | capec.io
           </p>
         </div>
       </div>

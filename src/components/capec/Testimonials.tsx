@@ -13,7 +13,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
                 “{t.quote}”
               </blockquote>
               <figcaption className="mt-6 font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                {t.name} — {t.brand}
+                {t.name} | {t.brand}
               </figcaption>
             </figure>
           </CarouselItem>

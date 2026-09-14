@@ -1,5 +1,5 @@
 /**
- * Abstract inventory/growth motif — pure SVG, no raster assets.
+ * Abstract inventory/growth motif. Pure SVG, no raster assets.
  * Stacked pallet units with a capital line running through them.
  */
 export function InventoryMotif({ className }: { className?: string }) {
