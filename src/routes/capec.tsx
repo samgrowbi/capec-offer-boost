@@ -238,7 +238,7 @@ function Hero() {
     <section className="relative overflow-hidden border-b border-hairline bg-ink">
       <div className="pointer-events-none absolute inset-x-0 -top-24 mx-auto h-[420px] max-w-3xl bg-signal/10 blur-[120px]" />
       <div className="relative mx-auto max-w-4xl px-5 pt-16 pb-20 text-center sm:pt-24 sm:pb-28 lg:grid lg:max-w-6xl lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-16 lg:text-left">
-        <div className="lg:col-start-2 lg:row-start-1">
+        <div className="lg:col-start-1 lg:row-start-1">
           {/* the one deliberately loud element on the page */}
           <div className="mx-auto inline-flex items-stretch border border-signal/50 bg-signal-dim lg:mx-0">
             <span className="bg-signal px-3 py-2 font-mono text-[0.7rem] font-medium tracking-widest text-primary-foreground">
@@ -274,7 +274,7 @@ function Hero() {
           </div>
         </div>
 
-        <InventoryMotif className="mx-auto mt-14 w-full max-w-2xl text-foreground lg:col-start-1 lg:row-start-1 lg:mt-0" />
+        <InventoryMotif className="mx-auto mt-14 w-full max-w-2xl text-foreground lg:col-start-2 lg:row-start-1 lg:mt-0" />
       </div>
     </section>
   );
