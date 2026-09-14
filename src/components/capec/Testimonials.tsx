@@ -6,8 +6,8 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
   return (
     <Carousel opts={{ align: "start", loop: true }} className="mt-10">
       <CarouselContent className="-ml-4">
-        {testimonials.map((t) => (
-          <CarouselItem key={t.name} className="pl-4 md:basis-1/2 lg:basis-1/3">
+        {testimonials.map((t, i) => (
+          <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/3">
             <figure className="flex h-full flex-col justify-between border-l-2 border-signal bg-card/40 p-6">
               <blockquote className="text-[1.05rem] leading-relaxed text-foreground">
                 “{t.quote}”
