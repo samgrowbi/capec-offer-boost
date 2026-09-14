@@ -237,42 +237,44 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-hairline bg-ink">
       <div className="pointer-events-none absolute inset-x-0 -top-24 mx-auto h-[420px] max-w-3xl bg-signal/10 blur-[120px]" />
-      <div className="relative mx-auto max-w-4xl px-5 pt-16 pb-20 text-center sm:pt-24 sm:pb-28">
-        {/* the one deliberately loud element on the page */}
-        <div className="mx-auto inline-flex items-stretch border border-signal/50 bg-signal-dim">
-          <span className="bg-signal px-3 py-2 font-mono text-[0.7rem] font-medium tracking-widest text-primary-foreground">
-            {discountPercent}% OFF
-          </span>
-          <span className="px-3 py-2 text-left font-mono text-[0.7rem] leading-tight tracking-wide text-signal sm:leading-normal">
-            Limited-time: your first deal's financing fee
-          </span>
+      <div className="relative mx-auto max-w-4xl px-5 pt-16 pb-20 text-center sm:pt-24 sm:pb-28 lg:grid lg:max-w-6xl lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-16 lg:text-left">
+        <div className="lg:col-start-2 lg:row-start-1">
+          {/* the one deliberately loud element on the page */}
+          <div className="mx-auto inline-flex items-stretch border border-signal/50 bg-signal-dim lg:mx-0">
+            <span className="bg-signal px-3 py-2 font-mono text-[0.7rem] font-medium tracking-widest text-primary-foreground">
+              {discountPercent}% OFF
+            </span>
+            <span className="px-3 py-2 text-left font-mono text-[0.7rem] leading-tight tracking-wide text-signal sm:leading-normal">
+              Limited-time: your first deal's financing fee
+            </span>
+          </div>
+
+          <h1 className="capec-display mx-auto mt-8 max-w-3xl text-[2.35rem] sm:text-6xl lg:mx-0">
+            {HEADLINES[ACTIVE_HEADLINE]}
+          </h1>
+
+          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0">
+            {SUBHEAD}
+          </p>
+
+          <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
+            <a
+              href="#offer-form"
+              className="group inline-flex w-full items-center justify-center gap-2 bg-signal px-7 py-4 font-display font-bold tracking-tight text-primary-foreground transition-opacity hover:opacity-90 sm:w-auto"
+            >
+              Get Your Offer
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </a>
+            <a
+              href="#how-it-works"
+              className="text-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground"
+            >
+              See how it works
+            </a>
+          </div>
         </div>
 
-        <h1 className="capec-display mx-auto mt-8 max-w-3xl text-[2.35rem] sm:text-6xl">
-          {HEADLINES[ACTIVE_HEADLINE]}
-        </h1>
-
-        <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          {SUBHEAD}
-        </p>
-
-        <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a
-            href="#offer-form"
-            className="group inline-flex w-full items-center justify-center gap-2 bg-signal px-7 py-4 font-display font-bold tracking-tight text-primary-foreground transition-opacity hover:opacity-90 sm:w-auto"
-          >
-            Get Your Offer
-            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-          </a>
-          <a
-            href="#how-it-works"
-            className="text-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground"
-          >
-            See how it works
-          </a>
-        </div>
-
-        <InventoryMotif className="mx-auto mt-14 w-full max-w-2xl text-foreground" />
+        <InventoryMotif className="mx-auto mt-14 w-full max-w-2xl text-foreground lg:col-start-1 lg:row-start-1 lg:mt-0" />
       </div>
     </section>
   );
