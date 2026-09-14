@@ -38,9 +38,10 @@ export function InventoryMotif({ className }: { className?: string }) {
         { x: 128, units: 2 },
         { x: 216, units: 3 },
         { x: 304, units: 4 },
-      ].map((col) =>
-        Array.from({ length: col.units }).map((_, u) => (
-          <g key={`${col.x}-${u}`}>
+      ].map((col, columnIndex) => (
+        <g key={col.x} className={`capec-chart-column capec-chart-column-${columnIndex + 1}`}>
+          {Array.from({ length: col.units }).map((_, u) => (
+            <g key={`${col.x}-${u}`}>
             <rect
               x={col.x}
               y={182 - u * 40}
@@ -67,9 +68,10 @@ export function InventoryMotif({ className }: { className?: string }) {
               stroke="currentColor"
               strokeOpacity="0.16"
             />
-          </g>
-        )),
-      )}
+            </g>
+          ))}
+        </g>
+      ))}
 
       {/* capital line */}
       <path
@@ -77,13 +79,15 @@ export function InventoryMotif({ className }: { className?: string }) {
         stroke="var(--signal)"
         strokeWidth="2.5"
         strokeLinecap="square"
+        pathLength="1"
+        className="capec-chart-line"
       />
       {[
         { cx: 78, cy: 178 },
         { cx: 166, cy: 140 },
         { cx: 254, cy: 104 },
         { cx: 342, cy: 56 },
-      ].map(({ cx, cy }) => (
+      ].map(({ cx, cy }, dotIndex) => (
         <rect
           key={cx}
           x={cx - 3.5}
@@ -91,6 +95,7 @@ export function InventoryMotif({ className }: { className?: string }) {
           width="7"
           height="7"
           fill="var(--signal)"
+          className={`capec-chart-dot capec-chart-dot-${dotIndex + 1}`}
         />
       ))}
     </svg>
