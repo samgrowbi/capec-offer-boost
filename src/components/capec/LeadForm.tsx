@@ -216,7 +216,7 @@ export function LeadForm({ formId }: { formId: string }) {
           </>
         ) : (
           <>
-            Get My Funding Offer
+            See My Discounted Offer
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
           </>
         )}
