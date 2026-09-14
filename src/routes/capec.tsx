@@ -31,14 +31,14 @@ const discountPercent = 25;
 
 /** Headline A/B variants. Set ACTIVE_HEADLINE to 0, 1 or 2. */
 const HEADLINES = [
-  "25% Off Your First Restock. Approved in 24 Hours.",
+  "Fund Your Next Restock. Your First Deal, At a Discounted Rate.",
   "Inventory Capital in 24 Hours. Your First Deal Costs Less.",
   "Stop Selling Out of Stock. Fund Your Restock at a First-Deal Discount.",
 ];
 const ACTIVE_HEADLINE = 0;
 
 const SUBHEAD =
-  "Fund up to 2.5x your monthly sales with no credit checks and no personal guarantees. Your first funded deal gets 25% off the financing fee.";
+  "Approvals in 24 hours. Fund up to 2.5x your monthly sales. No credit checks, no personal guarantees.";
 
 /** Before/after fee example. Placeholder numbers, edit freely. */
 const FEE_EXAMPLE = {
@@ -58,25 +58,25 @@ const STATS = [
 const STEPS = [
   {
     title: "Apply",
-    body: "Connect your store, tell us your revenue range. No financials, no tax returns — you'll hear back in 24 hours.",
+    body: "Connect your store and share a revenue range. No financials, no tax returns. You hear back within 24 hours.",
   },
   {
     title: "Fund your first restock",
-    body: "Take your first restock funded at 25% off our standard fee. Flat fee, no interest, no surprise draw costs.",
+    body: `Take your funding at a discounted flat fee: ${discountPercent}% off. No interest, no hidden costs, no surprise draw fees.`,
   },
   {
     title: "Scale from there",
-    body: "Come back for your next PO at standard rates — with priority terms and bigger limits once you've got a track record with us.",
+    body: "Future deals move at standard rates, with priority terms and larger limits as your track record with us grows.",
   },
 ];
 
 const REASONS = [
-  { icon: ShieldOff, title: "No credit checks", body: "Your sales history is the decision — not your credit score." },
+  { icon: ShieldOff, title: "No credit checks", body: "Your personal score isn't part of the decision. Your sales history is." },
   { icon: UserRoundX, title: "No personal guarantees", body: "You don't put your house or your savings behind a purchase order." },
   { icon: FileX2, title: "No financials required", body: "No audited statements, no tax returns, no month-long underwriting." },
-  { icon: Receipt, title: "Flat fee, not interest", body: "One flat fee, agreed up front. Nothing compounds while you sell through." },
-  { icon: CalendarClock, title: "45-day grace period", body: "45 days after your invoice is due — real time to actually sell." },
-  { icon: Boxes, title: "Inventory is the only collateral", body: "The inventory you're funding is the only collateral. Nothing else on your balance sheet is at risk." },
+  { icon: Receipt, title: "Flat fee, not interest", body: "One number, agreed up front. Nothing compounds while you sell through." },
+  { icon: CalendarClock, title: "45-day grace period", body: "Repayments start 45 days after the invoice due date, giving you room to actually sell." },
+  { icon: Boxes, title: "Inventory is the only collateral", body: "The funded inventory secures the deal. Nothing else on your balance sheet." },
 ];
 
 const ELIGIBILITY = [
@@ -113,35 +113,33 @@ const TESTIMONIALS: Testimonial[] = [
 const FAQS = [
   {
     q: "What is inventory financing?",
-    a: "Capital to buy or produce the stock you need to fulfill an order — paid back once it sells, not before.",
+    a: "It's capital raised against the inventory you're buying. We pay a portion of your purchase order directly, you sell through, then repay from revenue. The inventory itself secures the deal.",
   },
   {
     q: "How much can I get?",
-    a: "Up to 2.5x your monthly sales, or up to 75% of a specific purchase order, based on your sales history.",
+    a: "Up to 2.5x your average monthly sales, covering up to 75% of a given purchase order. Your limit grows as your track record with us builds.",
   },
   {
     q: "What's the rate?",
-    a: "A flat fee, agreed before you accept — not compounding interest. Your first deal gets 25% off that fee.",
+    a: "It's a flat fee, not an interest rate. You agree to one number up front and that number never changes. Nothing compounds, and there's no penalty for selling through early.",
   },
   {
     q: "What happens if I can't repay on time?",
-    a: "We'll work with you on your terms first. The inventory funded is our only collateral — we don't come after your personal assets.",
+    a: "Talk to us early. Repayments only begin 45 days after the invoice due date, and we'd rather restructure a schedule around a slow sell-through than force a default. There's no personal guarantee behind the deal.",
   },
   {
     q: `How does the ${discountPercent}% first-deal discount work?`,
-    a: "It applies automatically to the financing fee on your first funded deal. No code, no separate application.",
+    a: `Apply during the promotional window and your first funded deal's financing fee is reduced by ${discountPercent}%. It's applied automatically to your first term sheet. Later deals price at standard rates.`,
   },
   {
     q: "Is there a catch?",
-    a: "No. The discount is on the fee, not a teaser rate that resets higher later — your second deal moves to our standard pricing, which we'll show you upfront before you commit to anything.",
+    a: "No equity, no warrants, no lien on your business beyond the funded inventory. The discount applies to one deal, your first one, and it exists so you can test us with real money on the line.",
   },
 ];
 
 /* ================================================================= */
 
-// PLACEHOLDER: swap in a real expiry date once the client confirms one,
-// e.g. "Offer ends [DATE]". Do not fabricate a countdown or deadline.
-const offerLine = `First-deal pricing — available while we're onboarding new brands this quarter.`;
+const offerLine = `Limited-Time: ${discountPercent}% Off Your First Deal's Financing Fee`;
 
 export const Route = createFileRoute("/capec")({
   head: () => ({
@@ -228,7 +226,7 @@ function Navbar() {
           href="#offer-form"
           className="bg-signal px-4 py-2.5 font-display text-sm font-bold tracking-tight text-primary-foreground transition-opacity hover:opacity-90"
         >
-          See My Discounted Offer
+          Get Your Offer
         </a>
       </div>
     </header>
@@ -246,7 +244,7 @@ function Hero() {
             {discountPercent}% OFF
           </span>
           <span className="px-3 py-2 text-left font-mono text-[0.7rem] leading-tight tracking-wide text-signal sm:leading-normal">
-            First-deal pricing — available while we're onboarding new brands this quarter.
+            Limited-time: your first deal's financing fee
           </span>
         </div>
 
@@ -263,7 +261,7 @@ function Hero() {
             href="#offer-form"
             className="group inline-flex w-full items-center justify-center gap-2 bg-signal px-7 py-4 font-display font-bold tracking-tight text-primary-foreground transition-opacity hover:opacity-90 sm:w-auto"
           >
-            See My Discounted Offer
+            Get Your Offer
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
           </a>
           <a
@@ -347,7 +345,7 @@ function OfferExplained() {
                 {FEE_EXAMPLE.discountedFee}
               </div>
               <div className="mt-2 font-mono text-xs text-muted-foreground">
-                {FEE_EXAMPLE.savings} stays in your business
+                {FEE_EXAMPLE.savings} saved · {discountPercent}% off
               </div>
             </div>
           </div>
