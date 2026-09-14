@@ -79,13 +79,13 @@ export function InventoryMotif({ className }: { className?: string }) {
         strokeLinecap="square"
       />
       {[
-        [78, 178],
-        [166, 140],
-        [254, 104],
-        [342, 56],
-      ].map(([cx, cy]) => (
+        { cx: 78, cy: 178 },
+        { cx: 166, cy: 140 },
+        { cx: 254, cy: 104 },
+        { cx: 342, cy: 56 },
+      ].map(({ cx, cy }) => (
         <rect
-          key={`${cx}`}
+          key={cx}
           x={cx - 3.5}
           y={cy - 3.5}
           width="7"
