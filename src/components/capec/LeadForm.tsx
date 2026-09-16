@@ -211,12 +211,7 @@ export function LeadForm({ formId }: { formId: string }) {
         />
       </Field>
 
-      <Field
-        label="Phone"
-        hint="optional"
-        htmlFor={`${formId}-phone`}
-        error={errors.phone}
-      >
+      <Field label="Phone" htmlFor={`${formId}-phone`} error={errors.phone}>
         <input
           id={`${formId}-phone`}
           name="phone"
