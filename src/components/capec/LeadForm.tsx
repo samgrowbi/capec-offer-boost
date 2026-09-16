@@ -281,6 +281,9 @@ function Field({
         {hint && <span className="text-muted-foreground/60">{hint}</span>}
       </label>
       {children}
+      {help && (
+        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground/80">{help}</p>
+      )}
       {error && (
         <p className="mt-1.5 text-xs text-destructive" role="alert">
           {error}
