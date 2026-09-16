@@ -281,7 +281,7 @@ function Hero() {
 
 function TrustBar() {
   return (
-    <section className="border-b border-hairline">
+    <section className="border-b border-hairline bg-card">
       <div className="mx-auto grid max-w-6xl grid-cols-2 px-5 md:grid-cols-4">
         {STATS.map((stat, i) => (
           <div
