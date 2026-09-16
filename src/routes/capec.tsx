@@ -114,7 +114,7 @@ const FAQS = [
   },
   {
     q: "How much can I get?",
-    a: "Up to $1M on your first round. [PLACEHOLDER: exact mechanic for how the limit grows after that. Confirm with client before launch]",
+    a: "Up to $1M on the first round. Your limit grows as your track record with us builds.",
   },
   {
     q: "What's the rate?",
