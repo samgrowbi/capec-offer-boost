@@ -21,6 +21,11 @@ const schema = z.object({
     .trim()
     .min(2, { message: "Enter your business or brand name" })
     .max(120, { message: "Keep this under 120 characters" }),
+  onlineStoreUrl: z
+    .string()
+    .trim()
+    .min(3, { message: "Enter your online store URL" })
+    .max(300, { message: "Keep this under 300 characters" }),
   revenueRange: z.string().min(1, { message: "Select a revenue range" }),
   platform: z.string().min(1, { message: "Select your platform" }),
   email: z
