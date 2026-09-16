@@ -49,7 +49,7 @@ const EMPTY: Fields = {
 };
 
 const fieldClass =
-  "w-full bg-ink-deep/60 border border-input px-3.5 py-3 text-[0.95rem] text-foreground placeholder:text-muted-foreground/70 outline-none transition-colors focus:border-signal focus:ring-1 focus:ring-signal";
+  "w-full bg-background border border-input px-3.5 py-3 text-[0.95rem] text-foreground placeholder:text-muted-foreground/70 outline-none transition-colors focus:border-signal focus:ring-1 focus:ring-signal";
 
 export function LeadForm({ formId }: { formId: string }) {
   const [values, setValues] = useState<Fields>(EMPTY);
@@ -216,7 +216,7 @@ export function LeadForm({ formId }: { formId: string }) {
           </>
         ) : (
           <>
-            Get My Funding Offer
+            Fund Your Purchase Order Today
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
           </>
         )}
@@ -230,7 +230,7 @@ export function LeadForm({ formId }: { formId: string }) {
       )}
 
       <p className="text-xs leading-relaxed text-muted-foreground">
-        No credit pull. No obligation. We only use your details to prepare your offer.
+        No obligation. We only use your details to prepare your offer.
       </p>
     </form>
   );
