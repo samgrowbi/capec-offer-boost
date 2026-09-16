@@ -37,9 +37,8 @@ const schema = z.object({
   phone: z
     .string()
     .trim()
-    .max(30, { message: "Keep this under 30 characters" })
-    .optional()
-    .or(z.literal("")),
+    .min(6, { message: "Enter your phone number" })
+    .max(30, { message: "Keep this under 30 characters" }),
 });
 
 type Fields = z.infer<typeof schema>;
