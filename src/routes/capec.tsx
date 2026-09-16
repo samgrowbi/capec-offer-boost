@@ -232,7 +232,7 @@ function Hero() {
   return (
     <section className="border-b border-hairline">
       <div className="mx-auto max-w-4xl px-5 pt-16 pb-20 text-center sm:pt-24 sm:pb-28 lg:grid lg:max-w-6xl lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-16 lg:text-left">
-        <div>
+        <div className="lg:col-start-2 lg:row-start-1">
           {/* the one deliberately loud element on the page */}
           <div className="mx-auto inline-flex items-stretch border border-signal/50 bg-signal-dim lg:mx-0">
             <span className="bg-signal px-3 py-2 font-mono text-[0.7rem] font-medium tracking-widest text-primary-foreground">
@@ -271,7 +271,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="mt-14 border border-border bg-card p-6 text-left sm:p-8 lg:mt-0">
+        <div className="mt-14 border border-border bg-card p-6 text-left sm:p-8 lg:col-start-1 lg:row-start-1 lg:mt-0">
           <LeadForm formId="capec-hero-lead-form" />
         </div>
       </div>
