@@ -332,7 +332,7 @@ function OfferExplained() {
           <div className="grid sm:grid-cols-2">
             <div className="border-b border-hairline px-6 py-8 sm:border-b-0 sm:border-r">
               <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                Standard fee
+                Standard fee · 10% flat fee
               </div>
               <div className="capec-display mt-3 text-4xl text-muted-foreground line-through decoration-2">
                 {FEE_EXAMPLE.standardFee}
@@ -340,7 +340,7 @@ function OfferExplained() {
             </div>
             <div className="bg-signal-dim px-6 py-8">
               <div className="font-mono text-xs uppercase tracking-widest text-signal">
-                Your first-deal fee
+                First-deal fee after {discountPercent}% discount
               </div>
               <div className="capec-display mt-3 text-4xl text-signal sm:text-5xl">
                 {FEE_EXAMPLE.discountedFee}
