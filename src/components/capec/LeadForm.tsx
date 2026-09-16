@@ -259,12 +259,14 @@ export function LeadForm({ formId }: { formId: string }) {
 function Field({
   label,
   hint,
+  help,
   htmlFor,
   error,
   children,
 }: {
   label: string;
   hint?: string | undefined;
+  help?: string | undefined;
   htmlFor: string;
   error?: string | undefined;
   children: React.ReactNode;
