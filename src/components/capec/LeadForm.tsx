@@ -140,6 +140,25 @@ export function LeadForm({ formId }: { formId: string }) {
         />
       </Field>
 
+      <Field
+        label="Online Store URL"
+        htmlFor={`${formId}-store-url`}
+        error={errors.onlineStoreUrl}
+        help="For Amazon, please share your Storefront URL."
+      >
+        <input
+          id={`${formId}-store-url`}
+          name="onlineStoreUrl"
+          type="text"
+          inputMode="url"
+          className={fieldClass}
+          placeholder="https://yourbrand.com"
+          value={values.onlineStoreUrl}
+          onChange={(e) => set("onlineStoreUrl")(e.target.value)}
+          aria-invalid={Boolean(errors.onlineStoreUrl)}
+        />
+      </Field>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Revenue" htmlFor={`${formId}-revenue`} error={errors.revenueRange}>
           <select
