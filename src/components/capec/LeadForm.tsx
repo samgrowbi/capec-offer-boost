@@ -21,11 +21,6 @@ const schema = z.object({
     .trim()
     .min(2, { message: "Enter your business or brand name" })
     .max(120, { message: "Keep this under 120 characters" }),
-  onlineStoreUrl: z
-    .string()
-    .trim()
-    .min(3, { message: "Enter your online store URL" })
-    .max(300, { message: "Keep this under 300 characters" }),
   revenueRange: z.string().min(1, { message: "Select a revenue range" }),
   platform: z.string().min(1, { message: "Select your platform" }),
   email: z
@@ -37,8 +32,9 @@ const schema = z.object({
   phone: z
     .string()
     .trim()
-    .min(6, { message: "Enter your phone number" })
-    .max(30, { message: "Keep this under 30 characters" }),
+    .max(30, { message: "Keep this under 30 characters" })
+    .optional()
+    .or(z.literal("")),
 });
 
 type Fields = z.infer<typeof schema>;
@@ -46,7 +42,6 @@ type Errors = Partial<Record<keyof Fields, string>>;
 
 const EMPTY: Fields = {
   brandName: "",
-  onlineStoreUrl: "",
   revenueRange: "",
   platform: "",
   email: "",
@@ -54,7 +49,7 @@ const EMPTY: Fields = {
 };
 
 const fieldClass =
-  "w-full bg-background border border-input px-3.5 py-3 text-[0.95rem] text-foreground placeholder:text-muted-foreground/70 outline-none transition-colors focus:border-signal focus:ring-1 focus:ring-signal";
+  "w-full bg-ink-deep/60 border border-input px-3.5 py-3 text-[0.95rem] text-foreground placeholder:text-muted-foreground/70 outline-none transition-colors focus:border-signal focus:ring-1 focus:ring-signal";
 
 export function LeadForm({ formId }: { formId: string }) {
   const [values, setValues] = useState<Fields>(EMPTY);
@@ -94,7 +89,6 @@ export function LeadForm({ formId }: { formId: string }) {
     setStatus("submitting");
     const { error } = await supabase.from("leads").insert({
       brand_name: parsed.data.brandName,
-      online_store_url: parsed.data.onlineStoreUrl,
       revenue_range: parsed.data.revenueRange,
       platform: parsed.data.platform,
       email: parsed.data.email,
@@ -137,25 +131,6 @@ export function LeadForm({ formId }: { formId: string }) {
           value={values.brandName}
           onChange={(e) => set("brandName")(e.target.value)}
           aria-invalid={Boolean(errors.brandName)}
-        />
-      </Field>
-
-      <Field
-        label="Online Store URL"
-        htmlFor={`${formId}-store-url`}
-        error={errors.onlineStoreUrl}
-        help="For Amazon, please share your Storefront URL."
-      >
-        <input
-          id={`${formId}-store-url`}
-          name="onlineStoreUrl"
-          type="text"
-          inputMode="url"
-          className={fieldClass}
-          placeholder="https://yourbrand.com"
-          value={values.onlineStoreUrl}
-          onChange={(e) => set("onlineStoreUrl")(e.target.value)}
-          aria-invalid={Boolean(errors.onlineStoreUrl)}
         />
       </Field>
 
@@ -211,7 +186,12 @@ export function LeadForm({ formId }: { formId: string }) {
         />
       </Field>
 
-      <Field label="Phone" htmlFor={`${formId}-phone`} error={errors.phone}>
+      <Field
+        label="Phone"
+        hint="optional"
+        htmlFor={`${formId}-phone`}
+        error={errors.phone}
+      >
         <input
           id={`${formId}-phone`}
           name="phone"
@@ -236,7 +216,7 @@ export function LeadForm({ formId }: { formId: string }) {
           </>
         ) : (
           <>
-            Fund Your Purchase Order Today
+            Get My Funding Offer
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
           </>
         )}
@@ -250,7 +230,7 @@ export function LeadForm({ formId }: { formId: string }) {
       )}
 
       <p className="text-xs leading-relaxed text-muted-foreground">
-        No obligation. We only use your details to prepare your offer.
+        No credit pull. No obligation. We only use your details to prepare your offer.
       </p>
     </form>
   );
@@ -259,14 +239,12 @@ export function LeadForm({ formId }: { formId: string }) {
 function Field({
   label,
   hint,
-  help,
   htmlFor,
   error,
   children,
 }: {
   label: string;
   hint?: string | undefined;
-  help?: string | undefined;
   htmlFor: string;
   error?: string | undefined;
   children: React.ReactNode;
@@ -281,9 +259,6 @@ function Field({
         {hint && <span className="text-muted-foreground/60">{hint}</span>}
       </label>
       {children}
-      {help && (
-        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground/80">{help}</p>
-      )}
       {error && (
         <p className="mt-1.5 text-xs text-destructive" role="alert">
           {error}
