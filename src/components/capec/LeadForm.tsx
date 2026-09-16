@@ -94,6 +94,7 @@ export function LeadForm({ formId }: { formId: string }) {
     setStatus("submitting");
     const { error } = await supabase.from("leads").insert({
       brand_name: parsed.data.brandName,
+      online_store_url: parsed.data.onlineStoreUrl,
       revenue_range: parsed.data.revenueRange,
       platform: parsed.data.platform,
       email: parsed.data.email,
