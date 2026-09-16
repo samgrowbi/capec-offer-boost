@@ -21,6 +21,7 @@ export type Database = {
           email: string
           id: string
           offer: string | null
+          online_store_url: string | null
           phone: string | null
           platform: string | null
           revenue_range: string | null
@@ -35,6 +36,7 @@ export type Database = {
           email: string
           id?: string
           offer?: string | null
+          online_store_url?: string | null
           phone?: string | null
           platform?: string | null
           revenue_range?: string | null
@@ -49,6 +51,7 @@ export type Database = {
           email?: string
           id?: string
           offer?: string | null
+          online_store_url?: string | null
           phone?: string | null
           platform?: string | null
           revenue_range?: string | null

@@ -13,12 +13,9 @@ import {
   Instagram,
   Linkedin,
   Receipt,
-  ShieldOff,
-  UserRoundX,
   Check,
 } from "lucide-react";
 
-import { InventoryMotif } from "@/components/capec/Motif";
 import { LeadForm } from "@/components/capec/LeadForm";
 import { Testimonials, type Testimonial } from "@/components/capec/Testimonials";
 
@@ -36,23 +33,25 @@ const HEADLINES = [
   "Stop Selling Out of Stock. Fund Your Restock at a First-Deal Discount.",
 ];
 const ACTIVE_HEADLINE = 0;
+const [HEADLINE_EMPHASIS = "", ...HEADLINE_REMAINDER] =
+  (HEADLINES[ACTIVE_HEADLINE] ?? "").split(". ");
 
 const SUBHEAD =
-  "Approvals in 24 hours. Fund up to 2.5x your monthly sales. No credit checks, no personal guarantees.";
+  "Approvals in 24 hours. Fund up to 2.5x your monthly sales.";
 
 /** Before/after fee example. Placeholder numbers, edit freely. */
 const FEE_EXAMPLE = {
   dealSize: "$100,000 purchase order",
-  standardFee: "$8,000",
-  discountedFee: "$6,000",
-  savings: "$2,000",
+  standardFee: "$10,000",
+  discountedFee: "$7,500",
+  savings: "$2,500 stays in your business",
 };
 
 const STATS = [
   { value: "20+", label: "Years of ecommerce experience" },
   { value: "80%+", label: "Approval rate on private label" },
-  { value: "75%", label: "Of your PO funded" },
-  { value: "24hrs", label: "Approval, at the fastest" },
+  { value: "100%", label: "Of your PO funded" },
+  { value: "24hrs", label: "Approval" },
 ];
 
 const STEPS = [
@@ -61,8 +60,8 @@ const STEPS = [
     body: "Connect your store and share a revenue range. No financials, no tax returns. You hear back within 24 hours.",
   },
   {
-    title: "Fund your first restock",
-    body: `Take your funding at a discounted flat fee: ${discountPercent}% off. No interest, no hidden costs, no surprise draw fees.`,
+    title: "Fund your first Order",
+    body: `Take your first order funded at ${discountPercent}% off our standard fee. Flat fee, no interest, no surprise draw costs.`,
   },
   {
     title: "Scale from there",
@@ -71,8 +70,6 @@ const STEPS = [
 ];
 
 const REASONS = [
-  { icon: ShieldOff, title: "No credit checks", body: "Your personal score isn't part of the decision. Your sales history is." },
-  { icon: UserRoundX, title: "No personal guarantees", body: "You don't put your house or your savings behind a purchase order." },
   { icon: FileX2, title: "No financials required", body: "No audited statements, no tax returns, no month-long underwriting." },
   { icon: Receipt, title: "Flat fee, not interest", body: "One number, agreed up front. Nothing compounds while you sell through." },
   { icon: CalendarClock, title: "45-day grace period", body: "Repayments start 45 days after the invoice due date, giving you room to actually sell." },
@@ -113,11 +110,11 @@ const TESTIMONIALS: Testimonial[] = [
 const FAQS = [
   {
     q: "What is inventory financing?",
-    a: "It's capital raised against the inventory you're buying. We pay a portion of your purchase order directly, you sell through, then repay from revenue. The inventory itself secures the deal.",
+    a: "Capital raised against your purchase order to help you buy the inventory needed to supply the sale. We finance the purchase order today and collect on the accounts receivable once the invoice is due.",
   },
   {
     q: "How much can I get?",
-    a: "Up to 2.5x your average monthly sales, covering up to 75% of a given purchase order. Your limit grows as your track record with us builds.",
+    a: "Up to $1M on the first round. Your limit grows as your track record with us builds.",
   },
   {
     q: "What's the rate?",
@@ -125,7 +122,7 @@ const FAQS = [
   },
   {
     q: "What happens if I can't repay on time?",
-    a: "Talk to us early. Repayments only begin 45 days after the invoice due date, and we'd rather restructure a schedule around a slow sell-through than force a default. There's no personal guarantee behind the deal.",
+    a: "Talk to us early. Repayments only begin 45 days after the invoice due date, and we'd rather restructure a schedule around a slow sell-through than force a default.",
   },
   {
     q: `How does the ${discountPercent}% first-deal discount work?`,
@@ -148,13 +145,13 @@ export const Route = createFileRoute("/capec")({
       {
         name: "description",
         content:
-          "Fast inventory financing for Amazon and private-label sellers. Approvals in 24 hours, up to 2.5x monthly sales, no credit checks or personal guarantees.",
+          "Fast inventory financing for Amazon and private-label sellers. Approvals in 24 hours and funding up to 2.5x monthly sales.",
       },
       { property: "og:title", content: `CapEc | ${discountPercent}% Off Your First Funded Deal` },
       {
         property: "og:description",
         content:
-          "Inventory capital for ecommerce operators. Flat fee, 45-day grace period, no personal guarantees.",
+          "Inventory capital for ecommerce operators with a flat fee and 45-day grace period.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -211,13 +208,13 @@ function Navbar() {
   return (
     <header
       id="top"
-      className="sticky top-0 z-50 border-b border-hairline bg-ink/90 backdrop-blur-md"
+      className="sticky top-0 z-50 border-b border-header-border bg-header text-header-foreground"
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
         <Logo />
-        <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
+        <nav className="hidden items-center gap-8 text-sm text-header-muted md:flex">
           {NAV.map((item) => (
-            <a key={item.href} href={item.href} className="transition-colors hover:text-foreground">
+            <a key={item.href} href={item.href} className="transition-colors hover:text-header-foreground">
               {item.label}
             </a>
           ))}
@@ -226,7 +223,7 @@ function Navbar() {
           href="#offer-form"
           className="bg-signal px-4 py-2.5 font-display text-sm font-bold tracking-tight text-primary-foreground transition-opacity hover:opacity-90"
         >
-          Get Your Offer
+          Fund Your Purchase Order Today
         </a>
       </div>
     </header>
@@ -235,10 +232,9 @@ function Navbar() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-hairline bg-ink">
-      <div className="pointer-events-none absolute inset-x-0 -top-24 mx-auto h-[420px] max-w-3xl bg-signal/10 blur-[120px]" />
-      <div className="relative mx-auto max-w-4xl px-5 pt-16 pb-20 text-center sm:pt-24 sm:pb-28 lg:grid lg:max-w-6xl lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-16 lg:text-left">
-        <div className="lg:col-start-1 lg:row-start-1">
+    <section className="border-b border-hairline">
+      <div className="mx-auto max-w-4xl px-5 pt-16 pb-20 text-center sm:pt-24 sm:pb-28 lg:grid lg:max-w-6xl lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-16 lg:text-left">
+        <div className="lg:col-start-2 lg:row-start-1">
           {/* the one deliberately loud element on the page */}
           <div className="mx-auto inline-flex items-stretch border border-signal/50 bg-signal-dim lg:mx-0">
             <span className="bg-signal px-3 py-2 font-mono text-[0.7rem] font-medium tracking-widest text-primary-foreground">
@@ -249,8 +245,11 @@ function Hero() {
             </span>
           </div>
 
-          <h1 className="capec-display mx-auto mt-8 max-w-3xl text-[2.35rem] sm:text-6xl lg:mx-0">
-            {HEADLINES[ACTIVE_HEADLINE]}
+          <h1 className="capec-display mx-auto mt-8 max-w-3xl text-[2.35rem] text-headline-secondary sm:text-6xl lg:mx-0">
+            <span className="text-headline-emphasis">
+              {HEADLINE_EMPHASIS}.
+            </span>{" "}
+            {HEADLINE_REMAINDER.join(". ")}
           </h1>
 
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0">
@@ -262,7 +261,7 @@ function Hero() {
               href="#offer-form"
               className="group inline-flex w-full items-center justify-center gap-2 bg-signal px-7 py-4 font-display font-bold tracking-tight text-primary-foreground transition-opacity hover:opacity-90 sm:w-auto"
             >
-              Get Your Offer
+              Fund Your Purchase Order Today
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
             </a>
             <a
@@ -274,7 +273,9 @@ function Hero() {
           </div>
         </div>
 
-        <InventoryMotif className="mx-auto mt-14 w-full max-w-2xl text-foreground lg:col-start-2 lg:row-start-1 lg:mt-0" />
+        <div className="mt-14 border border-border bg-card p-6 text-left sm:p-8 lg:col-start-1 lg:row-start-1 lg:mt-0">
+          <LeadForm formId="capec-hero-lead-form" />
+        </div>
       </div>
     </section>
   );
@@ -282,7 +283,7 @@ function Hero() {
 
 function TrustBar() {
   return (
-    <section className="border-b border-hairline">
+    <section className="border-b border-hairline bg-card">
       <div className="mx-auto grid max-w-6xl grid-cols-2 px-5 md:grid-cols-4">
         {STATS.map((stat, i) => (
           <div
@@ -327,13 +328,13 @@ function OfferExplained() {
           <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline px-6 py-4">
             <span className="font-display text-sm font-bold">Example deal</span>
             <span className="font-mono text-xs text-muted-foreground">
-              {FEE_EXAMPLE.dealSize} | placeholder figures
+              {FEE_EXAMPLE.dealSize}
             </span>
           </div>
           <div className="grid sm:grid-cols-2">
             <div className="border-b border-hairline px-6 py-8 sm:border-b-0 sm:border-r">
               <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                Standard fee
+                Standard fee · 10% flat fee
               </div>
               <div className="capec-display mt-3 text-4xl text-muted-foreground line-through decoration-2">
                 {FEE_EXAMPLE.standardFee}
@@ -341,13 +342,13 @@ function OfferExplained() {
             </div>
             <div className="bg-signal-dim px-6 py-8">
               <div className="font-mono text-xs uppercase tracking-widest text-signal">
-                Your first-deal fee
+                First-deal fee after {discountPercent}% discount
               </div>
               <div className="capec-display mt-3 text-4xl text-signal sm:text-5xl">
                 {FEE_EXAMPLE.discountedFee}
               </div>
               <div className="mt-2 font-mono text-xs text-muted-foreground">
-                {FEE_EXAMPLE.savings} saved · {discountPercent}% off
+                 {FEE_EXAMPLE.savings}
               </div>
             </div>
           </div>
@@ -359,12 +360,12 @@ function OfferExplained() {
 
 function WhyCapec() {
   return (
-    <section className="border-b border-hairline bg-ink">
+    <section className="border-b border-hairline bg-card">
       <div className="mx-auto max-w-6xl px-5 py-20 sm:py-24">
         <h2 className="capec-display max-w-2xl text-3xl sm:text-4xl">
           Built for operators, not underwriters.
         </h2>
-        <div className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2">
           {REASONS.map(({ icon: Icon, title, body }) => (
             <div key={title} className="capec-rule pt-5">
               <Icon className="size-5 text-signal" strokeWidth={1.5} />
@@ -411,7 +412,7 @@ function WhoWeFund() {
 
 function SocialProof() {
   return (
-    <section className="border-b border-hairline bg-ink">
+    <section className="border-b border-hairline bg-card">
       <div className="mx-auto max-w-6xl px-5 py-20 sm:py-24">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <h2 className="capec-display text-3xl sm:text-4xl">Operators who restocked on time.</h2>
@@ -449,7 +450,7 @@ function Faq() {
 
 function FinalCta() {
   return (
-    <section id="offer-form" className="bg-ink-deep scroll-mt-16">
+    <section id="offer-form" className="bg-surface-subtle scroll-mt-16">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:py-24 lg:grid-cols-2 lg:items-start">
         <div>
           <div className="inline-flex items-center border border-signal/50 bg-signal-dim px-3 py-1.5 font-mono text-[0.7rem] tracking-wide text-signal">
@@ -463,7 +464,7 @@ function FinalCta() {
             flat fee, and your first-deal discount already applied.
           </p>
           <ul className="mt-8 space-y-3">
-            {["No credit check to get an offer", "No personal guarantee", "45-day grace period after invoice due"].map(
+            {["45-day grace period after invoice due"].map(
               (item) => (
                 <li key={item} className="flex items-center gap-3 text-sm text-muted-foreground">
                   <Check className="size-4 shrink-0 text-signal" strokeWidth={2.5} />
@@ -483,7 +484,7 @@ function FinalCta() {
 
 function Footer() {
   return (
-    <footer className="border-t border-hairline bg-ink">
+    <footer className="border-t border-hairline bg-card">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <Logo />
