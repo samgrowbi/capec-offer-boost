@@ -46,6 +46,7 @@ type Errors = Partial<Record<keyof Fields, string>>;
 
 const EMPTY: Fields = {
   brandName: "",
+  onlineStoreUrl: "",
   revenueRange: "",
   platform: "",
   email: "",
