@@ -33,6 +33,8 @@ const HEADLINES = [
   "Stop Selling Out of Stock. Fund Your Restock at a First-Deal Discount.",
 ];
 const ACTIVE_HEADLINE = 0;
+const [HEADLINE_EMPHASIS = "", ...HEADLINE_REMAINDER] =
+  (HEADLINES[ACTIVE_HEADLINE] ?? "").split(". ");
 
 const SUBHEAD =
   "Approvals in 24 hours. Fund up to 2.5x your monthly sales.";
@@ -245,9 +247,9 @@ function Hero() {
 
           <h1 className="capec-display mx-auto mt-8 max-w-3xl text-[2.35rem] text-headline-secondary sm:text-6xl lg:mx-0">
             <span className="text-headline-emphasis">
-              {HEADLINES[ACTIVE_HEADLINE].split(". ")[0]}.
+              {HEADLINE_EMPHASIS}.
             </span>{" "}
-            {HEADLINES[ACTIVE_HEADLINE].split(". ").slice(1).join(". ")}
+            {HEADLINE_REMAINDER.join(". ")}
           </h1>
 
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0">
