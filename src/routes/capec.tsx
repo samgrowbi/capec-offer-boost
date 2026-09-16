@@ -328,7 +328,7 @@ function OfferExplained() {
           <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline px-6 py-4">
             <span className="font-display text-sm font-bold">Example deal</span>
             <span className="font-mono text-xs text-muted-foreground">
-              {FEE_EXAMPLE.dealSize} | placeholder figures
+              {FEE_EXAMPLE.dealSize}
             </span>
           </div>
           <div className="grid sm:grid-cols-2">
