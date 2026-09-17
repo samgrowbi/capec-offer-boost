@@ -10,7 +10,6 @@ import palletized from "./palletized.png.asset.json";
 import bidx from "./bidx.png.asset.json";
 import dataDive from "./data-dive.png.asset.json";
 import eva from "./eva.png.asset.json";
-import levanta from "./levanta.svg.asset.json";
 import marketleap from "./marketleap.svg.asset.json";
 import profitWhales from "./profit-whales.png.asset.json";
 import teikametrics from "./teikametrics.png.asset.json";
@@ -42,7 +41,6 @@ export const PARTNERS = [
   { name: "BIDX", logo: bidx.url, url: "https://www.bidx.io/en/" },
   { name: "Data Dive", logo: dataDive.url, url: "https://datadive.tools/" },
   { name: "EVA", logo: eva.url, url: "https://eva.guru/" },
-  { name: "Levanta", logo: levanta.url, url: "https://levanta.io/" },
   { name: "MarketLeap", logo: marketleap.url, url: "https://www.marketleap.ai/" },
   { name: "PROFIT WHALES", logo: profitWhales.url, url: "https://profitwhales.com/" },
   { name: "Teikametrics", logo: teikametrics.url, url: "https://www.teikametrics.com/" },
