@@ -633,7 +633,7 @@ function FinalCta() {
           <p className="mt-5 text-lg text-muted-foreground">Approval in 24 hours. Fund up to 2.5x your monthly sales.</p>
           <p className="mt-5 text-sm text-muted-foreground">Financing is subject to approval.</p>
         </div>
-        <div className="mt-10 rounded-md border border-border bg-card p-5 shadow-capec sm:p-8">
+        <div className="mx-auto mt-10 max-w-2xl rounded-md border border-border bg-card p-5 shadow-capec sm:p-8">
           <LeadForm formId="capec-lead-form" />
         </div>
       </div>
