@@ -209,6 +209,75 @@
   border-top: 1px solid var(--hairline);
 }
 
+@keyframes capec-partners-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.capec-partners-marquee {
+  width: 100%;
+  overflow: hidden;
+}
+
+.capec-partners-track {
+  display: flex;
+  width: max-content;
+  animation: capec-partners-scroll 90s linear infinite;
+  will-change: transform;
+}
+
+.capec-partners-marquee:hover .capec-partners-track {
+  animation-play-state: paused;
+}
+
+.capec-partners-set {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 2rem;
+  padding-right: 2rem;
+}
+
+.capec-partner-link {
+  display: grid;
+  width: 9rem;
+  height: 4.5rem;
+  flex-shrink: 0;
+  place-items: center;
+}
+
+.capec-partner-logo {
+  width: 100%;
+  height: 2.5rem;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.68;
+  transition: filter 200ms ease, opacity 200ms ease;
+}
+
+.capec-partner-link:hover .capec-partner-logo,
+.capec-partner-link:focus-visible .capec-partner-logo {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+@media (max-width: 639px) {
+  .capec-partners-set {
+    gap: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .capec-partner-link {
+    width: 7.5rem;
+    height: 4rem;
+  }
+
+  .capec-partner-logo {
+    height: 2rem;
+  }
+}
+
 @keyframes capec-chart-rise {
   from {
     transform: scaleY(0);
@@ -286,6 +355,26 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .capec-partners-marquee {
+    padding-inline: 1.25rem;
+  }
+
+  .capec-partners-track {
+    width: 100%;
+    animation: none;
+  }
+
+  .capec-partners-set {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .capec-partners-set[aria-hidden="true"] {
+    display: none;
+  }
+
   .capec-chart-column,
   .capec-chart-dot,
   .capec-chart-line {

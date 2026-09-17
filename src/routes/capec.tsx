@@ -34,6 +34,7 @@ import {
 import { LeadForm } from "@/components/capec/LeadForm";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
+import { PARTNERS } from "@/assets/capec/partners";
 import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 
 const discountPercent = 25;
@@ -198,6 +199,7 @@ function CapecPage() {
         <WhyCapec />
         <StatBreak />
         <FundingRequirements />
+        <OurPartners />
         <FounderTrust />
         <Faq />
         <FinalCta />
@@ -444,6 +446,40 @@ function FundingRequirements() {
               <h3 className="mt-5 font-bold">{title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-primary-foreground/85">{body}</p>
             </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function OurPartners() {
+  return (
+    <section className="overflow-hidden border-b border-border bg-background">
+      <div className="mx-auto max-w-7xl px-5 pt-16 text-center sm:px-6 sm:pt-24 lg:px-8">
+        <h2 className="text-3xl font-extrabold text-headline-emphasis sm:text-5xl">Our Partners</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          Part of a growing network of ecommerce service providers, logistics, and finance partners.
+        </p>
+      </div>
+      <div className="capec-partners-marquee group mt-10 pb-16 sm:mt-12 sm:pb-24" aria-label="CapEc partners">
+        <div className="capec-partners-track">
+          {[0, 1].map((setIndex) => (
+            <div className="capec-partners-set" aria-hidden={setIndex === 1} key={setIndex}>
+              {PARTNERS.map((partner) => (
+                <a
+                  key={`${setIndex}-${partner.name}`}
+                  href={partner.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="capec-partner-link"
+                  aria-label={`Visit ${partner.name}`}
+                  tabIndex={setIndex === 1 ? -1 : undefined}
+                >
+                  <img src={partner.logo} alt={setIndex === 0 ? partner.name : ""} className="capec-partner-logo" />
+                </a>
+              ))}
+            </div>
           ))}
         </div>
       </div>
