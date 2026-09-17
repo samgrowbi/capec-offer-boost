@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -11,6 +12,8 @@ import {
   BarChart3,
   Boxes,
   Check,
+  ChevronLeft,
+  ChevronRight,
   CircleDollarSign,
   Clock3,
   FileCheck2,
@@ -42,18 +45,17 @@ const LOGO_SRC = capecLogo.url;
 const NADAB_PHOTO_SRC = "";
 const DANIEL_PHOTO_SRC = "";
 
-type VideoTestimonial = {
-  name: string;
-  brand: string;
-  videoSrc: string;
-  posterSrc: string;
+type CapecVideo = {
+  youtubeId: string;
+  title: string;
 };
 
-// Ready for the client's testimonial files or YouTube/Vimeo links.
-const VIDEO_TESTIMONIALS: VideoTestimonial[] = [
-  { name: "", brand: "", videoSrc: "", posterSrc: "" },
-  { name: "", brand: "", videoSrc: "", posterSrc: "" },
-  { name: "", brand: "", videoSrc: "", posterSrc: "" },
+const CAPEC_VIDEOS: CapecVideo[] = [
+  { youtubeId: "oZD_RWU6hqo", title: "" },
+  { youtubeId: "R4EPPCYZA6I", title: "" },
+  { youtubeId: "igkFsdMq8n0", title: "" },
+  { youtubeId: "GO8c_QwS7P0", title: "" },
+  { youtubeId: "cvIPEosmYqM", title: "" },
 ];
 
 const BENEFITS: Array<{ icon: LucideIcon; title: string; body: string }> = [
@@ -308,13 +310,78 @@ function KeyBenefits() {
 }
 
 function VideoTestimonials() {
+  const [videos, setVideos] = useState(CAPEC_VIDEOS);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    Promise.all(
+      CAPEC_VIDEOS.map(async (video) => {
+        try {
+          const response = await fetch(
+            `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${video.youtubeId}&format=json`,
+            { signal: controller.signal },
+          );
+          if (!response.ok) return { ...video, title: "CapEc Video" };
+          const data = (await response.json()) as { title?: string };
+          return { ...video, title: data.title?.trim() || "CapEc Video" };
+        } catch {
+          return { ...video, title: "CapEc Video" };
+        }
+      }),
+    ).then((resolvedVideos) => {
+      if (!controller.signal.aborted) setVideos(resolvedVideos);
+    });
+
+    return () => controller.abort();
+  }, []);
+
+  const scrollCarousel = (direction: -1 | 1) => {
+    carouselRef.current?.scrollBy({
+      left: direction * carouselRef.current.clientWidth * 0.82,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <section className="border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <SectionHeading label="Customer stories" title="Built to support the next purchase order." />
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {VIDEO_TESTIMONIALS.map((testimonial, index) => (
-            <VideoCard key={`${testimonial.name}-${index}`} testimonial={testimonial} />
+        {/* Placeholder section wording. The CapEc team will finalize this heading. */}
+        <div className="flex items-end justify-between gap-6">
+          <SectionHeading
+            label="CapEc channel"
+            title="Straight from CapEc"
+            copy="A closer look at how ecommerce sellers fund their next order."
+          />
+          <div className="hidden shrink-0 gap-2 sm:flex" aria-label="Video carousel controls">
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={() => scrollCarousel(-1)}
+              aria-label="Previous videos"
+            >
+              <ChevronLeft className="size-5" aria-hidden="true" />
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={() => scrollCarousel(1)}
+              aria-label="Next videos"
+            >
+              <ChevronRight className="size-5" aria-hidden="true" />
+            </Button>
+          </div>
+        </div>
+        <div
+          ref={carouselRef}
+          className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 sm:gap-6"
+          aria-label="CapEc videos"
+        >
+          {videos.map((video) => (
+            <VideoCard key={video.youtubeId} video={video} />
           ))}
         </div>
       </div>
@@ -322,37 +389,43 @@ function VideoTestimonials() {
   );
 }
 
-function VideoCard({ testimonial }: { testimonial: VideoTestimonial }) {
-  const isEmbed = /youtube\.com|youtu\.be|vimeo\.com/.test(testimonial.videoSrc);
+function VideoCard({ video }: { video: CapecVideo }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const title = video.title || "CapEc Video";
+
   return (
-    <article className="overflow-hidden rounded-md border border-border bg-card">
+    <article className="w-[88%] shrink-0 snap-start overflow-hidden rounded-md border border-border bg-card sm:w-[65%] lg:w-[calc((100%-3rem)/3)]">
       <div className="aspect-video bg-signal-dim">
-        {testimonial.videoSrc ? (
-          isEmbed ? (
-            <iframe
-              src={testimonial.videoSrc}
-              title={`${testimonial.name} testimonial`}
-              className="size-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          ) : (
-            <video className="size-full object-cover" controls preload="metadata" poster={testimonial.posterSrc || undefined}>
-              <source src={testimonial.videoSrc} />
-            </video>
-          )
+        {isPlaying ? (
+          <iframe
+            src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1`}
+            title={title}
+            className="size-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
         ) : (
-          <div className="flex size-full flex-col items-center justify-center gap-3 p-5 text-center text-headline-emphasis">
-            <span className="grid size-12 place-items-center rounded-full bg-card text-signal shadow-sm">
-              <Play className="ml-0.5 size-5" fill="currentColor" aria-hidden="true" />
+          <Button
+            type="button"
+            variant="ghost"
+            className="group relative size-full rounded-none p-0"
+            onClick={() => setIsPlaying(true)}
+            aria-label={`Play ${title}`}
+          >
+            <img
+              src={`https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`}
+              alt=""
+              className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            />
+            <span className="absolute inset-0 bg-header/15 transition-colors group-hover:bg-header/25" aria-hidden="true" />
+            <span className="absolute grid size-14 place-items-center rounded-full bg-signal text-primary-foreground shadow-capec transition-transform group-hover:scale-105">
+              <Play className="ml-1 size-6" fill="currentColor" aria-hidden="true" />
             </span>
-            <span className="text-sm font-semibold">Customer video coming soon</span>
-          </div>
+          </Button>
         )}
       </div>
       <div className="p-5">
-        <p className="font-bold text-headline-emphasis">{testimonial.name || "Customer name"}</p>
-        <p className="mt-1 text-sm text-muted-foreground">{testimonial.brand || "Brand name"}</p>
+        <p className="font-bold leading-snug text-headline-emphasis">{title}</p>
       </div>
     </article>
   );
