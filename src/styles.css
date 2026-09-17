@@ -138,22 +138,22 @@
  * CapEc landing page so other client LPs are untouched.
  * --------------------------------------------------------------- */
 .capec {
-  --radius: 0.375rem;
-  --background: #e3e5eb;
+  --radius: 0.5rem;
+  --background: #ffffff;
   --foreground: #0a0a0a;
-  --ink: #ffffff;
-  --ink-deep: #f7f8fa;
+  --ink: #254398;
+  --ink-deep: #000321;
   --card: #ffffff;
   --card-foreground: #0a0a0a;
   --popover: #ffffff;
   --popover-foreground: #0a0a0a;
   --primary: #188bf6;
   --primary-foreground: #ffffff;
-  --secondary: #f7f8fa;
+  --secondary: #e3e5eb;
   --secondary-foreground: #0a0a0a;
-  --muted: #f1f2f5;
+  --muted: #e3e5eb;
   --muted-foreground: #5f6269;
-  --accent: #edf5ff;
+  --accent: #e3e5eb;
   --accent-foreground: #254398;
   --destructive: oklch(0.68 0.19 25);
   --destructive-foreground: #ffffff;
@@ -169,10 +169,11 @@
   --header-border: rgb(255 255 255 / 12%);
   --headline-emphasis: #254398;
   --headline-secondary: #7a7a7a;
-  --surface-subtle: #f7f8fa;
-  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --surface-subtle: #f7f8fb;
+  --shadow-capec: 0 20px 55px -32px rgb(0 3 33 / 35%);
+  --font-display: "Inter", "Manrope", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", "Manrope", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Inter", "Manrope", ui-sans-serif, system-ui, sans-serif;
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
@@ -191,6 +192,7 @@
   --color-headline-emphasis: var(--headline-emphasis);
   --color-headline-secondary: var(--headline-secondary);
   --color-surface-subtle: var(--surface-subtle);
+  --shadow-capec: var(--shadow-capec);
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
@@ -199,8 +201,8 @@
 @utility capec-display {
   font-family: var(--font-display);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 0.98;
+  letter-spacing: 0;
+  line-height: 1.05;
 }
 
 @utility capec-rule {
