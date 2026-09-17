@@ -280,10 +280,10 @@ function Hero() {
 
 function SectionHeading({ label, title, copy }: { label?: string; title: string; copy?: string }) {
   return (
-    <div className="mx-auto max-w-2xl text-center">
+    <div className="mx-auto text-center">
       {label && <p className="mb-3 text-sm font-bold text-signal">{label}</p>}
-      <h2 className="text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-5xl">{title}</h2>
-      {copy && <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">{copy}</p>}
+      <h2 className="text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-5xl lg:text-[clamp(2rem,3.4vw,2.75rem)]">{title}</h2>
+      {copy && <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">{copy}</p>}
     </div>
   );
 }
@@ -292,7 +292,7 @@ function KeyBenefits() {
   return (
     <section className="border-b border-border bg-surface-subtle">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <h2 className="mx-auto max-w-3xl text-center text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-5xl">Funding that keeps your next order moving.</h2>
+        <h2 className="text-center text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-5xl lg:text-[clamp(2rem,3.4vw,2.75rem)]">Funding that keeps your next order moving.</h2>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {BENEFITS.map(({ icon: Icon, title, body }) => (
             <article key={title} className="rounded-md border border-border bg-card p-6">
@@ -606,9 +606,9 @@ function FounderCard({ name, role, src, bio }: { name: string; role: string; src
 function Faq() {
   return (
     <section id="faq" className="scroll-mt-16 border-b border-border bg-background">
-      <div className="mx-auto max-w-3xl px-5 py-16 sm:px-6 sm:py-24">
+      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         <SectionHeading label="FAQ" title="Straight answers before you apply." />
-        <Accordion type="single" collapsible className="mt-10">
+        <Accordion type="single" collapsible className="mx-auto mt-10 max-w-3xl">
           {FAQS.map((faq) => (
             <AccordionItem key={faq.q} value={faq.q} className="border-border">
               <AccordionTrigger className="text-left text-base font-bold text-headline-emphasis hover:no-underline">
@@ -626,14 +626,14 @@ function Faq() {
 function FinalCta() {
   return (
     <section id="offer-form" className="scroll-mt-16 bg-surface-subtle">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-6 sm:py-24 lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-start lg:gap-16 lg:px-8">
-        <div className="lg:sticky lg:top-24">
+      <div className="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <div className="text-center">
           <p className="text-sm font-bold text-signal">{discountPercent}% off your first funded deal's fee</p>
-          <h2 className="mt-4 text-4xl font-extrabold leading-tight text-headline-emphasis sm:text-6xl">{CTA_LABEL}</h2>
-          <p className="mt-5 max-w-lg text-lg text-muted-foreground">Approval in 24 hours. Fund up to 2.5x your monthly sales.</p>
+          <h2 className="mt-4 text-4xl font-extrabold leading-tight text-headline-emphasis sm:text-6xl lg:text-[clamp(2.25rem,4vw,3.75rem)]">{CTA_LABEL}</h2>
+          <p className="mt-5 text-lg text-muted-foreground">Approval in 24 hours. Fund up to 2.5x your monthly sales.</p>
           <p className="mt-5 text-sm text-muted-foreground">Financing is subject to approval.</p>
         </div>
-        <div className="rounded-md border border-border bg-card p-5 shadow-capec sm:p-8">
+        <div className="mx-auto mt-10 max-w-2xl rounded-md border border-border bg-card p-5 shadow-capec sm:p-8">
           <LeadForm formId="capec-lead-form" />
         </div>
       </div>
