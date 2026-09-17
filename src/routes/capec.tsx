@@ -37,13 +37,13 @@ import {
 import { LeadForm } from "@/components/capec/LeadForm";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
+import danielPhoto from "@/assets/capec/daniel-lilienthal.png.asset.json";
+import nadavPhoto from "@/assets/capec/nadav-gorlicki.png.asset.json";
 import { PARTNERS } from "@/assets/capec/partners";
 import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 
 const discountPercent = 25;
 const LOGO_SRC = capecLogo.url;
-const NADAB_PHOTO_SRC = "";
-const DANIEL_PHOTO_SRC = "";
 
 type CapecVideo = {
   youtubeId: string;
