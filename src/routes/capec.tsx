@@ -296,11 +296,13 @@ function KeyBenefits() {
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {BENEFITS.map(({ icon: Icon, title, body }) => (
             <article key={title} className="rounded-md border border-border bg-card p-6">
-              <div className="grid size-10 place-items-center rounded-md bg-signal-dim text-signal">
-                <Icon className="size-5" aria-hidden="true" />
+              <div className="flex items-center gap-3">
+                <div className="grid size-10 shrink-0 place-items-center rounded-md bg-signal-dim text-signal">
+                  <Icon className="size-5" aria-hidden="true" />
+                </div>
+                <h3 className="text-lg font-bold text-headline-emphasis">{title}</h3>
               </div>
-              <h3 className="mt-5 text-lg font-bold text-headline-emphasis">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{body}</p>
             </article>
           ))}
         </div>
