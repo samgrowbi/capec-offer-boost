@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
 const REVENUE_RANGES = [
@@ -117,10 +118,9 @@ export function LeadForm({ formId }: { formId: string }) {
     return (
       <div className="border border-signal/40 bg-signal-dim p-8 text-center">
         <CheckCircle2 className="mx-auto size-8 text-signal" strokeWidth={1.5} />
-        <p className="capec-display mt-4 text-2xl">Thanks, you're in.</p>
+        <p className="mt-4 text-2xl font-extrabold text-headline-emphasis">Thanks, you're in.</p>
         <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-          A member of our team will reach out within one business day to walk through your
-          numbers and lock in your first-deal rate.
+          Thanks - a member of our team will reach out within one business day.
         </p>
       </div>
     );
@@ -225,10 +225,10 @@ export function LeadForm({ formId }: { formId: string }) {
         />
       </Field>
 
-      <button
+      <Button
         type="submit"
         disabled={status === "submitting"}
-        className="group flex w-full items-center justify-center gap-2 bg-signal px-6 py-4 font-display text-[0.95rem] font-bold tracking-tight text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+        className="group h-12 w-full px-6 text-[0.95rem] font-bold"
       >
         {status === "submitting" ? (
           <>
@@ -236,11 +236,11 @@ export function LeadForm({ formId }: { formId: string }) {
           </>
         ) : (
           <>
-            Fund Your Purchase Order Today
+            Get My Funding Offer
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
           </>
         )}
-      </button>
+      </Button>
 
       {status === "error" && (
         <p role="alert" className="text-sm text-destructive">
