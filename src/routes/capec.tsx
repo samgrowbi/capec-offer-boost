@@ -48,9 +48,9 @@ type VideoTestimonial = {
 
 // Ready for the client's testimonial files or YouTube/Vimeo links.
 const VIDEO_TESTIMONIALS: VideoTestimonial[] = [
-  { name: "Customer name", brand: "Brand name", videoSrc: "", posterSrc: "" },
-  { name: "Customer name", brand: "Brand name", videoSrc: "", posterSrc: "" },
-  { name: "Customer name", brand: "Brand name", videoSrc: "", posterSrc: "" },
+  { name: "", brand: "", videoSrc: "", posterSrc: "" },
+  { name: "", brand: "", videoSrc: "", posterSrc: "" },
+  { name: "", brand: "", videoSrc: "", posterSrc: "" },
 ];
 
 const BENEFITS: Array<{ icon: LucideIcon; title: string; body: string }> = [
@@ -342,8 +342,8 @@ function VideoCard({ testimonial }: { testimonial: VideoTestimonial }) {
         )}
       </div>
       <div className="p-5">
-        <p className="font-bold text-headline-emphasis">{testimonial.name}</p>
-        <p className="mt-1 text-sm text-muted-foreground">{testimonial.brand}</p>
+        <p className="font-bold text-headline-emphasis">{testimonial.name || "Customer name"}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{testimonial.brand || "Brand name"}</p>
       </div>
     </article>
   );
@@ -454,7 +454,7 @@ function FounderTrust() {
         <SectionHeading
           label="The team behind CapEc"
           title="Ecommerce funding with people on the other side."
-          copy="Nadab and Daniel co-founded CapEc to help established sellers fund purchase orders and keep inventory moving."
+          copy="Meet Nadab and Daniel, the co-founders behind CapEc's purchase order financing."
         />
         <div className="mt-10 grid max-w-2xl gap-5 sm:grid-cols-2">
           <FounderCard name="Nadab" role="Co-Founder" src={NADAB_PHOTO_SRC} initial="N" />

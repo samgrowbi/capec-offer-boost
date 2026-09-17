@@ -160,7 +160,7 @@ export function LeadForm({ formId }: { formId: string }) {
       </Field>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Revenue" htmlFor={`${formId}-revenue`} error={errors.revenueRange}>
+        <Field label="Annual / monthly revenue" htmlFor={`${formId}-revenue`} error={errors.revenueRange}>
           <select
             id={`${formId}-revenue`}
             name="revenueRange"
