@@ -250,10 +250,10 @@ function Navbar() {
 
 function Hero() {
   return (
-    // Height capped below a full viewport (~85-90vh) so a sliver of the next
-    // section peeks in at the bottom of the initial viewport as a scroll hint.
-    <section className="flex min-h-[82svh] items-center overflow-hidden border-b border-border bg-background lg:min-h-[88vh]">
-      <div className="mx-auto grid w-full max-w-7xl gap-7 px-5 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-10 lg:px-8 lg:py-10">
+    // Height capped below a full viewport (~85vh on desktop) so a sliver of the
+    // next section peeks in at the bottom of the initial viewport as a scroll hint.
+    <section className="flex min-h-[82svh] items-center overflow-hidden border-b border-border bg-background lg:min-h-[85vh]">
+      <div className="mx-auto grid w-full max-w-7xl gap-7 px-5 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-10 lg:px-8 lg:py-4">
         <div className="order-1 flex flex-col lg:order-2">
           <h1 className="order-2 mt-5 max-w-2xl text-4xl font-extrabold leading-[1.05] text-headline-secondary sm:text-6xl lg:order-1 lg:mt-0 lg:text-6xl">
             <span className="text-headline-emphasis">Fund Your Purchase Order</span> Today
