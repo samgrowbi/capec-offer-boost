@@ -567,31 +567,38 @@ function FounderTrust() {
         <SectionHeading
           label="The team behind CapEc"
           title="Ecommerce funding with people on the other side."
-          copy="Meet Nadab and Daniel, the co-founders behind CapEc's purchase order financing."
+          copy="Meet Nadav and Daniel, the co-founders behind CapEc's purchase order financing."
         />
         <div className="mt-10 grid max-w-2xl gap-5 sm:grid-cols-2">
-          <FounderCard name="Nadab" role="Co-Founder" src={NADAB_PHOTO_SRC} initial="N" />
-          <FounderCard name="Daniel" role="Co-Founder" src={DANIEL_PHOTO_SRC} initial="D" />
+          <FounderCard
+            name="Nadav Gorlicki"
+            role="CEO & Co-Founder"
+            src={nadavPhoto.url}
+            bio="Over a decade in eCommerce, with deep expertise in supply chain optimization and digital marketplace strategy."
+          />
+          <FounderCard
+            name="Daniel Lilienthal"
+            role="COO & Co-Founder"
+            src={danielPhoto.url}
+            bio="15+ years in financial services, focused on making funding solutions simple and accessible for everyday operations."
+          />
         </div>
       </div>
     </section>
   );
 }
 
-function FounderCard({ name, role, src, initial }: { name: string; role: string; src: string; initial: string }) {
+function FounderCard({ name, role, src, bio }: { name: string; role: string; src: string; bio: string }) {
   return (
-    <article className="flex items-center gap-4 rounded-md border border-border bg-card p-5">
-      {src ? (
-        <img src={src} alt={`${name}, ${role}`} className="size-16 rounded-full object-cover" />
-      ) : (
-        <div className="grid size-16 shrink-0 place-items-center rounded-full bg-signal-dim text-xl font-extrabold text-signal" aria-hidden="true">
-          {initial}
+    <article className="rounded-md border border-border bg-card p-5">
+      <div className="flex items-center gap-4">
+        <img src={src} alt={`${name}, ${role}`} className="size-16 shrink-0 rounded-full object-cover" />
+        <div>
+          <h3 className="font-bold text-headline-emphasis">{name}</h3>
+          <p className="mt-1 text-sm text-muted-foreground">{role}</p>
         </div>
-      )}
-      <div>
-        <h3 className="font-bold text-headline-emphasis">{name}</h3>
-        <p className="mt-1 text-sm text-muted-foreground">{role}</p>
       </div>
+      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{bio}</p>
     </article>
   );
 }
