@@ -569,18 +569,18 @@ function FounderTrust() {
           title="Ecommerce funding with people on the other side."
           copy="Meet Nadav and Daniel, the co-founders behind CapEc's purchase order financing."
         />
-        <div className="mt-10 grid max-w-2xl gap-5 sm:grid-cols-2">
+        <div className="mx-auto mt-12 grid max-w-4xl gap-14 sm:grid-cols-2 sm:gap-10 lg:gap-16">
           <FounderCard
             name="Nadav Gorlicki"
             role="CEO & Co-Founder"
             src={nadavPhoto.url}
-            bio="Over a decade in eCommerce, with deep expertise in supply chain optimization and digital marketplace strategy."
+            bio="With a wealth of experience spanning over a decade in eCommerce, he is an industry leader in supply chain optimization and digital marketplace strategies. Gain from his insights, he knows that for the maximum impact, a funding solution should not only offer capital but also serve as a seamless extension of the eCommerce seller's supply chain."
           />
           <FounderCard
             name="Daniel Lilienthal"
             role="COO & Co-Founder"
             src={danielPhoto.url}
-            bio="15+ years in financial services, focused on making funding solutions simple and accessible for everyday operations."
+            bio="With more than 15 years of hands-on experience in the financial sector, Daniel is a seasoned authority in financial solutions and services. His expertise underscores the belief that a truly valuable financial solution should effortlessly integrate into day-to-day operations, offering simplicity and accessibility."
           />
         </div>
       </div>
@@ -589,16 +589,34 @@ function FounderTrust() {
 }
 
 function FounderCard({ name, role, src, bio }: { name: string; role: string; src: string; bio: string }) {
+  const socials = [
+    { icon: Linkedin, href: "https://www.linkedin.com/company/capecinc", label: "CapEc on LinkedIn" },
+    { icon: Instagram, href: "https://www.instagram.com/capec.io/", label: "CapEc on Instagram" },
+  ];
   return (
-    <article className="rounded-md border border-border bg-card p-5">
-      <div className="flex items-center gap-4">
-        <img src={src} alt={`${name}, ${role}`} className="size-16 shrink-0 rounded-full object-cover" />
-        <div>
-          <h3 className="font-bold text-headline-emphasis">{name}</h3>
-          <p className="mt-1 text-sm text-muted-foreground">{role}</p>
-        </div>
+    <article className="flex flex-col items-center text-center">
+      <img
+        src={src}
+        alt={`${name}, ${role}`}
+        className="size-64 max-w-full rounded-none object-cover sm:size-72 lg:size-[300px]"
+      />
+      <h3 className="mt-6 text-xl font-bold text-headline-emphasis">{name}</h3>
+      <p className="mt-1 text-sm text-muted-foreground">{role}</p>
+      <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">{bio}</p>
+      <div className="mt-5 flex items-center gap-4 text-muted-foreground">
+        {socials.map(({ icon: Icon, href, label }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            className="grid size-9 place-items-center rounded-full border border-border transition-colors hover:border-signal hover:text-signal"
+          >
+            <Icon className="size-4" aria-hidden="true" />
+          </a>
+        ))}
       </div>
-      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{bio}</p>
     </article>
   );
 }
