@@ -589,34 +589,16 @@ function FounderTrust() {
 }
 
 function FounderCard({ name, role, src, bio }: { name: string; role: string; src: string; bio: string }) {
-  const socials = [
-    { icon: Linkedin, href: "https://www.linkedin.com/company/capecinc", label: "CapEc on LinkedIn" },
-    { icon: Instagram, href: "https://www.instagram.com/capec.io/", label: "CapEc on Instagram" },
-  ];
   return (
-    <article className="flex flex-col items-center text-center">
+    <article className="flex flex-col items-center pb-4 text-center">
       <img
         src={src}
         alt={`${name}, ${role}`}
-        className="size-64 max-w-full rounded-none object-cover sm:size-72 lg:size-[300px]"
+        className="size-64 max-w-full rounded-full object-cover object-center sm:size-72 lg:size-[300px]"
       />
       <h3 className="mt-6 text-xl font-bold text-headline-emphasis">{name}</h3>
       <p className="mt-1 text-sm text-muted-foreground">{role}</p>
       <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">{bio}</p>
-      <div className="mt-5 flex items-center gap-4 text-muted-foreground">
-        {socials.map(({ icon: Icon, href, label }) => (
-          <a
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={label}
-            className="grid size-9 place-items-center rounded-full border border-border transition-colors hover:border-signal hover:text-signal"
-          >
-            <Icon className="size-4" aria-hidden="true" />
-          </a>
-        ))}
-      </div>
     </article>
   );
 }
