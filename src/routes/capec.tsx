@@ -280,7 +280,7 @@ function Hero() {
 
 function SectionHeading({ label, title, copy }: { label?: string; title: string; copy?: string }) {
   return (
-    <div className="max-w-2xl">
+    <div className="mx-auto max-w-2xl text-center">
       {label && <p className="mb-3 text-sm font-bold text-signal">{label}</p>}
       <h2 className="text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-5xl">{title}</h2>
       {copy && <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">{copy}</p>}
@@ -292,7 +292,7 @@ function KeyBenefits() {
   return (
     <section className="border-b border-border bg-surface-subtle">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <h2 className="text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-5xl lg:whitespace-nowrap">Funding that keeps your next order moving.</h2>
+        <h2 className="mx-auto max-w-3xl text-center text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-5xl">Funding that keeps your next order moving.</h2>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {BENEFITS.map(({ icon: Icon, title, body }) => (
             <article key={title} className="rounded-md border border-border bg-card p-6">
@@ -348,13 +348,13 @@ function VideoTestimonials() {
     <section className="border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         {/* Placeholder section wording. The CapEc team will finalize this heading. */}
-        <div className="flex items-end justify-between gap-6">
+        <div className="relative">
           <SectionHeading
             label="CapEc channel"
             title="Straight from CapEc"
             copy="A closer look at how ecommerce sellers fund their next order."
           />
-          <div className="hidden shrink-0 gap-2 sm:flex" aria-label="Video carousel controls">
+          <div className="absolute right-0 top-1 hidden shrink-0 gap-2 sm:flex" aria-label="Video carousel controls">
             <Button
               type="button"
               variant="outline"
