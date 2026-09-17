@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowRight,
   BadgeDollarSign,
   BarChart3,
   Boxes,
@@ -33,6 +32,8 @@ import {
 } from "lucide-react";
 
 import { LeadForm } from "@/components/capec/LeadForm";
+import amazonLogo from "@/assets/capec/amazon-logo.png";
+import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 
 const discountPercent = 25;
 const LOGO_SRC = "";
@@ -107,6 +108,11 @@ const DIFFERENTIATORS: Array<{ icon: LucideIcon; title: string; body: string }> 
     icon: Boxes,
     title: "Inventory is the collateral",
     body: "Nothing else on your balance sheet is at risk.",
+  },
+  {
+    icon: Check,
+    title: "No long-term contract / one deal at a time",
+    body: "Fund one PO at a time. No standing commitment to keep borrowing.",
   },
 ];
 
@@ -236,30 +242,26 @@ function Navbar() {
 function Hero() {
   return (
     <section className="overflow-hidden border-b border-border bg-background">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-16 lg:px-8 lg:py-20">
+      <div className="mx-auto grid max-w-7xl gap-7 px-5 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-10 lg:px-8 lg:py-10">
         <div className="order-1 flex flex-col lg:order-2">
-          <h1 className="order-2 mt-7 max-w-2xl text-4xl font-extrabold leading-[1.05] text-headline-secondary sm:text-6xl lg:order-1 lg:mt-0 lg:text-7xl">
+          <h1 className="order-2 mt-5 max-w-2xl text-4xl font-extrabold leading-[1.05] text-headline-secondary sm:text-6xl lg:order-1 lg:mt-0 lg:text-6xl">
             <span className="text-headline-emphasis">Fund Your Purchase Order</span> Today
           </h1>
-          <div className="order-1 max-w-xl rounded-md bg-signal p-5 text-primary-foreground sm:p-6 lg:order-2 lg:mt-7">
+          <div className="order-1 max-w-xl rounded-md bg-signal p-4 text-primary-foreground sm:p-5 lg:order-2 lg:mt-5">
             <div className="text-5xl font-extrabold sm:text-6xl">{discountPercent}% off</div>
             <p className="mt-2 text-sm font-semibold sm:text-base">your first funded deal's financing fee</p>
           </div>
-          <div className="order-3 mt-7 flex items-center gap-3 text-headline-emphasis">
-            <Clock3 className="size-6 text-signal" aria-hidden="true" />
-            <p className="text-lg font-bold">Approval in 24 hours</p>
+          <div className="order-3 mt-5 flex items-start gap-3 text-headline-emphasis sm:items-center">
+            <Clock3 className="mt-0.5 size-6 shrink-0 text-signal sm:mt-0" aria-hidden="true" />
+            <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-lg">
+              <span className="font-bold">Approval in 24 hours</span>
+              <span className="text-muted-foreground sm:border-l sm:border-border sm:pl-3">Fund up to 2.5x your monthly sales.</span>
+            </p>
           </div>
-          <p className="order-4 mt-3 text-lg text-muted-foreground">Fund up to 2.5x your monthly sales.</p>
-          <Button asChild size="lg" className="order-5 mt-8 h-12 w-full font-bold sm:w-auto sm:self-start">
-            <a href="#offer-form">
-              {CTA_LABEL}
-              <ArrowRight aria-hidden="true" />
-            </a>
-          </Button>
-          <p className="order-6 mt-4 text-sm text-muted-foreground">Financing is subject to approval.</p>
+          <p className="order-4 mt-3 text-sm text-muted-foreground">Financing is subject to approval.</p>
         </div>
-        <div className="order-2 rounded-md border border-border bg-card p-5 shadow-capec sm:p-8 lg:order-1">
-          <p className="mb-6 text-lg font-bold text-headline-emphasis">Get your funding offer</p>
+        <div className="order-2 rounded-md border border-border bg-card p-5 shadow-capec sm:p-6 lg:order-1">
+          <p className="mb-4 text-lg font-bold text-headline-emphasis">Get your funding offer</p>
           <LeadForm formId="capec-hero-lead-form" />
         </div>
       </div>
@@ -281,7 +283,7 @@ function KeyBenefits() {
   return (
     <section className="border-b border-border bg-surface-subtle">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <SectionHeading title="Funding that keeps your next order moving." />
+        <h2 className="text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-5xl lg:whitespace-nowrap">Funding that keeps your next order moving.</h2>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {BENEFITS.map(({ icon: Icon, title, body }) => (
             <article key={title} className="rounded-md border border-border bg-card p-6">
@@ -358,10 +360,12 @@ function HowItWorks() {
           {STEPS.map(({ icon: Icon, title, body }, index) => (
             <li key={title} className="border-t-2 border-signal pt-6">
               <div className="flex items-center justify-between">
-                <Icon className="size-7 text-signal" aria-hidden="true" />
+                <div className="flex items-center gap-3">
+                  <Icon className="size-7 text-signal" aria-hidden="true" />
+                  <h3 className="text-xl font-bold text-headline-emphasis">{title}</h3>
+                </div>
                 <span className="text-sm font-bold text-muted-foreground">0{index + 1}</span>
               </div>
-              <h3 className="mt-6 text-xl font-bold text-headline-emphasis">{title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
             </li>
           ))}
@@ -383,8 +387,10 @@ function WhyCapec() {
         <div className="mt-12 grid gap-x-10 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
           {DIFFERENTIATORS.map(({ icon: Icon, title, body }) => (
             <article key={title} className="border-t border-border pt-5">
-              <Icon className="size-6 text-signal" aria-hidden="true" />
-              <h3 className="mt-4 font-bold text-headline-emphasis">{title}</h3>
+              <div className="flex items-center gap-3">
+                <Icon className="size-6 shrink-0 text-signal" aria-hidden="true" />
+                <h3 className="font-bold text-headline-emphasis">{title}</h3>
+              </div>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
             </article>
           ))}
@@ -402,12 +408,11 @@ function StatBreak() {
           { value: "24hrs", label: "Approval" },
           { value: "25%", label: "Off your first deal's fee" },
           { value: "$1M", label: "Up to on your first round" },
-          { value: "100%*", label: "Of your PO funded", note: "Confirm with client before launch" },
+          { value: "100%", label: "Of your PO funded" },
         ].map((stat) => (
-          <div key={stat.label} className="bg-headline-emphasis px-4 py-8 sm:px-7">
+          <div key={stat.label} className="bg-headline-emphasis px-4 py-5 sm:px-7 sm:py-6">
             <p className="text-3xl font-extrabold text-primary-foreground sm:text-4xl">{stat.value}</p>
-            <p className="mt-2 text-sm text-header-muted">{stat.label}</p>
-            {stat.note && <p className="mt-2 text-xs font-semibold text-primary-foreground">* {stat.note}</p>}
+            <p className="mt-1 text-sm text-header-muted">{stat.label}</p>
           </div>
         ))}
       </div>
@@ -423,14 +428,8 @@ function FundingRequirements() {
           <h2 className="text-3xl font-extrabold text-headline-emphasis sm:text-5xl">Funding Requirements:</h2>
           <p className="mt-4 text-lg text-muted-foreground">We support sellers across:</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-12" aria-label="Supported platforms">
-            <div className="flex items-center gap-3 text-2xl font-extrabold text-foreground sm:text-3xl">
-              <span className="grid size-12 place-items-center rounded-md bg-surface-subtle text-signal">a</span>
-              amazon
-            </div>
-            <div className="flex items-center gap-3 text-2xl font-extrabold text-foreground sm:text-3xl">
-              <span className="grid size-12 place-items-center rounded-md bg-surface-subtle text-signal"><ShoppingBag /></span>
-              Shopify
-            </div>
+            <img src={amazonLogo} alt="Amazon" className="h-auto w-36 object-contain sm:w-44" />
+            <img src={shopifyLogo} alt="Shopify" className="h-auto w-36 object-contain sm:w-44" />
           </div>
         </div>
         <div className="mt-12 grid overflow-hidden rounded-md bg-signal text-primary-foreground sm:grid-cols-2 lg:grid-cols-5">
