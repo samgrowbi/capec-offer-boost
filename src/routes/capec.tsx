@@ -252,8 +252,11 @@ function Hero() {
             <p className="mt-2 text-sm font-semibold sm:text-base">your first funded deal's financing fee</p>
           </div>
           <div className="order-3 mt-5 flex items-start gap-3 text-headline-emphasis sm:items-center">
-            <Clock3 className="size-6 text-signal" aria-hidden="true" />
-            <p className="text-lg font-bold">Approval in 24 hours <span className="font-normal text-muted-foreground">· Fund up to 2.5x your monthly sales.</span></p>
+            <Clock3 className="mt-0.5 size-6 shrink-0 text-signal sm:mt-0" aria-hidden="true" />
+            <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-lg">
+              <span className="font-bold">Approval in 24 hours</span>
+              <span className="text-muted-foreground sm:border-l sm:border-border sm:pl-3">Fund up to 2.5x your monthly sales.</span>
+            </p>
           </div>
           <p className="order-4 mt-3 text-sm text-muted-foreground">Financing is subject to approval.</p>
         </div>
