@@ -33,10 +33,11 @@ import {
 
 import { LeadForm } from "@/components/capec/LeadForm";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
+import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
 import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 
 const discountPercent = 25;
-const LOGO_SRC = "";
+const LOGO_SRC = capecLogo.url;
 const NADAB_PHOTO_SRC = "";
 const DANIEL_PHOTO_SRC = "";
 
@@ -208,8 +209,12 @@ function CapecPage() {
 
 function Wordmark({ inverse = false }: { inverse?: boolean }) {
   return (
-    <a href="#top" className={`text-xl font-extrabold ${inverse ? "text-header-foreground" : "text-headline-emphasis"}`}>
-      {LOGO_SRC ? <img src={LOGO_SRC} alt="CapEc" className="h-7 w-auto" /> : "CapEc"}
+    <a href="#top" className="inline-flex items-center" aria-label="CapEc home">
+      <img
+        src={LOGO_SRC}
+        alt="CapEc"
+        className={`h-8 w-auto ${inverse ? "" : "rounded-sm bg-header px-1.5 py-1"}`}
+      />
     </a>
   );
 }
