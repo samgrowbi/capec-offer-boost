@@ -237,26 +237,26 @@ function Hero() {
   return (
     <section className="overflow-hidden border-b border-border bg-background">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-16 lg:px-8 lg:py-20">
-        <div className="order-1 lg:order-2">
-          <h1 className="max-w-2xl text-4xl font-extrabold leading-[1.05] text-headline-secondary sm:text-6xl lg:text-7xl">
+        <div className="order-1 flex flex-col lg:order-2">
+          <h1 className="order-2 mt-7 max-w-2xl text-4xl font-extrabold leading-[1.05] text-headline-secondary sm:text-6xl lg:order-1 lg:mt-0 lg:text-7xl">
             <span className="text-headline-emphasis">Fund Your Purchase Order</span> Today
           </h1>
-          <div className="mt-7 max-w-xl rounded-md bg-signal p-5 text-primary-foreground sm:p-6">
+          <div className="order-1 max-w-xl rounded-md bg-signal p-5 text-primary-foreground sm:p-6 lg:order-2 lg:mt-7">
             <div className="text-5xl font-extrabold sm:text-6xl">{discountPercent}% off</div>
             <p className="mt-2 text-sm font-semibold sm:text-base">your first funded deal's financing fee</p>
           </div>
-          <div className="mt-7 flex items-center gap-3 text-headline-emphasis">
+          <div className="order-3 mt-7 flex items-center gap-3 text-headline-emphasis">
             <Clock3 className="size-6 text-signal" aria-hidden="true" />
             <p className="text-lg font-bold">Approval in 24 hours</p>
           </div>
-          <p className="mt-3 text-lg text-muted-foreground">Fund up to 2.5x your monthly sales.</p>
-          <Button asChild size="lg" className="mt-8 h-12 w-full font-bold sm:w-auto">
+          <p className="order-4 mt-3 text-lg text-muted-foreground">Fund up to 2.5x your monthly sales.</p>
+          <Button asChild size="lg" className="order-5 mt-8 h-12 w-full font-bold sm:w-auto sm:self-start">
             <a href="#offer-form">
               {CTA_LABEL}
               <ArrowRight aria-hidden="true" />
             </a>
           </Button>
-          <p className="mt-4 text-sm text-muted-foreground">Financing is subject to approval.</p>
+          <p className="order-6 mt-4 text-sm text-muted-foreground">Financing is subject to approval.</p>
         </div>
         <div className="order-2 rounded-md border border-border bg-card p-5 shadow-capec sm:p-8 lg:order-1">
           <p className="mb-6 text-lg font-bold text-headline-emphasis">Get your funding offer</p>
