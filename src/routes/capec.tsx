@@ -394,7 +394,7 @@ function VideoCard({ video }: { video: CapecVideo }) {
   const title = video.title || "CapEc Video";
 
   return (
-    <article className="w-[88%] shrink-0 snap-start overflow-hidden rounded-md border border-border bg-card sm:w-[65%] lg:w-[calc((100%-3rem)/3)]">
+    <article className="w-[88%] shrink-0 snap-start overflow-hidden rounded-md border border-border bg-card sm:w-[65%] lg:w-[calc((100%_-_3rem)/3)]">
       <div className="aspect-video bg-signal-dim">
         {isPlaying ? (
           <iframe
