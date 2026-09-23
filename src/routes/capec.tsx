@@ -19,6 +19,7 @@ import {
   Clock3,
   FileCheck2,
   Handshake,
+  HeartHandshake,
   Headphones,
   Instagram,
   Linkedin,
@@ -27,8 +28,10 @@ import {
   Play,
   ReceiptText,
   Rocket,
+  Ship,
   ShoppingBag,
   Store,
+  Factory,
   TrendingUp,
   UserRoundCheck,
   Zap,
@@ -201,6 +204,7 @@ function CapecPage() {
         <PerformanceOverview />
         <VideoTestimonials />
         <HowItWorks />
+        <FundingCycle />
         <WhyCapec />
         <StatBreak />
         <FundingRequirements />
@@ -564,6 +568,119 @@ function HowItWorks() {
                 <span className="text-sm font-bold text-muted-foreground">0{index + 1}</span>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+function FundingCycle() {
+  const nodeClass =
+    "absolute grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-signal text-primary-foreground shadow-capec sm:size-16";
+  const labelClass = "text-xs font-bold text-headline-emphasis sm:text-sm";
+
+  return (
+    <section className="border-b border-border bg-surface-subtle">
+      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <SectionHeading
+          label="How It Works"
+          title="The CapEc Funding Cycle"
+          copy="One purchase order, five simple stages — from placing the order to repayment."
+        />
+
+        {/* Circular diagram: desktop/tablet only. Mobile gets a stacked list below. */}
+        <div className="relative mx-auto mt-16 hidden aspect-square max-w-xl sm:block">
+          <svg viewBox="0 0 100 100" className="absolute inset-0 size-full" aria-hidden="true">
+            <circle cx="50" cy="50" r="42" fill="none" stroke="#188bf6" strokeWidth="1.4" />
+            <path
+              d="M 50 8 A 42 42 0 0 0 21.7 27.5"
+              fill="none"
+              stroke="#188bf6"
+              strokeWidth="1.4"
+              markerEnd="url(#capecCycleArrow)"
+            />
+            <defs>
+              <marker id="capecCycleArrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#188bf6" />
+              </marker>
+            </defs>
+          </svg>
+
+          {/* Center: CapEc mark, not a stock customer photo, since we don't have a real customer to attribute this to */}
+          <div className="absolute left-1/2 top-1/2 grid size-32 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-border bg-card shadow-capec sm:size-40">
+            <img src={LOGO_SRC} alt="" className="h-10 w-auto sm:h-12" />
+          </div>
+
+          {/* Nodes, clockwise from top */}
+          <div className={nodeClass} style={{ top: "8%", left: "50%" }}>
+            <Factory className="size-6" aria-hidden="true" />
+          </div>
+          <p className={`${labelClass} absolute left-1/2 -translate-x-1/2 text-center`} style={{ top: "-2%" }}>
+            Place Order
+          </p>
+
+          <div className={nodeClass} style={{ top: "20.5%", left: "80%" }}>
+            <CircleDollarSign className="size-6" aria-hidden="true" />
+          </div>
+          <p className={`${labelClass} absolute max-w-[9rem]`} style={{ top: "16%", left: "88%" }}>
+            Invoice Due <span className="font-normal text-muted-foreground">(Paid by CapEc)</span>
+          </p>
+
+          <div className={nodeClass} style={{ top: "50%", left: "92%" }}>
+            <Ship className="size-6" aria-hidden="true" />
+          </div>
+          <p className={`${labelClass} absolute`} style={{ top: "50%", left: "99%", transform: "translateY(-50%)" }}>
+            Shipping
+          </p>
+
+          <div className={nodeClass} style={{ top: "79.5%", left: "80%" }}>
+            <Handshake className="size-6" aria-hidden="true" />
+          </div>
+          <p className={`${labelClass} absolute max-w-[9rem]`} style={{ top: "84%", left: "88%" }}>
+            Begin Selling
+          </p>
+
+          <div className={nodeClass} style={{ top: "92%", left: "50%" }}>
+            <HeartHandshake className="size-6" aria-hidden="true" />
+          </div>
+          <p className={`${labelClass} absolute max-w-[12rem] text-center`} style={{ top: "100%", left: "50%", transform: "translateX(-50%)" }}>
+            Repayment Begins <span className="font-normal text-muted-foreground">(Monthly)</span>
+          </p>
+
+          {/* Supporting stat callouts */}
+          <div className="absolute text-right" style={{ top: "24%", left: "-2%" }}>
+            <p className="text-2xl font-extrabold text-signal sm:text-3xl">$100,000</p>
+            <p className="text-xs text-muted-foreground">Example PO funded</p>
+          </div>
+          <div className="absolute" style={{ top: "68%", right: "-14%" }}>
+            <p className="text-2xl font-extrabold text-signal sm:text-3xl">45 Days</p>
+            <p className="text-xs text-muted-foreground">Grace period before repayment</p>
+          </div>
+        </div>
+        <p className="mx-auto mt-4 hidden max-w-md text-center text-xs text-muted-foreground sm:block">
+          Typical sell-through time is 2–6 months, depending on the category — illustrative example, not a
+          guarantee.
+        </p>
+
+        {/* Mobile fallback: stacked list */}
+        <ol className="mt-10 space-y-4 sm:hidden">
+          {[
+            { icon: Factory, title: "Place Order", body: "You place a purchase order with your supplier." },
+            { icon: CircleDollarSign, title: "Invoice Due (Paid by CapEc)", body: "CapEc pays the invoice on your behalf — e.g. $100,000." },
+            { icon: Ship, title: "Shipping", body: "Your inventory ships to you or your fulfillment center." },
+            { icon: Handshake, title: "Begin Selling", body: "You receive stock and start selling through it." },
+            { icon: HeartHandshake, title: "Repayment Begins (Monthly)", body: "Repayments start after a 45-day grace period." },
+          ].map(({ icon: Icon, title, body }, i) => (
+            <li key={title} className="flex gap-4 rounded-md border border-border bg-card p-4">
+              <div className="grid size-10 shrink-0 place-items-center rounded-full bg-signal text-primary-foreground">
+                <Icon className="size-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-headline-emphasis">{i + 1}. {title}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{body}</p>
+              </div>
             </li>
           ))}
         </ol>
