@@ -277,29 +277,22 @@ function Hero() {
   return (
     // Height capped below a full viewport (~85vh on desktop) so a sliver of the
     // next section peeks in at the bottom of the initial viewport as a scroll hint.
-    <section className="flex min-h-[82svh] items-center overflow-hidden border-b border-border bg-background lg:min-h-[85vh]">
-      <div className="mx-auto grid w-full max-w-7xl gap-7 px-5 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-10 lg:px-8 lg:py-4">
-        <div className="order-1 flex flex-col lg:order-2">
-          <h1 className="order-2 mt-5 max-w-2xl text-4xl font-extrabold leading-[1.05] text-headline-secondary sm:text-6xl lg:order-1 lg:mt-0 lg:text-6xl">
-            <span className="text-headline-emphasis">Fund Your Purchase Order</span> Today
-          </h1>
-          <div className="order-1 max-w-xl rounded-md bg-signal p-4 text-primary-foreground sm:p-5 lg:order-2 lg:mt-5">
-            <div className="text-5xl font-extrabold sm:text-6xl">{discountPercent}% off</div>
-            <p className="mt-2 text-sm font-semibold sm:text-base">your first funded deal's financing fee</p>
-          </div>
-          <div className="order-3 mt-5 flex items-start gap-3 text-headline-emphasis sm:items-center">
-            <Clock3 className="mt-0.5 size-6 shrink-0 text-signal sm:mt-0" aria-hidden="true" />
-            <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-lg">
-              <span className="font-bold">Approval in 24 hours</span>
-              <span className="text-muted-foreground sm:border-l sm:border-border sm:pl-3">Fund up to 2.5x your monthly sales.</span>
-            </p>
-          </div>
-          <p className="order-4 mt-3 text-sm text-muted-foreground">Financing is subject to approval.</p>
+    <section className="flex min-h-[72svh] items-center overflow-hidden border-b border-border bg-background lg:min-h-[80vh]">
+      <div className="mx-auto w-full max-w-4xl px-5 py-12 text-center sm:px-6 sm:py-16 lg:px-8">
+        <h1 className="mx-auto text-4xl font-extrabold leading-[1.05] text-headline-secondary sm:text-6xl lg:text-6xl">
+          <span className="text-headline-emphasis">Fund Your Purchase Order</span> Today
+        </h1>
+        <div className="mx-auto mt-6 max-w-md rounded-md bg-signal p-5 text-primary-foreground">
+          <div className="text-5xl font-extrabold sm:text-6xl">{discountPercent}% off</div>
+          <p className="mt-2 text-sm font-semibold sm:text-base">your first funded deal's financing fee</p>
         </div>
-        <div className="order-2 rounded-md border border-border bg-card p-5 shadow-capec sm:p-6 lg:order-1">
-          <p className="mb-4 text-lg font-bold text-headline-emphasis">Get your funding offer</p>
-          <LeadForm formId="capec-hero-lead-form" />
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-headline-emphasis">
+          <Clock3 className="size-6 shrink-0 text-signal" aria-hidden="true" />
+          <span className="text-lg font-bold">Approval in 24 hours</span>
+          <span className="text-lg text-muted-foreground sm:border-l sm:border-border sm:pl-3">Fund up to 2.5x your monthly sales.</span>
         </div>
+        <QuizCta className="mt-8 h-auto w-full whitespace-normal px-8 py-4 text-base font-bold sm:w-auto sm:text-lg" />
+        <p className="mt-4 text-sm text-muted-foreground">Takes about 2 minutes. Financing is subject to approval.</p>
       </div>
     </section>
   );
