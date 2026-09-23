@@ -65,7 +65,7 @@ const EMPTY_ANSWERS: Answers = {
   phone: "",
 };
 
-type Screen = "intro" | "question" | "done" | "nurture" | "nurture-done";
+type Screen = "intro" | "question" | "done";
 
 const urlSchema = z
   .string()
@@ -102,8 +102,6 @@ function QuizPage() {
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState<Answers>(EMPTY_ANSWERS);
   const [errors, setErrors] = useState<Partial<Record<keyof Answers, string>>>({});
-  const [nurtureEmail, setNurtureEmail] = useState("");
-  const [nurtureError, setNurtureError] = useState<string | undefined>(undefined);
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [utm, setUtm] = useState({ utm_source: "", utm_medium: "", utm_campaign: "" });
   const [animKey, setAnimKey] = useState(0);
@@ -127,13 +125,8 @@ function QuizPage() {
     setErrors((e) => ({ ...e, [key]: undefined }));
   };
 
-  const pick = (key: keyof Answers, value: string, nextStep: number, disqualify = false) => {
+  const pick = (key: keyof Answers, value: string, nextStep: number) => {
     set(key, value);
-    if (disqualify) {
-      setAnimKey((k) => k + 1);
-      setScreen("nurture");
-      return;
-    }
     goTo(nextStep);
   };
 
@@ -209,35 +202,6 @@ function QuizPage() {
     setScreen("done");
   }
 
-  async function submitNurture() {
-    const r = emailSchema.safeParse(nurtureEmail);
-    if (!r.success) {
-      setNurtureError(r.error.issues[0]?.message ?? "Invalid");
-      return;
-    }
-    setStatus("submitting");
-    const { error } = await supabase.from("leads").insert({
-      brand_name: answers.businessName.trim() || "Not provided",
-      email: nurtureEmail.trim(),
-      revenue_range: answers.revenueRange || null,
-      platform: answers.platform || null,
-      selling_history: answers.sellingHistory || null,
-      lead_stage: "quiz-not-yet-eligible",
-      source_slug: "capec-quiz",
-      offer: "first-deal-discount",
-      utm_source: utm.utm_source || null,
-      utm_medium: utm.utm_medium || null,
-      utm_campaign: utm.utm_campaign || null,
-    });
-    if (error) {
-      setStatus("error");
-      return;
-    }
-    setStatus("idle");
-    setAnimKey((k) => k + 1);
-    setScreen("nurture-done");
-  }
-
   const progress = useMemo(() => (step / TOTAL_QUESTIONS) * 100, [step]);
 
   return (
@@ -267,7 +231,7 @@ function QuizPage() {
               title="What's your annual revenue?"
               options={REVENUE_OPTIONS}
               value={answers.revenueRange}
-              onSelect={(v) => pick("revenueRange", v, 3, v === "Under $100K")}
+              onSelect={(v) => pick("revenueRange", v, 3)}
             />
           )}
 
@@ -276,7 +240,7 @@ function QuizPage() {
               title="How long have you been selling?"
               options={HISTORY_OPTIONS}
               value={answers.sellingHistory}
-              onSelect={(v) => pick("sellingHistory", v, 4, v === "Under 6 months")}
+              onSelect={(v) => pick("sellingHistory", v, 4)}
             />
           )}
 
@@ -394,60 +358,6 @@ function QuizPage() {
               </Button>
               {status === "error" && <ErrorNote />}
             </StepShell>
-          )}
-
-          {screen === "nurture" && (
-            <div className="text-center">
-              <h1 className="text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-4xl">
-                Thanks for your interest
-              </h1>
-              <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
-                Right now we typically fund sellers with 6+ months of sales history and $100K+ in
-                annual revenue. Leave your email and we'll reach out as soon as you're eligible.
-              </p>
-              <div className="mx-auto mt-7 max-w-md text-left">
-                <Field label="Work email" htmlFor="quiz-nurture-email" error={nurtureError}>
-                  <input
-                    id="quiz-nurture-email"
-                    type="email"
-                    inputMode="email"
-                    className={fieldClass}
-                    placeholder="you@yourbrand.com"
-                    value={nurtureEmail}
-                    onChange={(e) => {
-                      setNurtureEmail(e.target.value);
-                      setNurtureError(undefined);
-                    }}
-                    aria-invalid={Boolean(nurtureError)}
-                  />
-                </Field>
-                <Button
-                  type="button"
-                  onClick={submitNurture}
-                  disabled={status === "submitting"}
-                  className="mt-4 h-14 w-full text-base font-bold"
-                >
-                  {status === "submitting" ? (
-                    <>
-                      <Loader2 className="size-4 animate-spin" /> Sending…
-                    </>
-                  ) : (
-                    <>
-                      Keep Me Posted
-                      <ArrowRight className="size-4" />
-                    </>
-                  )}
-                </Button>
-                {status === "error" && <ErrorNote />}
-              </div>
-            </div>
-          )}
-
-          {screen === "nurture-done" && (
-            <Confirmation
-              title="You're on the list."
-              body="We'll be in touch as soon as your business meets our funding criteria."
-            />
           )}
 
           {screen === "done" && (
