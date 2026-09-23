@@ -16,9 +16,7 @@ export type Database = {
     Tables: {
       leads: {
         Row: {
-          additional_notes: string | null
           brand_name: string
-          business_country: string | null
           created_at: string
           email: string
           full_name: string | null
@@ -37,9 +35,7 @@ export type Database = {
           utm_source: string | null
         }
         Insert: {
-          additional_notes?: string | null
           brand_name: string
-          business_country?: string | null
           created_at?: string
           email: string
           full_name?: string | null
@@ -58,9 +54,7 @@ export type Database = {
           utm_source?: string | null
         }
         Update: {
-          additional_notes?: string | null
           brand_name?: string
-          business_country?: string | null
           created_at?: string
           email?: string
           full_name?: string | null
