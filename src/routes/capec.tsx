@@ -267,9 +267,7 @@ function Navbar() {
             </a>
           ))}
         </nav>
-        <Button asChild className="h-auto max-w-[12rem] whitespace-normal px-3 py-2 text-center text-xs sm:max-w-none sm:px-5 sm:text-sm">
-          <a href="#offer-form">{CTA_LABEL}</a>
-        </Button>
+        <QuizCta className="h-auto max-w-[12rem] whitespace-normal px-3 py-2 text-center text-xs sm:max-w-none sm:px-5 sm:text-sm" />
       </div>
     </header>
   );
