@@ -233,6 +233,7 @@ function Wordmark({ inverse = false }: { inverse?: boolean }) {
 }
 
 function Navbar() {
+  return (
     <header id="top" className="sticky top-0 z-50 border-b border-header-border bg-header text-header-foreground">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-8">
         <Wordmark inverse />
