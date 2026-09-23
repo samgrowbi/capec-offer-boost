@@ -160,6 +160,34 @@ const FAQS = [
 
 const CTA_LABEL = "Fund Your Purchase Order Today";
 
+type Utm = { utm_source?: string; utm_medium?: string; utm_campaign?: string };
+
+// Campaign params are read from this page's URL and forwarded to /quiz so paid
+// traffic attribution survives the navigation.
+function useUtm(): Utm {
+  const [utm, setUtm] = useState<Utm>({});
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setUtm({
+      utm_source: params.get("utm_source") ?? undefined,
+      utm_medium: params.get("utm_medium") ?? undefined,
+      utm_campaign: params.get("utm_campaign") ?? undefined,
+    });
+  }, []);
+  return utm;
+}
+
+function QuizCta({ className }: { className?: string }) {
+  const utm = useUtm();
+  return (
+    <Button asChild className={className}>
+      <Link to="/quiz" search={utm}>
+        {CTA_LABEL}
+      </Link>
+    </Button>
+  );
+}
+
 export const Route = createFileRoute("/capec")({
   head: () => ({
     meta: [
