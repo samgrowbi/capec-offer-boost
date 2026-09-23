@@ -19,7 +19,7 @@ import {
   Clock3,
   FileCheck2,
   Handshake,
-  HeartHandshake,
+  HandHeart,
   Headphones,
   Instagram,
   Linkedin,
@@ -42,6 +42,8 @@ import { LeadForm } from "@/components/capec/LeadForm";
 import { HeroQuizCard } from "@/components/capec/HeroQuizCard";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
+import capecMark from "@/assets/capec/capec-mark.png.asset.json";
+import fundingCycleFounder from "@/assets/capec/funding-cycle-founder.jpg";
 import danielPhoto from "@/assets/capec/daniel-lilienthal.png.asset.json";
 import nadavPhoto from "@/assets/capec/nadav-gorlicki.png.asset.json";
 import { PARTNERS } from "@/assets/capec/partners";
@@ -590,27 +592,23 @@ function FundingCycle() {
           copy="One purchase order, five simple stages — from placing the order to repayment."
         />
 
-        {/* Circular diagram: desktop/tablet only. Mobile gets a stacked list below. */}
-        <div className="relative mx-auto mt-16 hidden aspect-square max-w-lg sm:block">
-          <svg viewBox="0 0 100 100" className="absolute inset-0 size-full" aria-hidden="true">
-            <circle cx="50" cy="50" r="42" fill="none" stroke="#188bf6" strokeWidth="1.4" />
-            <path
-              d="M 50 8 A 42 42 0 0 0 21.7 27.5"
-              fill="none"
-              stroke="#188bf6"
-              strokeWidth="1.4"
-              markerEnd="url(#capecCycleArrow)"
-            />
-            <defs>
-              <marker id="capecCycleArrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-                <path d="M0,0 L6,3 L0,6 Z" fill="#188bf6" />
-              </marker>
-            </defs>
+        {/* Circular funding-cycle diagram matching the client-provided artwork: blue ring with clockwise
+            arrows, five stage nodes, the seller photo in the middle, and the $100,000 / 45 Days / 2-6 Months
+            callouts around it. Desktop/tablet only; mobile gets the stacked list below. */}
+        <div className="relative mx-auto mt-12 hidden aspect-[4/3] w-full max-w-5xl sm:block">
+          <svg viewBox="0 0 400 300" className="absolute inset-0 size-full" aria-hidden="true">
+            <circle cx="160" cy="150" r="118" fill="none" stroke="#188bf6" strokeWidth="3" />
+            <path d="M147,25 L164,33.5 L147,42 Z" fill="#188bf6" />
+            <path d="M153,253.5 L136,262 L153,270.5 Z" fill="#188bf6" />
           </svg>
 
-          {/* Center: CapEc mark, not a stock customer photo, since we don't have a real customer to attribute this to */}
-          <div className="absolute left-1/2 top-1/2 grid size-32 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-border bg-card shadow-capec sm:size-40">
-            <img src={LOGO_SRC} alt="" className="h-10 w-auto sm:h-12" />
+          {/* Center: seller photo, as in the client artwork */}
+          <div className="absolute left-[40%] top-1/2 size-40 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full shadow-capec sm:size-56 lg:size-64">
+            <img
+              src={fundingCycleFounder}
+              alt="Ecommerce seller reviewing a purchase order on a tablet"
+              className="size-full object-cover"
+            />
           </div>
 
           {/* Nodes, clockwise from top */}
