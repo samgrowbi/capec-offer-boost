@@ -19,7 +19,7 @@ import {
   Clock3,
   FileCheck2,
   Handshake,
-  HeartHandshake,
+  HandHeart,
   Headphones,
   Instagram,
   Linkedin,
@@ -42,6 +42,8 @@ import { LeadForm } from "@/components/capec/LeadForm";
 import { HeroQuizCard } from "@/components/capec/HeroQuizCard";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
+import capecMark from "@/assets/capec/capec-mark.png.asset.json";
+import fundingCycleFounder from "@/assets/capec/funding-cycle-founder.jpg";
 import danielPhoto from "@/assets/capec/daniel-lilienthal.png.asset.json";
 import nadavPhoto from "@/assets/capec/nadav-gorlicki.png.asset.json";
 import { PARTNERS } from "@/assets/capec/partners";
@@ -590,79 +592,83 @@ function FundingCycle() {
           copy="One purchase order, five simple stages — from placing the order to repayment."
         />
 
-        {/* Circular diagram: desktop/tablet only. Mobile gets a stacked list below. */}
-        <div className="relative mx-auto mt-16 hidden aspect-square max-w-lg sm:block">
-          <svg viewBox="0 0 100 100" className="absolute inset-0 size-full" aria-hidden="true">
-            <circle cx="50" cy="50" r="42" fill="none" stroke="#188bf6" strokeWidth="1.4" />
-            <path
-              d="M 50 8 A 42 42 0 0 0 21.7 27.5"
-              fill="none"
-              stroke="#188bf6"
-              strokeWidth="1.4"
-              markerEnd="url(#capecCycleArrow)"
-            />
-            <defs>
-              <marker id="capecCycleArrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-                <path d="M0,0 L6,3 L0,6 Z" fill="#188bf6" />
-              </marker>
-            </defs>
+        {/* Circular funding-cycle diagram matching the client-provided artwork: blue ring with clockwise
+            arrows, five stage nodes, the seller photo in the middle, and the $100,000 / 45 Days / 2-6 Months
+            callouts around it. Desktop/tablet only; mobile gets the stacked list below. */}
+        <div className="relative mx-auto mt-12 hidden aspect-[4/3] w-full max-w-5xl sm:block">
+          <svg viewBox="0 0 400 300" className="absolute inset-0 size-full" aria-hidden="true">
+            <circle cx="160" cy="150" r="118" fill="none" stroke="#188bf6" strokeWidth="3" />
+            <path d="M147,25 L164,33.5 L147,42 Z" fill="#188bf6" />
+            <path d="M153,253.5 L136,262 L153,270.5 Z" fill="#188bf6" />
           </svg>
 
-          {/* Center: CapEc mark, not a stock customer photo, since we don't have a real customer to attribute this to */}
-          <div className="absolute left-1/2 top-1/2 grid size-32 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-border bg-card shadow-capec sm:size-40">
-            <img src={LOGO_SRC} alt="" className="h-10 w-auto sm:h-12" />
+          {/* Center: seller photo, as in the client artwork */}
+          <div className="absolute left-[40%] top-1/2 size-40 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full shadow-capec sm:size-56 lg:size-64">
+            <img
+              src={fundingCycleFounder}
+              alt="Ecommerce seller reviewing a purchase order on a tablet"
+              className="size-full object-cover"
+            />
           </div>
 
-          {/* Nodes, clockwise from top */}
-          <div className={nodeClass} style={{ top: "8%", left: "50%" }}>
-            <Factory className="size-6" aria-hidden="true" />
+          {/* Stage nodes, clockwise from top */}
+          <div className={nodeClass} style={{ top: "11.7%", left: "43.5%" }}>
+            <Factory className="size-6 sm:size-7" aria-hidden="true" />
           </div>
-          <p className={`${labelClass} absolute left-1/2 -translate-x-1/2 text-center`} style={{ top: "-2%" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "11.7%", left: "49.5%" }}>
             Place Order
           </p>
 
-          <div className={nodeClass} style={{ top: "20.5%", left: "80%" }}>
-            <CircleDollarSign className="size-6" aria-hidden="true" />
+          {/* Invoice node uses the CapEc S mark on white, as in the artwork */}
+          <div
+            className="absolute grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-border bg-card p-2 shadow-capec sm:size-16 sm:p-3"
+            style={{ top: "24.7%", left: "61.3%" }}
+          >
+            <img src={capecMark.url} alt="" className="size-full object-contain" />
           </div>
-          <p className={`${labelClass} absolute max-w-[9rem]`} style={{ top: "16%", left: "88%" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "24.7%", left: "66.5%" }}>
             Invoice Due <span className="font-normal text-muted-foreground">(Paid by CapEc)</span>
           </p>
+          <p className="absolute text-2xl font-extrabold text-signal sm:text-5xl" style={{ top: "29.5%", left: "66.5%" }}>
+            $100,000
+          </p>
 
-          <div className={nodeClass} style={{ top: "50%", left: "92%" }}>
-            <Ship className="size-6" aria-hidden="true" />
+          <div className={nodeClass} style={{ top: "50%", left: "68.3%" }}>
+            <Ship className="size-6 sm:size-7" aria-hidden="true" />
           </div>
-          <p className={`${labelClass} absolute`} style={{ top: "50%", left: "99%", transform: "translateY(-50%)" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "50%", left: "73.5%" }}>
             Shipping
           </p>
 
-          <div className={nodeClass} style={{ top: "79.5%", left: "80%" }}>
-            <Handshake className="size-6" aria-hidden="true" />
+          <div className={nodeClass} style={{ top: "74%", left: "62%" }}>
+            <Handshake className="size-6 sm:size-7" aria-hidden="true" />
           </div>
-          <p className={`${labelClass} absolute max-w-[9rem]`} style={{ top: "84%", left: "88%" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "74%", left: "67%" }}>
             Begin Selling
           </p>
 
-          <div className={nodeClass} style={{ top: "92%", left: "50%" }}>
-            <HeartHandshake className="size-6" aria-hidden="true" />
+          <div className={nodeClass} style={{ top: "86.3%", left: "44.5%" }}>
+            <HandHeart className="size-6 sm:size-7" aria-hidden="true" />
           </div>
-          <p className={`${labelClass} absolute max-w-[12rem] text-center`} style={{ top: "100%", left: "50%", transform: "translateX(-50%)" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "92%", left: "50%" }}>
             Repayment Begins <span className="font-normal text-muted-foreground">(Monthly)</span>
           </p>
 
-          {/* Supporting stat callouts */}
-          <div className="absolute w-32 text-right sm:w-40" style={{ top: "36%", left: "-10%" }}>
-            <p className="text-2xl font-extrabold text-signal sm:text-3xl">$100,000</p>
-            <p className="text-xs text-muted-foreground">Example PO funded</p>
-          </div>
-          <div className="absolute w-36 sm:w-44" style={{ top: "58%", right: "-22%" }}>
-            <p className="text-2xl font-extrabold text-signal sm:text-3xl">45 Days</p>
-            <p className="text-xs text-muted-foreground">Grace period before repayment</p>
-          </div>
+          {/* Supporting callouts, as in the artwork */}
+          <p
+            className="absolute -left-1 top-[47%] -translate-y-1/2 text-lg font-medium leading-snug text-muted-foreground sm:text-xl"
+            style={{ left: "-1%" }}
+          >
+            2&ndash;6
+            <br />
+            Months
+          </p>
+          <p className="absolute -right-1 top-[59%] text-right text-3xl font-extrabold leading-[0.95] text-signal sm:text-5xl">
+            45
+            <br />
+            Days
+          </p>
         </div>
-        <p className="mx-auto mt-16 hidden max-w-md text-center text-xs text-muted-foreground sm:mt-20 sm:block">
-          Typical sell-through time is 2–6 months, depending on the category — illustrative example, not a
-          guarantee.
-        </p>
 
         {/* Mobile fallback: stacked list */}
         <ol className="mt-10 space-y-4 sm:hidden">
@@ -671,7 +677,7 @@ function FundingCycle() {
             { icon: CircleDollarSign, title: "Invoice Due (Paid by CapEc)", body: "CapEc pays the invoice on your behalf — e.g. $100,000." },
             { icon: Ship, title: "Shipping", body: "Your inventory ships to you or your fulfillment center." },
             { icon: Handshake, title: "Begin Selling", body: "You receive stock and start selling through it." },
-            { icon: HeartHandshake, title: "Repayment Begins (Monthly)", body: "Repayments start after a 45-day grace period." },
+            { icon: HandHeart, title: "Repayment Begins (Monthly)", body: "Repayments start after a 45-day grace period." },
           ].map(({ icon: Icon, title, body }, i) => (
             <li key={title} className="flex gap-4 rounded-md border border-border bg-card p-4">
               <div className="grid size-10 shrink-0 place-items-center rounded-full bg-signal text-header">
