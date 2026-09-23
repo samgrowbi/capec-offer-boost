@@ -40,6 +40,7 @@ const PLATFORM_OPTIONS = ["Amazon", "Shopify", "Both", "Other"];
 const REVENUE_OPTIONS = ["Under $100K", "$100K – $500K", "$500K – $1M", "$1M+"];
 const HISTORY_OPTIONS = ["Under 6 months", "6 – 12 months", "1 – 3 years", "3+ years"];
 const PO_OPTIONS = ["Under $25K", "$25K – $100K", "$100K – $500K", "$500K+"];
+const COUNTRY_OPTIONS = ["United States", "Canada", "United Kingdom", "European Union", "Other"];
 
 type Answers = {
   platform: string;
@@ -48,9 +49,11 @@ type Answers = {
   poAmountRange: string;
   storeUrl: string;
   businessName: string;
+  businessCountry: string;
   fullName: string;
   email: string;
   phone: string;
+  additionalNotes: string;
 };
 
 const EMPTY_ANSWERS: Answers = {
@@ -60,9 +63,11 @@ const EMPTY_ANSWERS: Answers = {
   poAmountRange: "",
   storeUrl: "",
   businessName: "",
+  businessCountry: "",
   fullName: "",
   email: "",
   phone: "",
+  additionalNotes: "",
 };
 
 type Screen = "intro" | "question" | "done";
@@ -149,13 +154,17 @@ function QuizPage() {
       return true;
     }
     if (current === 6) {
-      const r = nameSchema.safeParse(answers.businessName);
-      if (!r.success) {
-        setErrors((e) => ({ ...e, businessName: r.error.issues[0]?.message ?? "Invalid" }));
+      const next: Partial<Record<keyof Answers, string>> = {};
+      const n = nameSchema.safeParse(answers.businessName);
+      if (!n.success) next.businessName = n.error.issues[0]?.message ?? "Invalid";
+      if (!answers.businessCountry) next.businessCountry = "Select where your business is based";
+      if (Object.keys(next).length > 0) {
+        setErrors((e) => ({ ...e, ...next }));
         return false;
       }
       return true;
     }
+
     if (current === 7) {
       const next: Partial<Record<keyof Answers, string>> = {};
       const n = nameSchema.safeParse(answers.fullName);
@@ -178,6 +187,7 @@ function QuizPage() {
     setStatus("submitting");
     const { error } = await supabase.from("leads").insert({
       brand_name: answers.businessName.trim(),
+      business_country: answers.businessCountry,
       full_name: answers.fullName.trim(),
       online_store_url: answers.storeUrl.trim(),
       revenue_range: answers.revenueRange,
@@ -186,6 +196,7 @@ function QuizPage() {
       po_amount_range: answers.poAmountRange,
       email: answers.email.trim(),
       phone: answers.phone.trim(),
+      additional_notes: answers.additionalNotes.trim() || null,
       lead_stage: "quiz-complete",
       source_slug: "capec-quiz",
       offer: "first-deal-discount",
@@ -280,19 +291,40 @@ function QuizPage() {
 
           {screen === "question" && step === 6 && (
             <StepShell title="Your legal business name">
-              <Field label="Legal business name" htmlFor="quiz-business" error={errors.businessName}>
-                <input
-                  id="quiz-business"
-                  className={fieldClass}
-                  placeholder="Northline Supply Co. LLC"
-                  value={answers.businessName}
-                  onChange={(e) => set("businessName", e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && validateStep(6)) goTo(7);
-                  }}
-                  aria-invalid={Boolean(errors.businessName)}
-                />
-              </Field>
+              <div className="space-y-4">
+                <Field label="Legal business name" htmlFor="quiz-business" error={errors.businessName}>
+                  <input
+                    id="quiz-business"
+                    className={fieldClass}
+                    placeholder="Northline Supply Co. LLC"
+                    value={answers.businessName}
+                    onChange={(e) => set("businessName", e.target.value)}
+                    aria-invalid={Boolean(errors.businessName)}
+                  />
+                </Field>
+                <Field
+                  label="Where is your business based?"
+                  htmlFor="quiz-country"
+                  error={errors.businessCountry}
+                >
+                  <select
+                    id="quiz-country"
+                    className={fieldClass}
+                    value={answers.businessCountry}
+                    onChange={(e) => set("businessCountry", e.target.value)}
+                    aria-invalid={Boolean(errors.businessCountry)}
+                  >
+                    <option value="" disabled>
+                      Select a country
+                    </option>
+                    {COUNTRY_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+              </div>
               <NextButton onClick={() => { if (validateStep(6)) goTo(7); }} />
             </StepShell>
           )}
@@ -334,6 +366,20 @@ function QuizPage() {
                     aria-invalid={Boolean(errors.phone)}
                   />
                 </Field>
+                <Field
+                  label="Anything else we should know? (optional)"
+                  help="E.g. a supplier deadline, a specific PO you're trying to fund, or timing that matters."
+                  htmlFor="quiz-notes"
+                >
+                  <textarea
+                    id="quiz-notes"
+                    rows={3}
+                    className={`${fieldClass} resize-none`}
+                    placeholder="Optional — anything that would help our team prepare your offer"
+                    value={answers.additionalNotes}
+                    onChange={(e) => set("additionalNotes", e.target.value)}
+                  />
+                </Field>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                 Our team will review your details and reach out with your funding offer, no
@@ -364,6 +410,11 @@ function QuizPage() {
             <Confirmation
               title={`Thanks, ${answers.fullName.trim().split(" ")[0] || "there"} — we've got your details.`}
               body="A member of our team will review your eligibility and be in touch within one business day with your offer."
+              nextSteps={[
+                "Our team reviews your details and confirms eligibility — usually within one business day.",
+                "We call or email you with your funding offer, including your first-deal fee.",
+                "If you accept, we move to funding your purchase order — no obligation to accept.",
+              ]}
             />
           )}
         </div>
@@ -461,6 +512,30 @@ function Intro({ onStart }: { onStart: () => void }) {
       </div>
       <p className="mt-2 text-xs text-muted-foreground">Based on a $100,000 purchase order.</p>
 
+      <div className="mt-6 rounded-xl border border-hairline bg-surface-subtle px-5 py-5 text-left">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          Who we fund
+        </p>
+        <ul className="mt-3 space-y-2 text-sm text-foreground">
+          <li className="flex items-start gap-2">
+            <BadgeCheck className="mt-0.5 size-4 shrink-0 text-signal" strokeWidth={2.2} />
+            6+ months of sales history
+          </li>
+          <li className="flex items-start gap-2">
+            <BadgeCheck className="mt-0.5 size-4 shrink-0 text-signal" strokeWidth={2.2} />
+            $100K+ in annual revenue
+          </li>
+          <li className="flex items-start gap-2">
+            <BadgeCheck className="mt-0.5 size-4 shrink-0 text-signal" strokeWidth={2.2} />
+            Existing ASINs/SKUs — private label preferred
+          </li>
+          <li className="flex items-start gap-2">
+            <BadgeCheck className="mt-0.5 size-4 shrink-0 text-signal" strokeWidth={2.2} />
+            Based in the US, Canada, UK, or EU
+          </li>
+        </ul>
+      </div>
+
       <Button
         type="button"
         onClick={onStart}
@@ -539,7 +614,15 @@ function ErrorNote() {
   );
 }
 
-function Confirmation({ title, body }: { title: string; body: string }) {
+function Confirmation({
+  title,
+  body,
+  nextSteps,
+}: {
+  title: string;
+  body: string;
+  nextSteps?: string[];
+}) {
   return (
     <div className="py-10 text-center">
       <CheckCircle2 className="mx-auto size-12 text-signal" strokeWidth={1.5} />
@@ -549,6 +632,23 @@ function Confirmation({ title, body }: { title: string; body: string }) {
       <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
         {body}
       </p>
+      {nextSteps && nextSteps.length > 0 && (
+        <div className="mx-auto mt-7 max-w-md rounded-xl border border-hairline bg-surface-subtle px-5 py-5 text-left">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            What happens next
+          </p>
+          <ol className="mt-3 space-y-3">
+            {nextSteps.map((stepText, i) => (
+              <li key={stepText} className="flex items-start gap-3">
+                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-signal text-[0.65rem] font-bold text-white">
+                  {i + 1}
+                </span>
+                <span className="text-sm leading-relaxed text-foreground">{stepText}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
     </div>
   );
 }
