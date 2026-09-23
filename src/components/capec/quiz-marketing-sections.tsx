@@ -138,7 +138,6 @@ export function QuizWhyCapec() {
     <section className="border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         <SectionHeading
-          label="Why CapEc"
           title="Terms designed around how ecommerce sells."
           copy="Our team reviews your application with your sales history and purchase order in view."
         />
@@ -198,7 +197,6 @@ export function QuizVideoTestimonials() {
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="relative">
           <SectionHeading
-            label="CapEc channel"
             title="Straight from CapEc"
             copy="A closer look at how ecommerce sellers fund their next order."
           />
@@ -268,9 +266,6 @@ export function QuizOurPartners() {
     <section className="overflow-hidden border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 pt-16 text-center sm:px-6 sm:pt-24 lg:px-8">
         <h2 className="text-3xl font-extrabold text-headline-emphasis sm:text-5xl">Our Partners</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Part of a growing network of ecommerce service providers, logistics, and finance partners.
-        </p>
       </div>
       <div className="capec-partners-marquee group mt-10 pb-16 sm:mt-12 sm:pb-24" aria-label="CapEc partners">
         <div className="capec-partners-track">
@@ -302,7 +297,6 @@ export function QuizFounderTrust() {
     <section className="border-b border-border bg-surface-subtle">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         <SectionHeading
-          label="The team behind CapEc"
           title="Ecommerce funding with people on the other side."
           copy="Meet Nadav and Daniel, the co-founders behind CapEc's purchase order financing."
         />
@@ -344,7 +338,7 @@ export function QuizFaq() {
   return (
     <section className="border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <SectionHeading label="FAQ" title="Straight answers before you apply." />
+        <SectionHeading title="Straight answers before you apply." />
         <Accordion type="single" collapsible className="mx-auto mt-10 max-w-3xl">
           {FAQS.map((faq) => (
             <AccordionItem key={faq.q} value={faq.q} className="border-border">
