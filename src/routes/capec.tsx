@@ -659,7 +659,7 @@ function FundingCycle() {
             <p className="text-xs text-muted-foreground">Grace period before repayment</p>
           </div>
         </div>
-        <p className="mx-auto mt-4 hidden max-w-md text-center text-xs text-muted-foreground sm:block">
+        <p className="mx-auto mt-16 hidden max-w-md text-center text-xs text-muted-foreground sm:mt-20 sm:block">
           Typical sell-through time is 2–6 months, depending on the category — illustrative example, not a
           guarantee.
         </p>
