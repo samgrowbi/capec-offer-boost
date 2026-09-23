@@ -567,7 +567,8 @@ function HowItWorks() {
 
 function FundingCycle() {
   const nodeClass =
-    "absolute grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-signal text-header shadow-capec sm:size-16";
+    "absolute grid size-[47.6px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-signal text-header shadow-capec sm:size-[54.4px]";
+  const iconClass = "size-[20.4px] sm:size-[23.8px]";
   const labelClass = "text-xs font-bold text-headline-emphasis sm:text-sm";
 
   return (
@@ -580,8 +581,10 @@ function FundingCycle() {
 
         {/* Circular funding-cycle diagram matching the client-provided artwork: blue ring with clockwise
             arrows, five stage nodes, the seller photo in the middle, and the $100,000 / 45 Days / 2-6 Months
-            callouts around it. Desktop/tablet only; mobile gets the stacked list below. */}
-        <div className="relative mx-auto mt-12 hidden aspect-[4/3] w-full max-w-5xl sm:block">
+            callouts around it. Desktop/tablet only; mobile gets the stacked list below.
+            Sized at 85% of the original artwork-matched dimensions (container, nodes, icons, photo, and
+            stat numbers all scaled down 15% together so proportions and alignment stay consistent). */}
+        <div className="relative mx-auto mt-12 hidden aspect-[4/3] w-full max-w-[54.4rem] sm:block">
           <svg viewBox="0 0 400 300" className="absolute inset-0 size-full" aria-hidden="true">
             <circle cx="160" cy="150" r="118" fill="none" stroke="#188bf6" strokeWidth="3" />
             <path d="M147,25 L164,33.5 L147,42 Z" fill="#188bf6" />
@@ -589,7 +592,7 @@ function FundingCycle() {
           </svg>
 
           {/* Center: seller photo, as in the client artwork */}
-          <div className="absolute left-[40%] top-1/2 size-40 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full shadow-capec sm:size-56 lg:size-64">
+          <div className="absolute left-[40%] top-1/2 size-[136px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full shadow-capec sm:size-[190.4px] lg:size-[217.6px]">
             <img
               src={fundingCycleFounder}
               alt="Ecommerce seller reviewing a purchase order on a tablet"
@@ -599,7 +602,7 @@ function FundingCycle() {
 
           {/* Stage nodes, clockwise from top */}
           <div className={nodeClass} style={{ top: "11.7%", left: "43.5%" }}>
-            <Factory className="size-6 sm:size-7" aria-hidden="true" />
+            <Factory className={iconClass} aria-hidden="true" />
           </div>
           <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "11.7%", left: "49.5%" }}>
             Place Order
@@ -607,7 +610,7 @@ function FundingCycle() {
 
           {/* Invoice node uses the CapEc S mark on white, as in the artwork */}
           <div
-            className="absolute grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-border bg-card p-2 shadow-capec sm:size-16 sm:p-3"
+            className="absolute grid size-[40.8px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-border bg-card p-2 shadow-capec sm:size-[54.4px] sm:p-2.5"
             style={{ top: "24.7%", left: "61.3%" }}
           >
             <img src={capecMark.url} alt="" className="size-full object-contain" />
@@ -615,26 +618,26 @@ function FundingCycle() {
           <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "24.7%", left: "66.5%" }}>
             Invoice Due <span className="font-normal text-muted-foreground">(Paid by CapEc)</span>
           </p>
-          <p className="absolute text-2xl font-extrabold text-signal sm:text-5xl" style={{ top: "29.5%", left: "66.5%" }}>
+          <p className="absolute text-xl font-extrabold text-signal sm:text-[40.8px]" style={{ top: "29.5%", left: "66.5%" }}>
             $100,000
           </p>
 
           <div className={nodeClass} style={{ top: "50%", left: "68.3%" }}>
-            <Ship className="size-6 sm:size-7" aria-hidden="true" />
+            <Ship className={iconClass} aria-hidden="true" />
           </div>
           <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "50%", left: "73.5%" }}>
             Shipping
           </p>
 
           <div className={nodeClass} style={{ top: "74%", left: "62%" }}>
-            <Handshake className="size-6 sm:size-7" aria-hidden="true" />
+            <Handshake className={iconClass} aria-hidden="true" />
           </div>
           <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "74%", left: "67%" }}>
             Begin Selling
           </p>
 
           <div className={nodeClass} style={{ top: "86.3%", left: "44.5%" }}>
-            <HandHeart className="size-6 sm:size-7" aria-hidden="true" />
+            <HandHeart className={iconClass} aria-hidden="true" />
           </div>
           <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "92%", left: "50%" }}>
             Repayment Begins <span className="font-normal text-muted-foreground">(Monthly)</span>
@@ -642,14 +645,14 @@ function FundingCycle() {
 
           {/* Supporting callouts, as in the artwork */}
           <p
-            className="absolute -left-1 top-[47%] -translate-y-1/2 text-lg font-medium leading-snug text-muted-foreground sm:text-xl"
+            className="absolute -left-1 top-[47%] -translate-y-1/2 text-base font-medium leading-snug text-muted-foreground sm:text-[17px]"
             style={{ left: "-1%" }}
           >
             2&ndash;6
             <br />
             Months
           </p>
-          <p className="absolute -right-1 top-[59%] text-right text-3xl font-extrabold leading-[0.95] text-signal sm:text-5xl">
+          <p className="absolute -right-1 top-[59%] text-right text-[25.5px] font-extrabold leading-[0.95] text-signal sm:text-[40.8px]">
             45
             <br />
             Days
