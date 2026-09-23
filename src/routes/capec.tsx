@@ -650,7 +650,7 @@ function FundingCycle() {
           <div className={nodeClass} style={{ top: "86.3%", left: "44.5%" }}>
             <HandHeart className="size-6 sm:size-7" aria-hidden="true" />
           </div>
-          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "86.3%", left: "50%" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "92%", left: "50%" }}>
             Repayment Begins <span className="font-normal text-muted-foreground">(Monthly)</span>
           </p>
 
