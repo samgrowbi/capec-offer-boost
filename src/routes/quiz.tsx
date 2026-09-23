@@ -82,7 +82,20 @@ const EMPTY: Answers = {
 
 type Screen = number | "disqualified" | "done";
 
+type QuizSearch = {
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+};
+
+const str = (value: unknown) => (typeof value === "string" && value ? value : undefined);
+
 export const Route = createFileRoute("/quiz")({
+  validateSearch: (search: Record<string, unknown>): QuizSearch => ({
+    utm_source: str(search["utm_source"]),
+    utm_medium: str(search["utm_medium"]),
+    utm_campaign: str(search["utm_campaign"]),
+  }),
   head: () => ({
     meta: [
       { title: "Get Your CapEc Funding Offer | 2 Minute Application" },
