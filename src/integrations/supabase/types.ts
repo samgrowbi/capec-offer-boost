@@ -19,12 +19,16 @@ export type Database = {
           brand_name: string
           created_at: string
           email: string
+          full_name: string | null
           id: string
+          lead_stage: string | null
           offer: string | null
           online_store_url: string | null
           phone: string | null
           platform: string | null
+          po_amount_range: string | null
           revenue_range: string | null
+          selling_history: string | null
           source_slug: string | null
           utm_campaign: string | null
           utm_medium: string | null
@@ -34,12 +38,16 @@ export type Database = {
           brand_name: string
           created_at?: string
           email: string
+          full_name?: string | null
           id?: string
+          lead_stage?: string | null
           offer?: string | null
           online_store_url?: string | null
           phone?: string | null
           platform?: string | null
+          po_amount_range?: string | null
           revenue_range?: string | null
+          selling_history?: string | null
           source_slug?: string | null
           utm_campaign?: string | null
           utm_medium?: string | null
@@ -49,12 +57,16 @@ export type Database = {
           brand_name?: string
           created_at?: string
           email?: string
+          full_name?: string | null
           id?: string
+          lead_stage?: string | null
           offer?: string | null
           online_store_url?: string | null
           phone?: string | null
           platform?: string | null
+          po_amount_range?: string | null
           revenue_range?: string | null
+          selling_history?: string | null
           source_slug?: string | null
           utm_campaign?: string | null
           utm_medium?: string | null
