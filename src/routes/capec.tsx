@@ -578,7 +578,7 @@ function HowItWorks() {
 
 function FundingCycle() {
   const nodeClass =
-    "absolute grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-signal text-primary-foreground shadow-capec sm:size-16";
+    "absolute grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-signal text-header shadow-capec sm:size-16";
   const labelClass = "text-xs font-bold text-headline-emphasis sm:text-sm";
 
   return (
@@ -674,7 +674,7 @@ function FundingCycle() {
             { icon: HeartHandshake, title: "Repayment Begins (Monthly)", body: "Repayments start after a 45-day grace period." },
           ].map(({ icon: Icon, title, body }, i) => (
             <li key={title} className="flex gap-4 rounded-md border border-border bg-card p-4">
-              <div className="grid size-10 shrink-0 place-items-center rounded-full bg-signal text-primary-foreground">
+              <div className="grid size-10 shrink-0 place-items-center rounded-full bg-signal text-header">
                 <Icon className="size-5" aria-hidden="true" />
               </div>
               <div>
