@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   Accordion,
@@ -34,6 +34,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { LeadForm } from "@/components/capec/LeadForm";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
 import danielPhoto from "@/assets/capec/daniel-lilienthal.png.asset.json";
@@ -160,38 +161,6 @@ const FAQS = [
 
 const CTA_LABEL = "Fund Your Purchase Order Today";
 
-type Utm = {
-  utm_source?: string | undefined;
-  utm_medium?: string | undefined;
-  utm_campaign?: string | undefined;
-};
-
-// Campaign params are read from this page's URL and forwarded to /quiz so paid
-// traffic attribution survives the navigation.
-function useUtm(): Utm {
-  const [utm, setUtm] = useState<Utm>({});
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setUtm({
-      utm_source: params.get("utm_source") ?? undefined,
-      utm_medium: params.get("utm_medium") ?? undefined,
-      utm_campaign: params.get("utm_campaign") ?? undefined,
-    });
-  }, []);
-  return utm;
-}
-
-function QuizCta({ className }: { className?: string }) {
-  const utm = useUtm();
-  return (
-    <Button asChild className={className}>
-      <Link to="/quiz" search={utm}>
-        {CTA_LABEL}
-      </Link>
-    </Button>
-  );
-}
-
 export const Route = createFileRoute("/capec")({
   head: () => ({
     meta: [
@@ -271,7 +240,9 @@ function Navbar() {
             </a>
           ))}
         </nav>
-        <QuizCta className="h-auto max-w-[12rem] whitespace-normal px-3 py-2 text-center text-xs sm:max-w-none sm:px-5 sm:text-sm" />
+        <Button asChild className="h-auto max-w-[12rem] whitespace-normal px-3 py-2 text-center text-xs sm:max-w-none sm:px-5 sm:text-sm">
+          <a href="#offer-form">{CTA_LABEL}</a>
+        </Button>
       </div>
     </header>
   );
@@ -281,22 +252,29 @@ function Hero() {
   return (
     // Height capped below a full viewport (~85vh on desktop) so a sliver of the
     // next section peeks in at the bottom of the initial viewport as a scroll hint.
-    <section className="flex min-h-[72svh] items-center overflow-hidden border-b border-border bg-background lg:min-h-[80vh]">
-      <div className="mx-auto w-full max-w-4xl px-5 py-12 text-center sm:px-6 sm:py-16 lg:px-8">
-        <h1 className="mx-auto text-4xl font-extrabold leading-[1.05] text-headline-secondary sm:text-6xl lg:text-6xl">
-          <span className="text-headline-emphasis">Fund Your Purchase Order</span> Today
-        </h1>
-        <div className="mx-auto mt-6 max-w-md rounded-md bg-signal p-5 text-primary-foreground">
-          <div className="text-5xl font-extrabold sm:text-6xl">{discountPercent}% off</div>
-          <p className="mt-2 text-sm font-semibold sm:text-base">your first funded deal's financing fee</p>
+    <section className="flex min-h-[82svh] items-center overflow-hidden border-b border-border bg-background lg:min-h-[85vh]">
+      <div className="mx-auto grid w-full max-w-7xl gap-7 px-5 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-10 lg:px-8 lg:py-4">
+        <div className="order-1 flex flex-col lg:order-2">
+          <h1 className="order-2 mt-5 max-w-2xl text-4xl font-extrabold leading-[1.05] text-headline-secondary sm:text-6xl lg:order-1 lg:mt-0 lg:text-6xl">
+            <span className="text-headline-emphasis">Fund Your Purchase Order</span> Today
+          </h1>
+          <div className="order-1 max-w-xl rounded-md bg-signal p-4 text-primary-foreground sm:p-5 lg:order-2 lg:mt-5">
+            <div className="text-5xl font-extrabold sm:text-6xl">{discountPercent}% off</div>
+            <p className="mt-2 text-sm font-semibold sm:text-base">your first funded deal's financing fee</p>
+          </div>
+          <div className="order-3 mt-5 flex items-start gap-3 text-headline-emphasis sm:items-center">
+            <Clock3 className="mt-0.5 size-6 shrink-0 text-signal sm:mt-0" aria-hidden="true" />
+            <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-lg">
+              <span className="font-bold">Approval in 24 hours</span>
+              <span className="text-muted-foreground sm:border-l sm:border-border sm:pl-3">Fund up to 2.5x your monthly sales.</span>
+            </p>
+          </div>
+          <p className="order-4 mt-3 text-sm text-muted-foreground">Financing is subject to approval.</p>
         </div>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-headline-emphasis">
-          <Clock3 className="size-6 shrink-0 text-signal" aria-hidden="true" />
-          <span className="text-lg font-bold">Approval in 24 hours</span>
-          <span className="text-lg text-muted-foreground sm:border-l sm:border-border sm:pl-3">Fund up to 2.5x your monthly sales.</span>
+        <div className="order-2 rounded-md border border-border bg-card p-5 shadow-capec sm:p-6 lg:order-1">
+          <p className="mb-4 text-lg font-bold text-headline-emphasis">Get your funding offer</p>
+          <LeadForm formId="capec-hero-lead-form" />
         </div>
-        <QuizCta className="mt-8 h-auto w-full whitespace-normal px-8 py-4 text-base font-bold sm:w-auto sm:text-lg" />
-        <p className="mt-4 text-sm text-muted-foreground">Takes about 2 minutes. Financing is subject to approval.</p>
       </div>
     </section>
   );
@@ -657,8 +635,10 @@ function FinalCta() {
           <p className="text-sm font-bold text-signal">{discountPercent}% off your first funded deal's fee</p>
           <h2 className="mt-4 text-4xl font-extrabold leading-tight text-headline-emphasis sm:text-6xl lg:text-[clamp(2.25rem,4vw,3.75rem)]">{CTA_LABEL}</h2>
           <p className="mt-5 text-lg text-muted-foreground">Approval in 24 hours. Fund up to 2.5x your monthly sales.</p>
-          <QuizCta className="mt-8 h-auto w-full whitespace-normal px-8 py-4 text-base font-bold sm:w-auto sm:text-lg" />
-          <p className="mt-4 text-sm text-muted-foreground">Takes about 2 minutes. Financing is subject to approval.</p>
+          <p className="mt-5 text-sm text-muted-foreground">Financing is subject to approval.</p>
+        </div>
+        <div className="mx-auto mt-10 max-w-2xl rounded-md border border-border bg-card p-5 shadow-capec sm:p-8">
+          <LeadForm formId="capec-lead-form" />
         </div>
       </div>
     </section>
