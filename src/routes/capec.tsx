@@ -611,56 +611,64 @@ function FundingCycle() {
             />
           </div>
 
-          {/* Nodes, clockwise from top */}
-          <div className={nodeClass} style={{ top: "8%", left: "50%" }}>
-            <Factory className="size-6" aria-hidden="true" />
+          {/* Stage nodes, clockwise from top */}
+          <div className={nodeClass} style={{ top: "11.7%", left: "43.5%" }}>
+            <Factory className="size-6 sm:size-7" aria-hidden="true" />
           </div>
-          <p className={`${labelClass} absolute left-1/2 -translate-x-1/2 text-center`} style={{ top: "-2%" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "11.7%", left: "49.5%" }}>
             Place Order
           </p>
 
-          <div className={nodeClass} style={{ top: "20.5%", left: "80%" }}>
-            <CircleDollarSign className="size-6" aria-hidden="true" />
+          {/* Invoice node uses the CapEc S mark on white, as in the artwork */}
+          <div
+            className="absolute grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-border bg-card p-2 shadow-capec sm:size-16 sm:p-3"
+            style={{ top: "24.7%", left: "61.3%" }}
+          >
+            <img src={capecMark.url} alt="" className="size-full object-contain" />
           </div>
-          <p className={`${labelClass} absolute max-w-[9rem]`} style={{ top: "16%", left: "88%" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "24.7%", left: "66.5%" }}>
             Invoice Due <span className="font-normal text-muted-foreground">(Paid by CapEc)</span>
           </p>
+          <p className="absolute text-2xl font-extrabold text-signal sm:text-5xl" style={{ top: "29.5%", left: "66.5%" }}>
+            $100,000
+          </p>
 
-          <div className={nodeClass} style={{ top: "50%", left: "92%" }}>
-            <Ship className="size-6" aria-hidden="true" />
+          <div className={nodeClass} style={{ top: "50%", left: "68.3%" }}>
+            <Ship className="size-6 sm:size-7" aria-hidden="true" />
           </div>
-          <p className={`${labelClass} absolute`} style={{ top: "50%", left: "99%", transform: "translateY(-50%)" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "50%", left: "73.5%" }}>
             Shipping
           </p>
 
-          <div className={nodeClass} style={{ top: "79.5%", left: "80%" }}>
-            <Handshake className="size-6" aria-hidden="true" />
+          <div className={nodeClass} style={{ top: "74%", left: "62%" }}>
+            <Handshake className="size-6 sm:size-7" aria-hidden="true" />
           </div>
-          <p className={`${labelClass} absolute max-w-[9rem]`} style={{ top: "84%", left: "88%" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "74%", left: "67%" }}>
             Begin Selling
           </p>
 
-          <div className={nodeClass} style={{ top: "92%", left: "50%" }}>
-            <HeartHandshake className="size-6" aria-hidden="true" />
+          <div className={nodeClass} style={{ top: "86.3%", left: "44.5%" }}>
+            <HandHeart className="size-6 sm:size-7" aria-hidden="true" />
           </div>
-          <p className={`${labelClass} absolute max-w-[12rem] text-center`} style={{ top: "100%", left: "50%", transform: "translateX(-50%)" }}>
+          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "86.3%", left: "50%" }}>
             Repayment Begins <span className="font-normal text-muted-foreground">(Monthly)</span>
           </p>
 
-          {/* Supporting stat callouts */}
-          <div className="absolute w-32 text-right sm:w-40" style={{ top: "36%", left: "-10%" }}>
-            <p className="text-2xl font-extrabold text-signal sm:text-3xl">$100,000</p>
-            <p className="text-xs text-muted-foreground">Example PO funded</p>
-          </div>
-          <div className="absolute w-36 sm:w-44" style={{ top: "58%", right: "-22%" }}>
-            <p className="text-2xl font-extrabold text-signal sm:text-3xl">45 Days</p>
-            <p className="text-xs text-muted-foreground">Grace period before repayment</p>
-          </div>
+          {/* Supporting callouts, as in the artwork */}
+          <p
+            className="absolute -left-1 top-[47%] -translate-y-1/2 text-lg font-medium leading-snug text-muted-foreground sm:text-xl"
+            style={{ left: "-1%" }}
+          >
+            2&ndash;6
+            <br />
+            Months
+          </p>
+          <p className="absolute -right-1 top-[59%] text-right text-3xl font-extrabold leading-[0.95] text-signal sm:text-5xl">
+            45
+            <br />
+            Days
+          </p>
         </div>
-        <p className="mx-auto mt-16 hidden max-w-md text-center text-xs text-muted-foreground sm:mt-20 sm:block">
-          Typical sell-through time is 2–6 months, depending on the category — illustrative example, not a
-          guarantee.
-        </p>
 
         {/* Mobile fallback: stacked list */}
         <ol className="mt-10 space-y-4 sm:hidden">
