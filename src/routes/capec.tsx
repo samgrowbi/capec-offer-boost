@@ -34,7 +34,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import amazonLogoPlaceholderRemoved from "@/assets/capec/amazon-logo.png";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
 import danielPhoto from "@/assets/capec/daniel-lilienthal.png.asset.json";
