@@ -36,6 +36,7 @@ import {
 } from "lucide-react";
 
 import { LeadForm } from "@/components/capec/LeadForm";
+import { HeroQuizCard } from "@/components/capec/HeroQuizCard";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
 import danielPhoto from "@/assets/capec/daniel-lilienthal.png.asset.json";
@@ -270,10 +271,7 @@ function Hero() {
         </p>
 
         <div className="mt-10 grid gap-7 text-left lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] lg:items-center lg:gap-10">
-          <div className="rounded-md border border-border bg-card p-5 text-foreground shadow-capec sm:p-6">
-            <p className="mb-4 text-lg font-bold text-headline-emphasis">Get your funding offer</p>
-            <LeadForm formId="capec-hero-lead-form" />
-          </div>
+          <HeroQuizCard />
 
           <div className="relative">
             <div className="aspect-video overflow-hidden rounded-md border border-header-border bg-black/20">
