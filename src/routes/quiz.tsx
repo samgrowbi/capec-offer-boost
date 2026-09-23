@@ -381,7 +381,7 @@ function QuizPage() {
                 validateAndAdvance(7);
               }}
             >
-              <StepTitle>Almost done — where should we send your offer?</StepTitle>
+              <StepTitle>Almost done. Where should we send your offer?</StepTitle>
               <div className="mt-6 space-y-4">
                 <div>
                   <input
@@ -504,7 +504,7 @@ function QuizPage() {
             <div className="rounded-md border border-signal/40 bg-signal-dim p-8 text-center">
               <CheckCircle2 className="mx-auto size-10 text-signal" strokeWidth={1.5} />
               <p className="mt-5 text-3xl font-extrabold text-headline-emphasis">
-                Thanks{answers.fullName ? `, ${answers.fullName.split(" ")[0]}` : ""} — we've got your details.
+                Thanks{answers.fullName ? `, ${answers.fullName.split(" ")[0]}` : ""}, we've got your details.
               </p>
               <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
                 A member of our team will review your eligibility and be in touch within one business day with
