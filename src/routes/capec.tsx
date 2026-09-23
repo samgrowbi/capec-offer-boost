@@ -233,22 +233,10 @@ function Wordmark({ inverse = false }: { inverse?: boolean }) {
 }
 
 function Navbar() {
-  const links = [
-    { href: "#how-it-works", label: "How It Works" },
-    { href: "#why-capec", label: "Why CapEc" },
-    { href: "#faq", label: "FAQ" },
-  ];
   return (
     <header id="top" className="sticky top-0 z-50 border-b border-header-border bg-header text-header-foreground">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-8">
         <Wordmark inverse />
-        <nav className="hidden items-center gap-8 text-sm text-header-muted md:flex" aria-label="Main navigation">
-          {links.map((link) => (
-            <a key={link.href} href={link.href} className="transition-colors hover:text-header-foreground">
-              {link.label}
-            </a>
-          ))}
-        </nav>
         <Button asChild className="h-auto max-w-[12rem] whitespace-normal px-3 py-2 text-center text-xs sm:max-w-none sm:px-5 sm:text-sm">
           <a href="#offer-form">{CTA_LABEL}</a>
         </Button>
@@ -473,7 +461,6 @@ function VideoTestimonials() {
         {/* Placeholder section wording. The CapEc team will finalize this heading. */}
         <div className="relative">
           <SectionHeading
-            label="CapEc channel"
             title="Straight from CapEc"
             copy="A closer look at how ecommerce sellers fund their next order."
           />
@@ -558,7 +545,7 @@ function HowItWorks() {
   return (
     <section id="how-it-works" className="scroll-mt-16 border-b border-border bg-surface-subtle">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <SectionHeading label="How it works" title="From application to funded order in three steps." />
+        <SectionHeading title="From application to funded order in three steps." />
         <ol className="mt-12 grid gap-8 lg:grid-cols-3">
           {STEPS.map(({ icon: Icon, title, body }, index) => (
             <li key={title} className="border-t-2 border-signal pt-6">
@@ -587,7 +574,6 @@ function FundingCycle() {
     <section className="border-b border-border bg-surface-subtle">
       <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         <SectionHeading
-          label="How It Works"
           title="The CapEc Funding Cycle"
           copy="One purchase order, five simple stages — from placing the order to repayment."
         />
@@ -700,7 +686,6 @@ function WhyCapec() {
     <section id="why-capec" className="scroll-mt-16 border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         <SectionHeading
-          label="Why CapEc"
           title="Terms designed around how ecommerce sells."
           copy="Our team reviews your application with your sales history and purchase order in view."
         />
@@ -771,9 +756,6 @@ function OurPartners() {
     <section className="overflow-hidden border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 pt-16 text-center sm:px-6 sm:pt-24 lg:px-8">
         <h2 className="text-3xl font-extrabold text-headline-emphasis sm:text-5xl">Our Partners</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Part of a growing network of ecommerce service providers, logistics, and finance partners.
-        </p>
       </div>
       <div className="capec-partners-marquee group mt-10 pb-16 sm:mt-12 sm:pb-24" aria-label="CapEc partners">
         <div className="capec-partners-track">
@@ -805,7 +787,6 @@ function FounderTrust() {
     <section className="border-b border-border bg-surface-subtle">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         <SectionHeading
-          label="The team behind CapEc"
           title="Ecommerce funding with people on the other side."
           copy="Meet Nadav and Daniel, the co-founders behind CapEc's purchase order financing."
         />
@@ -847,7 +828,7 @@ function Faq() {
   return (
     <section id="faq" className="scroll-mt-16 border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <SectionHeading label="FAQ" title="Straight answers before you apply." />
+        <SectionHeading title="Straight answers before you apply." />
         <Accordion type="single" collapsible className="mx-auto mt-10 max-w-3xl">
           {FAQS.map((faq) => (
             <AccordionItem key={faq.q} value={faq.q} className="border-border">
@@ -868,8 +849,7 @@ function FinalCta() {
     <section id="offer-form" className="scroll-mt-16 bg-surface-subtle">
       <div className="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="text-center">
-          <p className="text-sm font-bold text-signal">{discountPercent}% off your first funded deal's fee</p>
-          <h2 className="mt-4 text-4xl font-extrabold leading-tight text-headline-emphasis sm:text-6xl lg:text-[clamp(2.25rem,4vw,3.75rem)]">{CTA_LABEL}</h2>
+          <h2 className="text-4xl font-extrabold leading-tight text-headline-emphasis sm:text-6xl lg:text-[clamp(2.25rem,4vw,3.75rem)]">{CTA_LABEL}</h2>
           <p className="mt-5 text-lg text-muted-foreground">Approval in 24 hours. Fund up to 2.5x your monthly sales.</p>
           <p className="mt-5 text-sm text-muted-foreground">Financing is subject to approval.</p>
         </div>
