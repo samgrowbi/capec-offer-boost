@@ -653,10 +653,8 @@ function FinalCta() {
           <p className="text-sm font-bold text-signal">{discountPercent}% off your first funded deal's fee</p>
           <h2 className="mt-4 text-4xl font-extrabold leading-tight text-headline-emphasis sm:text-6xl lg:text-[clamp(2.25rem,4vw,3.75rem)]">{CTA_LABEL}</h2>
           <p className="mt-5 text-lg text-muted-foreground">Approval in 24 hours. Fund up to 2.5x your monthly sales.</p>
-          <p className="mt-5 text-sm text-muted-foreground">Financing is subject to approval.</p>
-        </div>
-        <div className="mx-auto mt-10 max-w-2xl rounded-md border border-border bg-card p-5 shadow-capec sm:p-8">
-          <LeadForm formId="capec-lead-form" />
+          <QuizCta className="mt-8 h-auto w-full whitespace-normal px-8 py-4 text-base font-bold sm:w-auto sm:text-lg" />
+          <p className="mt-4 text-sm text-muted-foreground">Takes about 2 minutes. Financing is subject to approval.</p>
         </div>
       </div>
     </section>
