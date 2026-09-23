@@ -80,12 +80,14 @@ const EMPTY: Answers = {
   phone: "",
 };
 
+type QuizErrors = Partial<Record<keyof Answers, string | undefined>>;
+
 type Screen = number | "disqualified" | "done";
 
 type QuizSearch = {
-  utm_source?: string;
-  utm_medium?: string;
-  utm_campaign?: string;
+  utm_source?: string | undefined;
+  utm_medium?: string | undefined;
+  utm_campaign?: string | undefined;
 };
 
 const str = (value: unknown) => (typeof value === "string" && value ? value : undefined);
@@ -130,7 +132,7 @@ const fieldClass =
 function QuizPage() {
   const [screen, setScreen] = useState<Screen>(1);
   const [answers, setAnswers] = useState<Answers>(EMPTY);
-  const [errors, setErrors] = useState<Partial<Record<keyof Answers, string>>>({});
+  const [errors, setErrors] = useState<QuizErrors>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [utm, setUtm] = useState({ utm_source: "", utm_medium: "", utm_campaign: "" });
   const [waitlistEmail, setWaitlistEmail] = useState("");
@@ -200,7 +202,7 @@ function QuizPage() {
       phone: answers.phone,
     });
     if (!parsed.success) {
-      const next: Partial<Record<keyof Answers, string>> = {};
+      const next: QuizErrors = {};
       for (const issue of parsed.error.issues) {
         const key = issue.path[0] as keyof Answers;
         if (!next[key]) next[key] = issue.message;

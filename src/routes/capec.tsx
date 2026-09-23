@@ -160,7 +160,11 @@ const FAQS = [
 
 const CTA_LABEL = "Fund Your Purchase Order Today";
 
-type Utm = { utm_source?: string; utm_medium?: string; utm_campaign?: string };
+type Utm = {
+  utm_source?: string | undefined;
+  utm_medium?: string | undefined;
+  utm_campaign?: string | undefined;
+};
 
 // Campaign params are read from this page's URL and forwarded to /quiz so paid
 // traffic attribution survives the navigation.
