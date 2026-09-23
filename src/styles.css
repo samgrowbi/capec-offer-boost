@@ -215,6 +215,14 @@
   }
 }
 
+.capec-hero-grid {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 5%) 1px, transparent 1px);
+  background-size: 44px 44px;
+  background-position: center top;
+}
+
 .capec-partners-marquee {
   width: 100%;
   overflow: hidden;

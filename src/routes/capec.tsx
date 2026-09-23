@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
+  BadgeCheck,
   BadgeDollarSign,
   BarChart3,
   Boxes,
@@ -249,31 +250,67 @@ function Navbar() {
 }
 
 function Hero() {
+  const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
+  const heroVideoId = CAPEC_VIDEOS[0]?.youtubeId ?? "";
+
   return (
-    // Height capped below a full viewport (~85vh on desktop) so a sliver of the
-    // next section peeks in at the bottom of the initial viewport as a scroll hint.
-    <section className="flex min-h-[82svh] items-center overflow-hidden border-b border-border bg-background lg:min-h-[85vh]">
-      <div className="mx-auto grid w-full max-w-7xl gap-7 px-5 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] lg:items-center lg:gap-10 lg:px-8 lg:py-4">
-        <div className="order-1 flex flex-col lg:order-2">
-          <h1 className="order-2 mt-5 max-w-2xl text-4xl font-extrabold leading-[1.05] text-headline-secondary sm:text-6xl lg:order-1 lg:mt-0 lg:text-6xl">
-            <span className="text-headline-emphasis">Fund Your Purchase Order</span> Today
-          </h1>
-          <div className="order-1 max-w-xl rounded-md bg-signal p-4 text-primary-foreground sm:p-5 lg:order-2 lg:mt-5">
-            <div className="text-5xl font-extrabold sm:text-6xl">{discountPercent}% off</div>
-            <p className="mt-2 text-sm font-semibold sm:text-base">your first funded deal's financing fee</p>
+    <section className="capec-hero-grid relative overflow-hidden bg-header text-header-foreground">
+      <div className="relative mx-auto max-w-5xl px-5 py-14 text-center sm:px-6 sm:py-20 lg:px-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-header-muted sm:text-sm">
+          No Equity &nbsp;·&nbsp; No Personal Guarantee &nbsp;·&nbsp; 24-Hour Approval
+        </p>
+        <h1 className="mx-auto mt-5 max-w-3xl text-4xl font-extrabold leading-[1.08] sm:text-6xl">
+          Fund Your Next Purchase Order
+          <br />
+          With <span className="text-signal">{discountPercent}% Off</span> Your First Deal
+        </h1>
+        <p className="mx-auto mt-5 max-w-xl text-base text-header-muted sm:text-lg">
+          <span className="font-bold text-header-foreground">Approval in 24 hours.</span> Fund up to 2.5x
+          your monthly sales. Financing is subject to approval.
+        </p>
+
+        <div className="mt-10 grid gap-7 text-left lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] lg:items-center lg:gap-10">
+          <div className="rounded-md border border-border bg-card p-5 text-foreground shadow-capec sm:p-6">
+            <p className="mb-4 text-lg font-bold text-headline-emphasis">Get your funding offer</p>
+            <LeadForm formId="capec-hero-lead-form" />
           </div>
-          <div className="order-3 mt-5 flex items-start gap-3 text-headline-emphasis sm:items-center">
-            <Clock3 className="mt-0.5 size-6 shrink-0 text-signal sm:mt-0" aria-hidden="true" />
-            <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-lg">
-              <span className="font-bold">Approval in 24 hours</span>
-              <span className="text-muted-foreground sm:border-l sm:border-border sm:pl-3">Fund up to 2.5x your monthly sales.</span>
-            </p>
+
+          <div className="relative">
+            <div className="aspect-video overflow-hidden rounded-md border border-header-border bg-black/20">
+              {heroVideoPlaying ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${heroVideoId}?autoplay=1`}
+                  title="CapEc"
+                  className="size-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setHeroVideoPlaying(true)}
+                  className="group relative size-full"
+                  aria-label="Play video"
+                >
+                  <img
+                    src={`https://img.youtube.com/vi/${heroVideoId}/hqdefault.jpg`}
+                    alt=""
+                    className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  />
+                  <span className="absolute inset-0 bg-header/25 transition-colors group-hover:bg-header/35" aria-hidden="true" />
+                  <span className="absolute inset-0 grid place-items-center">
+                    <span className="grid size-16 place-items-center rounded-full bg-signal text-primary-foreground shadow-capec transition-transform group-hover:scale-105">
+                      <Play className="ml-1 size-7" fill="currentColor" aria-hidden="true" />
+                    </span>
+                  </span>
+                </button>
+              )}
+            </div>
+            <div className="mx-auto mt-4 flex w-fit items-center gap-2 rounded-full border border-header-border bg-card px-4 py-2 text-foreground shadow-capec sm:absolute sm:-bottom-5 sm:left-5 sm:mt-0">
+              <BadgeCheck className="size-5 shrink-0 text-signal" strokeWidth={2.2} aria-hidden="true" />
+              <p className="text-sm font-bold text-headline-emphasis">300+ Active Sellers Funded</p>
+            </div>
           </div>
-          <p className="order-4 mt-3 text-sm text-muted-foreground">Financing is subject to approval.</p>
-        </div>
-        <div className="order-2 rounded-md border border-border bg-card p-5 shadow-capec sm:p-6 lg:order-1">
-          <p className="mb-4 text-lg font-bold text-headline-emphasis">Get your funding offer</p>
-          <LeadForm formId="capec-hero-lead-form" />
         </div>
       </div>
     </section>
