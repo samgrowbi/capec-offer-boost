@@ -677,7 +677,7 @@ function FundingCycle() {
             { icon: CircleDollarSign, title: "Invoice Due (Paid by CapEc)", body: "CapEc pays the invoice on your behalf — e.g. $100,000." },
             { icon: Ship, title: "Shipping", body: "Your inventory ships to you or your fulfillment center." },
             { icon: Handshake, title: "Begin Selling", body: "You receive stock and start selling through it." },
-            { icon: HeartHandshake, title: "Repayment Begins (Monthly)", body: "Repayments start after a 45-day grace period." },
+            { icon: HandHeart, title: "Repayment Begins (Monthly)", body: "Repayments start after a 45-day grace period." },
           ].map(({ icon: Icon, title, body }, i) => (
             <li key={title} className="flex gap-4 rounded-md border border-border bg-card p-4">
               <div className="grid size-10 shrink-0 place-items-center rounded-full bg-signal text-header">
