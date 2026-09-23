@@ -591,7 +591,7 @@ function FundingCycle() {
         />
 
         {/* Circular diagram: desktop/tablet only. Mobile gets a stacked list below. */}
-        <div className="relative mx-auto mt-16 hidden aspect-square max-w-xl sm:block">
+        <div className="relative mx-auto mt-16 hidden aspect-square max-w-lg sm:block">
           <svg viewBox="0 0 100 100" className="absolute inset-0 size-full" aria-hidden="true">
             <circle cx="50" cy="50" r="42" fill="none" stroke="#188bf6" strokeWidth="1.4" />
             <path
@@ -650,11 +650,11 @@ function FundingCycle() {
           </p>
 
           {/* Supporting stat callouts */}
-          <div className="absolute text-right" style={{ top: "24%", left: "-2%" }}>
+          <div className="absolute w-32 text-right sm:w-40" style={{ top: "36%", left: "-10%" }}>
             <p className="text-2xl font-extrabold text-signal sm:text-3xl">$100,000</p>
             <p className="text-xs text-muted-foreground">Example PO funded</p>
           </div>
-          <div className="absolute" style={{ top: "68%", right: "-14%" }}>
+          <div className="absolute w-36 sm:w-44" style={{ top: "58%", right: "-22%" }}>
             <p className="text-2xl font-extrabold text-signal sm:text-3xl">45 Days</p>
             <p className="text-xs text-muted-foreground">Grace period before repayment</p>
           </div>
