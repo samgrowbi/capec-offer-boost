@@ -11,6 +11,14 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  QuizFaq,
+  QuizFounderTrust,
+  QuizOurPartners,
+  QuizVideoTestimonials,
+  QuizWhyCapec,
+  StatBreak,
+} from "@/components/capec/quiz-marketing-sections";
 
 export const Route = createFileRoute("/quiz")({
   head: () => ({
@@ -215,6 +223,23 @@ function QuizPage() {
 
   const progress = useMemo(() => (step / TOTAL_QUESTIONS) * 100, [step]);
 
+  if (screen === "intro") {
+    return (
+      <div className="capec min-h-svh bg-background font-sans text-foreground">
+        <div key={animKey} className="capec-quiz-step">
+          <IntroHero onStart={() => { setAnimKey((k) => k + 1); setScreen("question"); }} />
+          <StatBreak />
+          <QuizWhyCapec />
+          <QuizVideoTestimonials />
+          <QuizOurPartners />
+          <QuizFounderTrust />
+          <QuizFaq />
+          <IntroFinalCta onStart={() => { setAnimKey((k) => k + 1); setScreen("question"); }} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="capec min-h-svh bg-background font-sans text-foreground">
       <main className="mx-auto flex min-h-svh w-full max-w-3xl flex-col px-5 py-6 sm:px-8 sm:py-10">
@@ -226,8 +251,6 @@ function QuizPage() {
           key={animKey}
           className="flex flex-1 flex-col justify-center capec-quiz-step"
         >
-          {screen === "intro" && <Intro onStart={() => { setAnimKey((k) => k + 1); setScreen("question"); }} />}
-
           {screen === "question" && step === 1 && (
             <QuestionCards
               title="Where do you sell?"
@@ -463,9 +486,9 @@ function QuizHeader({
   );
 }
 
-function Intro({ onStart }: { onStart: () => void }) {
+function IntroHero({ onStart }: { onStart: () => void }) {
   return (
-    <div className="py-6 text-center">
+    <div className="mx-auto max-w-2xl px-5 py-10 text-center sm:px-8 sm:py-14">
       <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:text-xs">
         No Equity &nbsp;·&nbsp; No Personal Guarantee &nbsp;·&nbsp; 24-Hour Approval
       </p>
@@ -545,6 +568,34 @@ function Intro({ onStart }: { onStart: () => void }) {
         <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
       </Button>
     </div>
+  );
+}
+
+function IntroFinalCta({ onStart }: { onStart: () => void }) {
+  return (
+    <section className="border-t border-border bg-headline-emphasis text-primary-foreground">
+      <div className="mx-auto max-w-2xl px-5 py-16 text-center sm:px-8 sm:py-20">
+        <p className="text-sm font-bold uppercase tracking-wide text-primary-foreground/70">
+          25% off your first funded deal's fee
+        </p>
+        <h2 className="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
+          Fund Your Purchase Order Today
+        </h2>
+        <p className="mx-auto mt-3 max-w-md text-sm text-primary-foreground/80">
+          Approval in 24 hours. Fund up to 2.5x your monthly sales.
+        </p>
+        <Button
+          type="button"
+          onClick={onStart}
+          variant="secondary"
+          className="group mt-7 h-14 w-full text-base font-bold sm:w-auto sm:px-10"
+        >
+          Start My Application
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+        </Button>
+        <p className="mt-4 text-xs text-primary-foreground/70">Financing is subject to approval.</p>
+      </div>
+    </section>
   );
 }
 
