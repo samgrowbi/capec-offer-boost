@@ -233,22 +233,9 @@ function Wordmark({ inverse = false }: { inverse?: boolean }) {
 }
 
 function Navbar() {
-  const links = [
-    { href: "#how-it-works", label: "How It Works" },
-    { href: "#why-capec", label: "Why CapEc" },
-    { href: "#faq", label: "FAQ" },
-  ];
-  return (
     <header id="top" className="sticky top-0 z-50 border-b border-header-border bg-header text-header-foreground">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-8">
         <Wordmark inverse />
-        <nav className="hidden items-center gap-8 text-sm text-header-muted md:flex" aria-label="Main navigation">
-          {links.map((link) => (
-            <a key={link.href} href={link.href} className="transition-colors hover:text-header-foreground">
-              {link.label}
-            </a>
-          ))}
-        </nav>
         <Button asChild className="h-auto max-w-[12rem] whitespace-normal px-3 py-2 text-center text-xs sm:max-w-none sm:px-5 sm:text-sm">
           <a href="#offer-form">{CTA_LABEL}</a>
         </Button>
