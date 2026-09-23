@@ -198,6 +198,7 @@ function CapecPage() {
       <main>
         <Hero />
         <KeyBenefits />
+        <PerformanceOverview />
         <VideoTestimonials />
         <HowItWorks />
         <WhyCapec />
@@ -342,6 +343,83 @@ function KeyBenefits() {
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{body}</p>
             </article>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PerformanceOverview() {
+  return (
+    <section className="border-b border-border bg-background">
+      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
+          <div className="relative">
+            <div className="rounded-md border border-border bg-surface-subtle p-6 shadow-capec sm:p-7">
+              <p className="text-xs font-bold uppercase tracking-wide text-signal">Funding Overview</p>
+              <p className="mt-1 text-lg font-bold text-headline-emphasis">PO Funding Growth</p>
+
+              <svg viewBox="0 0 400 170" className="mt-6 w-full" aria-hidden="true">
+                <defs>
+                  <linearGradient id="capecGrowthFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#188bf6" stopOpacity="0.22" />
+                    <stop offset="100%" stopColor="#188bf6" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M8,150 C55,115 85,128 120,95 C155,62 180,85 215,55 C250,25 275,38 310,15 L392,5"
+                  fill="none"
+                  stroke="#188bf6"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M8,150 C55,115 85,128 120,95 C155,62 180,85 215,55 C250,25 275,38 310,15 L392,5 L392,170 L8,170 Z"
+                  fill="url(#capecGrowthFill)"
+                />
+                <circle cx="392" cy="5" r="5" fill="#188bf6" />
+              </svg>
+
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <div className="rounded-md border border-border bg-card px-4 py-3">
+                  <p className="text-xs text-muted-foreground">POs Funded</p>
+                  <p className="mt-0.5 text-xl font-extrabold text-headline-emphasis">1,000+</p>
+                </div>
+                <div className="rounded-md border border-border bg-card px-4 py-3">
+                  <p className="text-xs text-muted-foreground">Active Sellers</p>
+                  <p className="mt-0.5 text-xl font-extrabold text-headline-emphasis">300+</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute -top-5 right-6 rounded-md bg-headline-emphasis px-5 py-3 text-center text-primary-foreground shadow-capec sm:right-10">
+              <p className="text-2xl font-extrabold leading-none">24hrs</p>
+              <p className="mt-1 text-[0.65rem] uppercase tracking-wide text-primary-foreground/75">
+                Approval Time
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wide text-signal">Your Partner In Ecommerce Growth</p>
+            <h2 className="mt-3 text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-4xl lg:text-[clamp(1.9rem,3vw,2.5rem)]">
+              How We Helped <span className="text-headline-secondary">1,000+ POs Scale Their Business</span>
+            </h2>
+            <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+              At CapEc, we help ecommerce sellers fund the inventory they need to grow. With real experience
+              funding purchase orders across Amazon and Shopify sellers, we've backed{" "}
+              <span className="font-bold text-foreground">1,000+ purchase orders</span> for{" "}
+              <span className="font-bold text-foreground">300+ active sellers</span>, with teams across{" "}
+              <span className="font-bold text-foreground">8 locations globally</span>.
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+              No gimmicks — just fast approvals, a flat fee agreed upfront, and inventory financing that keeps
+              your next order moving.
+            </p>
+            <Button asChild className="mt-7 h-14 px-8 text-base font-bold">
+              <a href="#top">{CTA_LABEL}</a>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
