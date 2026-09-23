@@ -5,9 +5,18 @@ import {
   ArrowLeft,
   ArrowRight,
   BadgeCheck,
+  BarChart3,
   CheckCircle2,
+  Layers,
   Loader2,
+  MoreHorizontal,
+  Rocket,
+  Sprout,
+  TrendingUp,
 } from "lucide-react";
+
+import amazonLogo from "@/assets/capec/amazon-logo.png";
+import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -46,6 +55,20 @@ const TOTAL_QUESTIONS = 7;
 
 const PLATFORM_OPTIONS = ["Amazon", "Shopify", "Both", "Other"];
 const REVENUE_OPTIONS = ["Under $100K", "$100K – $500K", "$500K – $1M", "$1M+"];
+
+const PLATFORM_ICONS: Record<string, React.ReactNode> = {
+  Amazon: <img src={amazonLogo} alt="" className="h-full w-auto object-contain" />,
+  Shopify: <img src={shopifyLogo} alt="" className="h-full w-auto object-contain" />,
+  Both: <Layers className="size-5 text-signal" strokeWidth={2} />,
+  Other: <MoreHorizontal className="size-5 text-signal" strokeWidth={2} />,
+};
+
+const REVENUE_ICONS: Record<string, React.ReactNode> = {
+  "Under $100K": <Sprout className="size-5 text-signal" strokeWidth={2} />,
+  "$100K – $500K": <TrendingUp className="size-5 text-signal" strokeWidth={2} />,
+  "$500K – $1M": <BarChart3 className="size-5 text-signal" strokeWidth={2} />,
+  "$1M+": <Rocket className="size-5 text-signal" strokeWidth={2} />,
+};
 const HISTORY_OPTIONS = ["Under 6 months", "6 – 12 months", "1 – 3 years", "3+ years"];
 const PO_OPTIONS = ["Under $25K", "$25K – $100K", "$100K – $500K", "$500K+"];
 const COUNTRY_OPTIONS = ["United States", "Canada", "United Kingdom", "European Union", "Other"];
@@ -257,6 +280,7 @@ function QuizPage() {
               options={PLATFORM_OPTIONS}
               value={answers.platform}
               onSelect={(v) => pick("platform", v, 2)}
+              icons={PLATFORM_ICONS}
             />
           )}
 
@@ -266,6 +290,7 @@ function QuizPage() {
               options={REVENUE_OPTIONS}
               value={answers.revenueRange}
               onSelect={(v) => pick("revenueRange", v, 3)}
+              icons={REVENUE_ICONS}
             />
           )}
 
@@ -615,29 +640,33 @@ function QuestionCards({
   options,
   value,
   onSelect,
+  icons,
 }: {
   title: string;
   options: string[];
   value: string;
   onSelect: (value: string) => void;
+  icons?: Record<string, React.ReactNode>;
 }) {
   return (
     <StepShell title={title}>
       <div className="grid gap-3 sm:grid-cols-2">
         {options.map((option) => {
           const selected = value === option;
+          const icon = icons?.[option];
           return (
             <button
               key={option}
               type="button"
               onClick={() => onSelect(option)}
               aria-pressed={selected}
-              className={`rounded-xl border px-5 py-5 text-left text-base font-semibold transition-all hover:border-signal hover:bg-signal-dim ${
+              className={`flex items-center gap-3 rounded-xl border px-5 py-5 text-left text-base font-semibold transition-all hover:border-signal hover:bg-signal-dim ${
                 selected
                   ? "border-signal bg-signal-dim text-headline-emphasis"
                   : "border-hairline bg-card text-foreground"
               }`}
             >
+              {icon && <span className="flex size-6 shrink-0 items-center justify-center">{icon}</span>}
               {option}
             </button>
           );
