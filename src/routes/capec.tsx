@@ -17,6 +17,7 @@ import {
   ChevronRight,
   CircleDollarSign,
   Clock3,
+  Facebook,
   FileCheck2,
   Handshake,
   HandHeart,
@@ -38,7 +39,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { LeadForm } from "@/components/capec/LeadForm";
 import { HeroQuizCard } from "@/components/capec/HeroQuizCard";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
@@ -221,7 +221,7 @@ function CapecPage() {
 
 function Wordmark({ inverse = false }: { inverse?: boolean }) {
   return (
-    <a href="#top" className="inline-flex items-center" aria-label="CapEc home">
+    <a href="/capec" className="inline-flex items-center" aria-label="CapEc home">
       <img
         src={LOGO_SRC}
         alt="CapEc"
@@ -231,13 +231,27 @@ function Wordmark({ inverse = false }: { inverse?: boolean }) {
   );
 }
 
-function Navbar() {
+export function Navbar() {
+  const navLinks = [
+    { label: "FAQ", href: "/capec#faq" },
+    { label: "Funding", href: "/capec#funding" },
+    { label: "Resources", href: "/capec#resources" },
+    { label: "About", href: "/capec#about" },
+  ];
+
   return (
     <header id="top" className="sticky top-0 z-50 border-b border-header-border bg-header text-header-foreground">
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-8">
         <Wordmark inverse />
+        <nav className="hidden items-center gap-6 text-sm font-semibold md:flex" aria-label="Primary">
+          {navLinks.map((link) => (
+            <a key={link.label} href={link.href} className="text-header-muted transition-colors hover:text-header-foreground">
+              {link.label}
+            </a>
+          ))}
+        </nav>
         <Button asChild className="h-auto max-w-[12rem] whitespace-normal px-3 py-2 text-center text-xs sm:max-w-none sm:px-5 sm:text-sm">
-          <a href="#offer-form">{CTA_LABEL}</a>
+          <a href="/capec#offer-form">{CTA_LABEL}</a>
         </Button>
       </div>
     </header>
@@ -455,9 +469,8 @@ function VideoTestimonials() {
   };
 
   return (
-    <section className="border-b border-border bg-background">
+    <section id="resources" className="scroll-mt-16 border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        {/* Placeholder section wording. The CapEc team will finalize this heading. */}
         <div className="relative">
           <SectionHeading
             title="Straight from CapEc"
@@ -566,7 +579,7 @@ function HowItWorks() {
 
 function FundingCycle() {
   return (
-    <section className="border-b border-border bg-header text-header-foreground">
+    <section id="funding" className="scroll-mt-16 border-b border-border bg-header text-header-foreground">
       <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="mx-auto text-center">
           <h2 className="text-3xl font-extrabold leading-tight text-header-foreground sm:text-5xl lg:text-[clamp(2rem,3.4vw,2.75rem)]">
@@ -713,7 +726,7 @@ function OurPartners() {
 
 function FounderTrust() {
   return (
-    <section className="border-b border-border bg-surface-subtle">
+    <section id="about" className="scroll-mt-16 border-b border-border bg-surface-subtle">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
         <SectionHeading
           title="Ecommerce funding with people on the other side."
@@ -782,43 +795,110 @@ function FinalCta() {
           <p className="mt-5 text-lg text-muted-foreground">Approval in 24 hours. Fund up to 2.5x your monthly sales.</p>
           <p className="mt-5 text-sm text-muted-foreground">Financing is subject to approval.</p>
         </div>
-        <div className="mx-auto mt-10 max-w-2xl rounded-md border border-border bg-card p-5 shadow-capec sm:p-8">
-          <LeadForm formId="capec-lead-form" />
+        <div className="mx-auto mt-10 max-w-2xl">
+          <HeroQuizCard />
         </div>
       </div>
     </section>
   );
 }
 
-function Footer() {
+export function Footer() {
+  const quickLinks = [
+    { label: "Funding", href: "/capec#funding" },
+    { label: "Why CapEc", href: "/capec#why-capec" },
+    { label: "Resources", href: "/capec#resources" },
+    { label: "About", href: "/capec#about" },
+    { label: "FAQ", href: "/capec#faq" },
+  ];
+
   return (
-    <footer className="border-t border-border bg-background">
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-12 sm:flex-row sm:items-start sm:justify-between sm:px-6 lg:px-8">
-        <div>
-          <Wordmark />
-          <p className="mt-4 max-w-sm text-xs leading-relaxed text-muted-foreground">CapEc is not a bank. Financing is subject to approval.</p>
+    <footer className="border-t border-header-border bg-header text-header-foreground">
+      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          <div className="lg:col-span-1">
+            <Wordmark inverse />
+            <p className="mt-4 max-w-xs text-sm text-header-muted">E-Commerce Capital Partners</p>
+            <p className="mt-4 max-w-xs text-xs leading-relaxed text-header-muted">
+              CapEc is not a bank. Financing is subject to approval.
+            </p>
+          </div>
+
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wide text-header-muted">Quick Links</p>
+            <ul className="mt-4 space-y-3 text-sm">
+              {quickLinks.map((link) => (
+                <li key={link.label}>
+                  <a href={link.href} className="text-header-foreground/90 transition-colors hover:text-signal">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wide text-header-muted">Contact Us</p>
+            <ul className="mt-4 space-y-3 text-sm text-header-foreground/90">
+              <li>3440 Hollywood Blvd, 415, Hollywood, FL 33021, USA</li>
+              <li>
+                <a href="tel:+17867445760" className="transition-colors hover:text-signal">
+                  +1 786-744-5760
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wide text-header-muted">Legal</p>
+            <ul className="mt-4 space-y-3 text-sm">
+              <li>
+                <a href="/privacy" className="text-header-foreground/90 transition-colors hover:text-signal">
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="/terms" className="text-header-foreground/90 transition-colors hover:text-signal">
+                  Terms of Service
+                </a>
+              </li>
+            </ul>
+            <div className="mt-5 flex gap-4 text-header-muted">
+              <a
+                href="https://www.linkedin.com/company/capecinc/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="CapEc on LinkedIn"
+                className="transition-colors hover:text-signal"
+              >
+                <Linkedin className="size-5" />
+              </a>
+              <a
+                href="https://www.instagram.com/capec.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="CapEc on Instagram"
+                className="transition-colors hover:text-signal"
+              >
+                <Instagram className="size-5" />
+              </a>
+              <a
+                href="https://www.facebook.com/capec.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="CapEc on Facebook"
+                className="transition-colors hover:text-signal"
+              >
+                <Facebook className="size-5" />
+              </a>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-6 sm:items-end">
-          <div className="flex gap-5 text-xs text-muted-foreground">
-            <a href="#" className="hover:text-foreground">Privacy Policy</a>
-            <a href="#" className="hover:text-foreground">Terms</a>
-          </div>
-          <div className="flex gap-4 text-muted-foreground">
-            <a href="#" aria-label="CapEc on LinkedIn" className="hover:text-signal"><Linkedin className="size-4" /></a>
-            <a href="#" aria-label="CapEc on Instagram" className="hover:text-signal"><Instagram className="size-4" /></a>
-            <a href="#" aria-label="CapEc on X" className="hover:text-signal"><XIcon className="size-4" /></a>
-          </div>
-          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} CapEc | capec.io</p>
+
+        <div className="mt-12 border-t border-header-border pt-6 text-xs text-header-muted">
+          © {new Date().getFullYear()} CapEc | capec.io
         </div>
       </div>
     </footer>
-  );
-}
-
-function XIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M18.9 2H22l-7.1 8.1L23 22h-6.8l-4.7-6.2L5.9 22H2.8l7.5-8.6L1.6 2h6.9l4.4 5.8L18.9 2Zm-1.1 18h1.7L7.3 3.8H5.5L17.8 20Z" />
-    </svg>
   );
 }
