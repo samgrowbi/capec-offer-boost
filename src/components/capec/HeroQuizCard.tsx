@@ -22,6 +22,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { appendLeadToSheet } from "@/lib/leads-sheet.functions";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 
@@ -164,7 +165,7 @@ export function HeroQuizCard() {
       return;
     }
     setStatus("submitting");
-    const { error } = await supabase.from("leads").insert({
+    const leadRow = {
       brand_name: answers.businessName.trim(),
       business_country: answers.businessCountry,
       full_name: answers.fullName.trim(),
@@ -178,7 +179,9 @@ export function HeroQuizCard() {
       lead_stage: "quiz-complete",
       source_slug: "capec",
       offer: "first-deal-discount",
-    });
+    };
+    const { error } = await supabase.from("leads").insert(leadRow);
+    if (!error) void appendLeadToSheet({ data: leadRow }).catch(() => {});
     if (error) {
       setStatus("error");
       return;
