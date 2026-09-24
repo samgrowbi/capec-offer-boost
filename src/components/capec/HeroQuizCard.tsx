@@ -366,7 +366,7 @@ export function HeroQuizCard() {
           variant="ghost"
           onClick={back}
           disabled={step === 1}
-          className="gap-1.5 text-sm font-semibold disabled:opacity-40"
+          className="gap-1.5 text-sm font-semibold text-foreground disabled:opacity-40"
         >
           <ArrowLeft className="size-4" />
           Back

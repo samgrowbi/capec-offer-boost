@@ -841,11 +841,6 @@ export function Footer() {
             <p className="text-xs font-bold uppercase tracking-wide text-header-muted">Contact Us</p>
             <ul className="mt-4 space-y-3 text-sm text-header-foreground/90">
               <li>3440 Hollywood Blvd, 415, Hollywood, FL 33021, USA</li>
-              <li>
-                <a href="tel:+17867445760" className="transition-colors hover:text-signal">
-                  +1 786-744-5760
-                </a>
-              </li>
             </ul>
           </div>
 
