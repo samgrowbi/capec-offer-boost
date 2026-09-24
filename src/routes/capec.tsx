@@ -615,8 +615,15 @@ function FundingCycle() {
             </li>
           ))}
         </ol>
+
+        <div className="mt-12 flex justify-center">
+          <Button asChild className="h-14 px-8 text-base font-bold">
+            <a href="#offer-form">{CTA_LABEL}</a>
+          </Button>
+        </div>
       </div>
     </section>
+
   );
 }
 
@@ -685,12 +692,18 @@ function FundingRequirements() {
             </article>
           ))}
         </div>
+        <div className="mt-12 flex justify-center">
+          <Button asChild className="h-14 px-8 text-base font-bold">
+            <a href="#offer-form">{CTA_LABEL}</a>
+          </Button>
+        </div>
       </div>
     </section>
   );
 }
 
 function OurPartners() {
+
   return (
     <section className="overflow-hidden border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 pt-16 text-center sm:px-6 sm:pt-24 lg:px-8">
