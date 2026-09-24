@@ -268,15 +268,12 @@ function Hero() {
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-header-muted sm:text-sm">
           No Equity &nbsp;·&nbsp; No Personal Guarantee &nbsp;·&nbsp; 24-Hour Approval
         </p>
-        <h1 className="mx-auto mt-5 max-w-3xl text-4xl font-extrabold leading-[1.08] sm:text-6xl">
+        <h1 className="mx-auto mt-5 max-w-5xl text-4xl font-extrabold leading-[1.12] sm:text-5xl lg:text-6xl">
           Fund Your Next Purchase Order
           <br />
           With <span className="text-signal">{discountPercent}% Off</span> Your First Deal
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-base text-header-muted sm:text-lg">
-          <span className="font-bold text-header-foreground">Approval in 24 hours.</span> Fund up to 2.5x
-          your monthly sales. Financing is subject to approval.
-        </p>
+
 
         <div className="mt-10 grid gap-7 text-left lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] lg:items-center lg:gap-10">
           <HeroQuizCard />
