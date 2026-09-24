@@ -259,9 +259,6 @@ export function Navbar() {
 }
 
 function Hero() {
-  const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
-  const heroVideoId = CAPEC_VIDEOS[0]?.youtubeId ?? "";
-
   return (
     <section className="capec-hero-grid relative overflow-hidden bg-header text-header-foreground">
       <div className="relative mx-auto max-w-5xl px-5 py-14 text-center sm:px-6 sm:py-20 lg:px-8">
@@ -279,35 +276,12 @@ function Hero() {
           <HeroQuizCard />
 
           <div className="relative">
-            <div className="aspect-video overflow-hidden rounded-md border border-header-border bg-black/20">
-              {heroVideoPlaying ? (
-                <iframe
-                  src={`https://www.youtube.com/embed/${heroVideoId}?autoplay=1`}
-                  title="CapEc"
-                  className="size-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setHeroVideoPlaying(true)}
-                  className="group relative size-full"
-                  aria-label="Play video"
-                >
-                  <img
-                    src={`https://img.youtube.com/vi/${heroVideoId}/hqdefault.jpg`}
-                    alt=""
-                    className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                  />
-                  <span className="absolute inset-0 bg-header/25 transition-colors group-hover:bg-header/35" aria-hidden="true" />
-                  <span className="absolute inset-0 grid place-items-center">
-                    <span className="grid size-16 place-items-center rounded-full bg-signal text-primary-foreground shadow-capec transition-transform group-hover:scale-105">
-                      <Play className="ml-1 size-7" fill="currentColor" aria-hidden="true" />
-                    </span>
-                  </span>
-                </button>
-              )}
+            <div className="aspect-[4/5] overflow-hidden rounded-md border border-header-border bg-black/20">
+              <img
+                src={heroTeamPhoto.url}
+                alt="The CapEc team at their booth"
+                className="size-full object-cover"
+              />
             </div>
             <div className="mx-auto mt-4 flex w-fit items-center gap-2 rounded-full border border-header-border bg-card px-4 py-2 text-foreground shadow-capec sm:absolute sm:-bottom-5 sm:left-5 sm:mt-0">
               <BadgeCheck className="size-5 shrink-0 text-signal" strokeWidth={2.2} aria-hidden="true" />
