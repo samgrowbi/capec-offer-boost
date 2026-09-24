@@ -381,7 +381,7 @@ function QuizPage() {
           )}
 
           {screen === "question" && step === 7 && (
-            <StepShell title="Almost done — where should we send your offer?">
+            <StepShell title="Almost done, where should we send your offer?">
               <div className="space-y-4">
                 <Field label="Full name" htmlFor="quiz-name" error={errors.fullName}>
                   <input
@@ -426,7 +426,7 @@ function QuizPage() {
                     id="quiz-notes"
                     rows={3}
                     className={`${fieldClass} resize-none`}
-                    placeholder="Optional — anything that would help our team prepare your offer"
+                    placeholder="Optional, anything that would help our team prepare your offer"
                     value={answers.additionalNotes}
                     onChange={(e) => set("additionalNotes", e.target.value)}
                   />
@@ -459,12 +459,12 @@ function QuizPage() {
 
           {screen === "done" && (
             <Confirmation
-              title={`Thanks, ${answers.fullName.trim().split(" ")[0] || "there"} — we've got your details.`}
+              title={`Thanks, ${answers.fullName.trim().split(" ")[0] || "there"}, we've got your details.`}
               body="A member of our team will review your eligibility and be in touch within one business day with your offer."
               nextSteps={[
-                "Our team reviews your details and confirms eligibility — usually within one business day.",
+                "Our team reviews your details and confirms eligibility, usually within one business day.",
                 "We call or email you with your funding offer, including your first-deal fee.",
-                "If you accept, we move to funding your purchase order — no obligation to accept.",
+                "If you accept, we move to funding your purchase order, no obligation to accept.",
               ]}
             />
           )}
@@ -578,7 +578,7 @@ function IntroHero({ onStart }: { onStart: () => void }) {
           </li>
           <li className="flex items-start gap-2">
             <BadgeCheck className="mt-0.5 size-4 shrink-0 text-signal" strokeWidth={2.2} />
-            Existing ASINs/SKUs — private label preferred
+            Existing ASINs/SKUs, private label preferred
           </li>
           <li className="flex items-start gap-2">
             <BadgeCheck className="mt-0.5 size-4 shrink-0 text-signal" strokeWidth={2.2} />
