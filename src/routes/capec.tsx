@@ -268,15 +268,12 @@ function Hero() {
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-header-muted sm:text-sm">
           No Equity &nbsp;·&nbsp; No Personal Guarantee &nbsp;·&nbsp; 24-Hour Approval
         </p>
-        <h1 className="mx-auto mt-5 max-w-3xl text-4xl font-extrabold leading-[1.08] sm:text-6xl">
+        <h1 className="mx-auto mt-5 max-w-5xl text-4xl font-extrabold leading-[1.12] sm:text-5xl lg:text-6xl">
           Fund Your Next Purchase Order
           <br />
           With <span className="text-signal">{discountPercent}% Off</span> Your First Deal
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-base text-header-muted sm:text-lg">
-          <span className="font-bold text-header-foreground">Approval in 24 hours.</span> Fund up to 2.5x
-          your monthly sales. Financing is subject to approval.
-        </p>
+
 
         <div className="mt-10 grid gap-7 text-left lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] lg:items-center lg:gap-10">
           <HeroQuizCard />
@@ -618,8 +615,15 @@ function FundingCycle() {
             </li>
           ))}
         </ol>
+
+        <div className="mt-12 flex justify-center">
+          <Button asChild className="h-14 px-8 text-base font-bold">
+            <a href="#offer-form">{CTA_LABEL}</a>
+          </Button>
+        </div>
       </div>
     </section>
+
   );
 }
 
@@ -688,12 +692,18 @@ function FundingRequirements() {
             </article>
           ))}
         </div>
+        <div className="mt-12 flex justify-center">
+          <Button asChild className="h-14 px-8 text-base font-bold">
+            <a href="#offer-form">{CTA_LABEL}</a>
+          </Button>
+        </div>
       </div>
     </section>
   );
 }
 
 function OurPartners() {
+
   return (
     <section className="overflow-hidden border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 pt-16 text-center sm:px-6 sm:pt-24 lg:px-8">
