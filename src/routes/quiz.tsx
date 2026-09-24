@@ -20,6 +20,7 @@ import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { appendLeadToSheet } from "@/lib/leads-sheet.functions";
 import {
   QuizFaq,
   QuizFounderTrust,
@@ -216,7 +217,7 @@ function QuizPage() {
   async function submitLead() {
     if (!validateStep(7)) return;
     setStatus("submitting");
-    const { error } = await supabase.from("leads").insert({
+    const leadRow = {
       brand_name: answers.businessName.trim(),
       business_country: answers.businessCountry,
       full_name: answers.fullName.trim(),
@@ -234,7 +235,9 @@ function QuizPage() {
       utm_source: utm.utm_source || null,
       utm_medium: utm.utm_medium || null,
       utm_campaign: utm.utm_campaign || null,
-    });
+    };
+    const { error } = await supabase.from("leads").insert(leadRow);
+    if (!error) void appendLeadToSheet({ data: leadRow }).catch(() => {});
     if (error) {
       setStatus("error");
       return;
