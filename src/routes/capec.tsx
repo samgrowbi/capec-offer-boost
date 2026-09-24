@@ -850,6 +850,22 @@ export function Footer() {
           <div>
             <p className="text-xs font-bold uppercase tracking-wide text-header-muted">Contact Us</p>
             <ul className="mt-4 space-y-3 text-sm text-header-foreground/90">
+              <li>
+                <a
+                  href="tel:+17867445760"
+                  className="transition-colors hover:text-signal"
+                >
+                  +1 786-744-5760
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:sales@capec.io"
+                  className="transition-colors hover:text-signal"
+                >
+                  sales@capec.io
+                </a>
+              </li>
               <li>3440 Hollywood Blvd, 415, Hollywood, FL 33021, USA</li>
             </ul>
           </div>
