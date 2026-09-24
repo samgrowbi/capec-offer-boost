@@ -42,6 +42,7 @@ import {
 import { HeroQuizCard } from "@/components/capec/HeroQuizCard";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
+import heroTeamPhoto from "@/assets/capec-team.png.asset.json";
 import fundingCycleArtwork from "@/assets/capec/funding-cycle-artwork.png";
 import danielPhoto from "@/assets/capec/daniel-lilienthal.png.asset.json";
 import nadavPhoto from "@/assets/capec/nadav-gorlicki.png.asset.json";
