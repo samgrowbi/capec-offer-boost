@@ -42,8 +42,7 @@ import { LeadForm } from "@/components/capec/LeadForm";
 import { HeroQuizCard } from "@/components/capec/HeroQuizCard";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import capecLogo from "@/assets/capec/capec-logo.png.asset.json";
-import capecMark from "@/assets/capec/capec-mark.png.asset.json";
-import fundingCycleFounder from "@/assets/capec/funding-cycle-founder.jpg";
+import fundingCycleArtwork from "@/assets/capec/funding-cycle-artwork.png";
 import danielPhoto from "@/assets/capec/daniel-lilienthal.png.asset.json";
 import nadavPhoto from "@/assets/capec/nadav-gorlicki.png.asset.json";
 import { PARTNERS } from "@/assets/capec/partners";
@@ -566,100 +565,27 @@ function HowItWorks() {
 }
 
 function FundingCycle() {
-  const nodeClass =
-    "absolute grid size-[47.6px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-signal text-header shadow-capec sm:size-[54.4px]";
-  const iconClass = "size-[20.4px] sm:size-[23.8px]";
-  const labelClass = "text-xs font-bold text-headline-emphasis sm:text-sm";
-
   return (
-    <section className="border-b border-border bg-surface-subtle">
+    <section className="border-b border-border bg-header text-header-foreground">
       <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <SectionHeading
-          title="The CapEc Funding Cycle"
-          copy="One purchase order, five simple stages — from placing the order to repayment."
-        />
-
-        {/* Circular funding-cycle diagram matching the client-provided artwork: blue ring with clockwise
-            arrows, five stage nodes, the seller photo in the middle, and the $100,000 / 45 Days / 2-6 Months
-            callouts around it. Desktop/tablet only; mobile gets the stacked list below.
-            Sized at 85% of the original artwork-matched dimensions (container, nodes, icons, photo, and
-            stat numbers all scaled down 15% together so proportions and alignment stay consistent). */}
-        <div className="relative mx-auto mt-12 hidden aspect-[4/3] w-full max-w-[54.4rem] sm:block">
-          <svg viewBox="0 0 400 300" className="absolute inset-0 size-full" aria-hidden="true">
-            <circle cx="160" cy="150" r="118" fill="none" stroke="#188bf6" strokeWidth="3" />
-            <path d="M147,25 L164,33.5 L147,42 Z" fill="#188bf6" />
-            <path d="M153,253.5 L136,262 L153,270.5 Z" fill="#188bf6" />
-          </svg>
-
-          {/* Center: seller photo, as in the client artwork */}
-          <div className="absolute left-[40%] top-1/2 size-[136px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full shadow-capec sm:size-[190.4px] lg:size-[217.6px]">
-            <img
-              src={fundingCycleFounder}
-              alt="Ecommerce seller reviewing a purchase order on a tablet"
-              className="size-full object-cover"
-            />
-          </div>
-
-          {/* Stage nodes, clockwise from top */}
-          <div className={nodeClass} style={{ top: "11.7%", left: "43.5%" }}>
-            <Factory className={iconClass} aria-hidden="true" />
-          </div>
-          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "11.7%", left: "49.5%" }}>
-            Place Order
-          </p>
-
-          {/* Invoice node uses the CapEc S mark on white, as in the artwork */}
-          <div
-            className="absolute grid size-[40.8px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-border bg-card p-2 shadow-capec sm:size-[54.4px] sm:p-2.5"
-            style={{ top: "24.7%", left: "61.3%" }}
-          >
-            <img src={capecMark.url} alt="" className="size-full object-contain" />
-          </div>
-          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "24.7%", left: "66.5%" }}>
-            Invoice Due <span className="font-normal text-muted-foreground">(Paid by CapEc)</span>
-          </p>
-          <p className="absolute text-xl font-extrabold text-signal sm:text-[40.8px]" style={{ top: "29.5%", left: "66.5%" }}>
-            $100,000
-          </p>
-
-          <div className={nodeClass} style={{ top: "50%", left: "68.3%" }}>
-            <Ship className={iconClass} aria-hidden="true" />
-          </div>
-          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "50%", left: "73.5%" }}>
-            Shipping
-          </p>
-
-          <div className={nodeClass} style={{ top: "74%", left: "62%" }}>
-            <Handshake className={iconClass} aria-hidden="true" />
-          </div>
-          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "74%", left: "67%" }}>
-            Begin Selling
-          </p>
-
-          <div className={nodeClass} style={{ top: "86.3%", left: "44.5%" }}>
-            <HandHeart className={iconClass} aria-hidden="true" />
-          </div>
-          <p className={`${labelClass} absolute -translate-y-1/2`} style={{ top: "92%", left: "50%" }}>
-            Repayment Begins <span className="font-normal text-muted-foreground">(Monthly)</span>
-          </p>
-
-          {/* Supporting callouts, as in the artwork */}
-          <p
-            className="absolute -left-1 top-[47%] -translate-y-1/2 text-base font-medium leading-snug text-muted-foreground sm:text-[17px]"
-            style={{ left: "-1%" }}
-          >
-            2&ndash;6
-            <br />
-            Months
-          </p>
-          <p className="absolute -right-1 top-[59%] text-right text-[25.5px] font-extrabold leading-[0.95] text-signal sm:text-[40.8px]">
-            45
-            <br />
-            Days
+        <div className="mx-auto text-center">
+          <h2 className="text-3xl font-extrabold leading-tight text-header-foreground sm:text-5xl lg:text-[clamp(2rem,3.4vw,2.75rem)]">
+            The CapEc Funding Cycle
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-header-muted sm:text-lg">
+            One purchase order, five simple stages — from placing the order to repayment.
           </p>
         </div>
 
-        {/* Mobile fallback: stacked list */}
+        {/* Client-provided artwork, used as-is rather than recreated in HTML/SVG. The PNG has a
+            transparent background so it sits directly on this section's dark background. */}
+        <img
+          src={fundingCycleArtwork}
+          alt="The CapEc Funding Cycle: Place Order, Invoice Due (Paid by CapEc, e.g. $100,000), Shipping, Begin Selling, then Repayment Begins monthly after a 45-day grace period — typical sell-through is 2–6 months."
+          className="mx-auto mt-12 hidden w-full max-w-4xl sm:block"
+        />
+
+        {/* Mobile fallback: stacked list (the artwork's fine text doesn't hold up at small widths) */}
         <ol className="mt-10 space-y-4 sm:hidden">
           {[
             { icon: Factory, title: "Place Order", body: "You place a purchase order with your supplier." },
@@ -668,13 +594,13 @@ function FundingCycle() {
             { icon: Handshake, title: "Begin Selling", body: "You receive stock and start selling through it." },
             { icon: HandHeart, title: "Repayment Begins (Monthly)", body: "Repayments start after a 45-day grace period." },
           ].map(({ icon: Icon, title, body }, i) => (
-            <li key={title} className="flex gap-4 rounded-md border border-border bg-card p-4">
+            <li key={title} className="flex gap-4 rounded-md border border-header-border bg-header-border/10 p-4">
               <div className="grid size-10 shrink-0 place-items-center rounded-full bg-signal text-header">
                 <Icon className="size-5" aria-hidden="true" />
               </div>
               <div>
-                <p className="text-sm font-bold text-headline-emphasis">{i + 1}. {title}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{body}</p>
+                <p className="text-sm font-bold text-header-foreground">{i + 1}. {title}</p>
+                <p className="mt-1 text-sm text-header-muted">{body}</p>
               </div>
             </li>
           ))}
