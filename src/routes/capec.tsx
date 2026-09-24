@@ -392,7 +392,7 @@ function PerformanceOverview() {
               <span className="font-bold text-foreground">8 locations globally</span>.
             </p>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              No gimmicks — just fast approvals, a flat fee agreed upfront, and inventory financing that keeps
+              No gimmicks, just fast approvals, a flat fee agreed upfront, and inventory financing that keeps
               your next order moving.
             </p>
             <Button asChild className="mt-7 h-14 px-8 text-base font-bold">
@@ -558,7 +558,7 @@ function FundingCycle() {
             The CapEc Funding Cycle
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-header-muted sm:text-lg">
-            One purchase order, five simple stages — from placing the order to repayment.
+            One purchase order, five simple stages, from placing the order to repayment.
           </p>
         </div>
 
@@ -566,7 +566,7 @@ function FundingCycle() {
             transparent background so it sits directly on this section's dark background. */}
         <img
           src={fundingCycleArtwork}
-          alt="The CapEc Funding Cycle: Place Order, Invoice Due (Paid by CapEc, e.g. $100,000), Shipping, Begin Selling, then Repayment Begins monthly after a 45-day grace period — typical sell-through is 2–6 months."
+          alt="The CapEc Funding Cycle: Place Order, Invoice Due (Paid by CapEc, e.g. $100,000), Shipping, Begin Selling, then Repayment Begins monthly after a 45-day grace period, typical sell-through is 2–6 months."
           className="mx-auto mt-12 hidden w-full max-w-4xl sm:block"
         />
 
@@ -574,7 +574,7 @@ function FundingCycle() {
         <ol className="mt-10 space-y-4 sm:hidden">
           {[
             { icon: Factory, title: "Place Order", body: "You place a purchase order with your supplier." },
-            { icon: CircleDollarSign, title: "Invoice Due (Paid by CapEc)", body: "CapEc pays the invoice on your behalf — e.g. $100,000." },
+            { icon: CircleDollarSign, title: "Invoice Due (Paid by CapEc)", body: "CapEc pays the invoice on your behalf, e.g. $100,000." },
             { icon: Ship, title: "Shipping", body: "Your inventory ships to you or your fulfillment center." },
             { icon: Handshake, title: "Begin Selling", body: "You receive stock and start selling through it." },
             { icon: HandHeart, title: "Repayment Begins (Monthly)", body: "Repayments start after a 45-day grace period." },

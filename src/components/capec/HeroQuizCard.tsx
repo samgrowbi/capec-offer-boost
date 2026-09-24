@@ -2,7 +2,7 @@
 // the /capec hero (matching the step-counter + progress-bar + Back/Next
 // structure of growbi.co/medspa's embedded quiz widget). Question set and
 // copy are duplicated from src/routes/quiz.tsx, not imported, since that's
-// a separate route with its own full-page flow — keeping this
+// a separate route with its own full-page flow, keeping this
 // self-contained avoids coupling the two.
 import { useState } from "react";
 import { z } from "zod";
@@ -198,7 +198,7 @@ export function HeroQuizCard() {
       <div className="rounded-md border border-border bg-card p-6 text-center shadow-capec sm:p-8">
         <CheckCircle2 className="mx-auto size-10 text-signal" strokeWidth={1.5} />
         <p className="mt-4 text-lg font-bold text-headline-emphasis">
-          Thanks, {answers.fullName.trim().split(" ")[0] || "there"} — we've got your details.
+          Thanks, {answers.fullName.trim().split(" ")[0] || "there"}, we've got your details.
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
           A member of our team will review your eligibility and be in touch within one business day.
@@ -321,7 +321,7 @@ export function HeroQuizCard() {
         )}
         {step === 7 && (
           <div>
-            <p className="text-base font-bold text-headline-emphasis">Almost done — where should we send your offer?</p>
+            <p className="text-base font-bold text-headline-emphasis">Almost done, where should we send your offer?</p>
             <div className="mt-4 space-y-3">
               <div>
                 <input
@@ -356,7 +356,7 @@ export function HeroQuizCard() {
                 {errors.phone && <p className="mt-1.5 text-xs text-destructive">{errors.phone}</p>}
               </div>
               {status === "error" && (
-                <p className="text-xs text-destructive">Something went wrong — please try again.</p>
+                <p className="text-xs text-destructive">Something went wrong, please try again.</p>
               )}
             </div>
           </div>
