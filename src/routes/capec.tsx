@@ -382,7 +382,7 @@ function PerformanceOverview() {
           <div>
             <p className="text-xs font-bold uppercase tracking-wide text-signal">Your Partner In Ecommerce Growth</p>
             <h2 className="mt-3 text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-4xl lg:text-[clamp(1.9rem,3vw,2.5rem)]">
-              How We Helped <span className="text-headline-secondary">1,000+ POs Scale Their Business</span>
+              How We Helped <span className="text-headline-secondary">1,000+ Brands Scale Their Business</span>
             </h2>
             <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
               At CapEc, we help ecommerce sellers fund the inventory they need to grow. With real experience
