@@ -276,7 +276,7 @@ function Hero() {
         <div className="mt-10 grid gap-7 text-left lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] lg:items-stretch lg:gap-10">
           <HeroQuizCard />
 
-          <div className="relative flex">
+          <div className="relative lg:flex">
             <div className="aspect-[4/5] w-full overflow-hidden rounded-md border border-header-border bg-black/20 lg:aspect-auto lg:h-full">
               <img
                 src={heroTeamPhoto.url}
