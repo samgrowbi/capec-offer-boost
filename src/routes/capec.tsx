@@ -662,12 +662,12 @@ function FundingRequirements() {
         </div>
         <div className="mt-12 grid overflow-hidden rounded-md bg-signal text-primary-foreground sm:grid-cols-2 lg:grid-cols-5">
           {REQUIREMENTS.map(({ icon: Icon, title, body }) => (
-            <article key={title} className="flex items-start gap-4 border-b border-primary-foreground/20 p-5 last:border-b-0 sm:block sm:border-r sm:p-6 lg:border-b-0">
-              {/* Mobile: icon on the left, title + text on the right (saves vertical space). sm+: stacked as before. */}
+            <article key={title} className="flex items-start gap-4 border-b border-primary-foreground/20 p-5 last:border-b-0 sm:border-r sm:p-6 lg:border-b-0">
+              {/* Icon on the left, title + text on the right (saves vertical space). */}
               <Icon className="mt-0.5 size-7 shrink-0" aria-hidden="true" />
               <div>
-                <h3 className="font-bold sm:mt-5">{title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-primary-foreground/85 sm:mt-2">{body}</p>
+                <h3 className="font-bold">{title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-primary-foreground/85">{body}</p>
               </div>
             </article>
           ))}
