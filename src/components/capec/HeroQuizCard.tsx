@@ -225,7 +225,7 @@ export function HeroQuizCard() {
       <div className="mt-5 min-h-[220px]">
         {step === 1 && (
           <OptionStep
-            title="What kind of business are you running for?"
+            title="What marketplace are you selling on?"
             help="Choose one."
             options={PLATFORM_OPTIONS}
             value={answers.platform}
