@@ -242,7 +242,7 @@ export function Navbar() {
 
   return (
     <header id="top" className="sticky top-0 z-50 border-b border-header-border bg-header text-header-foreground">
-      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-3 px-4 py-2 sm:gap-4 sm:px-6 lg:px-8">
         <Wordmark inverse />
         <nav className="hidden items-center gap-6 text-sm font-semibold md:flex" aria-label="Primary">
           {navLinks.map((link) => (
@@ -251,7 +251,7 @@ export function Navbar() {
             </a>
           ))}
         </nav>
-        <Button asChild className="h-auto max-w-[12rem] whitespace-normal px-3 py-2 text-center text-xs sm:max-w-none sm:px-5 sm:text-sm">
+        <Button asChild className="h-auto shrink-0 whitespace-nowrap px-3 py-2 text-center text-xs max-[359px]:px-2 max-[359px]:text-[10px] sm:px-5 sm:text-sm">
           <a href="/capec#offer-form">{CTA_LABEL}</a>
         </Button>
       </div>
@@ -662,10 +662,13 @@ function FundingRequirements() {
         </div>
         <div className="mt-12 grid overflow-hidden rounded-md bg-signal text-primary-foreground sm:grid-cols-2 lg:grid-cols-5">
           {REQUIREMENTS.map(({ icon: Icon, title, body }) => (
-            <article key={title} className="border-b border-primary-foreground/20 p-6 last:border-b-0 sm:border-r lg:border-b-0">
-              <Icon className="size-7" aria-hidden="true" />
-              <h3 className="mt-5 font-bold">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-primary-foreground/85">{body}</p>
+            <article key={title} className="flex items-start gap-4 border-b border-primary-foreground/20 p-5 last:border-b-0 sm:block sm:border-r sm:p-6 lg:border-b-0">
+              {/* Mobile: icon on the left, title + text on the right (saves vertical space). sm+: stacked as before. */}
+              <Icon className="mt-0.5 size-7 shrink-0" aria-hidden="true" />
+              <div>
+                <h3 className="font-bold sm:mt-5">{title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-primary-foreground/85 sm:mt-2">{body}</p>
+              </div>
             </article>
           ))}
         </div>
