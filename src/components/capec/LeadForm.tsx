@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { trackMetaLead } from "@/lib/meta-pixel";
 import { z } from "zod";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 
