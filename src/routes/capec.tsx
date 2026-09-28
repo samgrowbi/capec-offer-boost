@@ -146,7 +146,7 @@ const FAQS = [
   },
   {
     q: "How much can I get?",
-    a: "Up to $1M on your first round. [PLACEHOLDER: exact mechanic for how the limit grows after that - confirm with client]",
+    a: "Up to $1M on your first round.",
   },
   {
     q: "What's the rate?",
