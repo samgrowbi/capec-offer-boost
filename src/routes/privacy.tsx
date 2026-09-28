@@ -70,6 +70,19 @@ function PrivacyPage() {
             affiliates for marketing or promotional purposes, under any circumstance.
           </p>
 
+          <h2 className="mt-10 text-xl font-bold text-headline-emphasis">Advertising and Analytics</h2>
+          <p className="mt-3 leading-relaxed text-muted-foreground">
+            We use Meta's advertising pixel on this website to measure how our ads perform. The pixel
+            tells Meta Platforms, Inc. that you visited our pages, and tells us when a form on our
+            website is submitted, so we can measure and improve our advertising. This involves sharing
+            information such as the pages you visit and the fact that you submitted a form with Meta
+            Platforms, Inc., which uses it for advertising measurement and, where applicable, to improve
+            ad delivery. The pixel is not active for visitors in regions that require consent before
+            advertising cookies are used. You can opt out of Meta's use of this data through your Meta
+            ad preferences at facebook.com/settings?tab=ads, and through any "Do Not Track" or ad
+            opt-out controls your browser offers.
+          </p>
+
           <h2 className="mt-10 text-xl font-bold text-headline-emphasis">Credit Card Information</h2>
           <p className="mt-3 leading-relaxed text-muted-foreground">
             To ensure your safety online, we maintain strict PCI compliance and do not store credit card

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { trackMetaLead } from "@/lib/meta-pixel";
 import { z } from "zod";
 import {
   ArrowLeft,
@@ -242,6 +243,7 @@ function QuizPage() {
       setStatus("error");
       return;
     }
+    void trackMetaLead();
     setStatus("idle");
     setAnimKey((k) => k + 1);
     setScreen("done");
