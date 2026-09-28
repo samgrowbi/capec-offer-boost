@@ -242,6 +242,7 @@ function QuizPage() {
       setStatus("error");
       return;
     }
+    void trackMetaLead();
     setStatus("idle");
     setAnimKey((k) => k + 1);
     setScreen("done");

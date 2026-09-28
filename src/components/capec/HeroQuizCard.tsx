@@ -186,6 +186,7 @@ export function HeroQuizCard() {
       setStatus("error");
       return;
     }
+    void trackMetaLead();
     setStatus("done");
   };
 

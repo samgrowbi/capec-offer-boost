@@ -114,6 +114,7 @@ export function LeadForm({ formId }: { formId: string }) {
       setStatus("error");
       return;
     }
+    void trackMetaLead();
     setStatus("success");
   }
 
