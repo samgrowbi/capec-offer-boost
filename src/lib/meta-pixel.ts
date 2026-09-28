@@ -12,9 +12,17 @@ const CONSENT_REGIONS = new Set([
   "SI", "ES", "SE", "IS", "LI", "NO", "GB", "CH",
 ]);
 
+type Fbq = ((...args: unknown[]) => void) & {
+  callMethod?: (...args: unknown[]) => void;
+  queue?: unknown[];
+  loaded?: boolean;
+  version?: string;
+  push?: unknown;
+};
+
 declare global {
   interface Window {
-    fbq?: (...args: unknown[]) => void;
+    fbq?: Fbq;
     _fbq?: unknown;
   }
 }
@@ -30,7 +38,7 @@ async function readRegion(): Promise<string | null> {
     clearTimeout(timer);
     if (!res.ok) return null;
     const match = /(?:^|\n)loc=([A-Za-z0-9]{2,})/.exec(await res.text());
-    return match ? match[1].toUpperCase() : null;
+    return match?.[1]?.toUpperCase() ?? null;
   } catch {
     return null;
   }
@@ -46,13 +54,13 @@ async function start(): Promise<boolean> {
 
 function loadPixel(): void {
   if (typeof window === "undefined" || window.fbq) return;
-  const n: ((...args: unknown[]) => void) & { queue?: unknown[]; loaded?: boolean; version?: string; push?: unknown } = function (...args: unknown[]) {
+  const n = function (this: Fbq, ...args: unknown[]) {
     if (n.callMethod) {
       n.callMethod.apply(n, args);
     } else {
-      (n.queue ??= []).push(args);
+      n.queue!.push(args);
     }
-  } as never;
+  } as Fbq;
   n.push = n;
   n.loaded = true;
   n.version = "2.0";
