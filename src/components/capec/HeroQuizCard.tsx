@@ -5,6 +5,7 @@
 // a separate route with its own full-page flow, keeping this
 // self-contained avoids coupling the two.
 import { useState } from "react";
+import { trackMetaLead } from "@/lib/meta-pixel";
 import { z } from "zod";
 import {
   ArrowLeft,
