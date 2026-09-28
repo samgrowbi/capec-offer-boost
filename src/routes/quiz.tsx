@@ -22,6 +22,7 @@ import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { appendLeadToSheet } from "@/lib/leads-sheet.functions";
+import { NOT_QUALIFIED_STAGE, QUALIFIED_STAGE, evaluateQualification } from "@/lib/lead-qualification";
 import {
   QuizFaq,
   QuizFounderTrust,
@@ -218,6 +219,7 @@ function QuizPage() {
   async function submitLead() {
     if (!validateStep(7)) return;
     setStatus("submitting");
+    const { qualified, reasons } = evaluateQualification(answers);
     const leadRow = {
       brand_name: answers.businessName.trim(),
       business_country: answers.businessCountry,
@@ -230,7 +232,7 @@ function QuizPage() {
       email: answers.email.trim(),
       phone: answers.phone.trim(),
       additional_notes: answers.additionalNotes.trim() || null,
-      lead_stage: "quiz-complete",
+      lead_stage: qualified ? QUALIFIED_STAGE : NOT_QUALIFIED_STAGE,
       source_slug: "capec-quiz",
       offer: "first-deal-discount",
       utm_source: utm.utm_source || null,
@@ -238,12 +240,18 @@ function QuizPage() {
       utm_campaign: utm.utm_campaign || null,
     };
     const { error } = await supabase.from("leads").insert(leadRow);
-    if (!error) void appendLeadToSheet({ data: leadRow }).catch(() => {});
+    if (!error) {
+      void appendLeadToSheet({
+        data: { ...leadRow, qualification_notes: qualified ? "Qualified" : reasons.join("; ") },
+      }).catch(() => {});
+    }
     if (error) {
       setStatus("error");
       return;
     }
-    void trackMetaLead();
+    // Only qualified leads count as a Meta conversion, so ad optimisation learns from good leads.
+    // Non-qualified leads are still saved (database + NonQualified sheet tab), just not reported.
+    if (qualified) void trackMetaLead();
     setStatus("idle");
     setAnimKey((k) => k + 1);
     setScreen("done");
