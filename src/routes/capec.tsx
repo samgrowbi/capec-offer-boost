@@ -262,7 +262,7 @@ export function Navbar() {
 function Hero() {
   return (
     <section className="capec-hero-grid relative overflow-hidden bg-header text-header-foreground">
-      <div className="relative mx-auto max-w-5xl px-5 py-14 text-center sm:px-6 sm:py-20 lg:px-8">
+      <div className="relative mx-auto max-w-5xl px-5 py-10 text-center sm:px-6 sm:py-12 lg:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-header-muted sm:text-sm">
           No Equity &nbsp;·&nbsp; No Personal Guarantee &nbsp;·&nbsp; 24-Hour Approval
         </p>
@@ -273,7 +273,7 @@ function Hero() {
         </h1>
 
 
-        <div className="mt-10 grid gap-7 text-left lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] lg:items-stretch lg:gap-10">
+        <div className="mt-8 grid gap-7 text-left lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] lg:items-stretch lg:gap-10">
           <HeroQuizCard />
 
           <div className="relative lg:flex">
@@ -299,7 +299,7 @@ function SectionHeading({ label, title, copy }: { label?: string; title: string;
   return (
     <div className="mx-auto text-center">
       {label && <p className="mb-3 text-sm font-bold text-signal">{label}</p>}
-      <h2 className="text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-5xl lg:text-[clamp(2rem,3.4vw,2.75rem)]">{title}</h2>
+      <h2 className="text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-4xl lg:text-[clamp(2rem,3vw,2.5rem)]">{title}</h2>
       {copy && <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">{copy}</p>}
     </div>
   );
@@ -309,7 +309,7 @@ function KeyBenefits() {
   return (
     <section className="border-b border-border bg-surface-subtle">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <h2 className="text-center text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-5xl lg:text-[clamp(2rem,3.4vw,2.75rem)]">Funding that keeps your next order moving.</h2>
+        <h2 className="text-center text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-4xl lg:text-[clamp(2rem,3vw,2.5rem)]">Funding that keeps your next order moving.</h2>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {BENEFITS.map(({ icon: Icon, title, body }) => (
             <article key={title} className="rounded-md border border-border bg-card p-6">
@@ -331,7 +331,7 @@ function KeyBenefits() {
 function PerformanceOverview() {
   return (
     <section className="border-b border-border bg-background">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
           <div className="relative">
             <div className="rounded-md border border-border bg-surface-subtle p-6 shadow-capec sm:p-7">
@@ -442,7 +442,7 @@ function VideoTestimonials() {
 
   return (
     <section id="resources" className="scroll-mt-16 border-b border-border bg-background">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="relative">
           <SectionHeading
             title="Straight from CapEc"
@@ -528,7 +528,7 @@ function VideoCard({ video }: { video: CapecVideo }) {
 function HowItWorks() {
   return (
     <section id="how-it-works" className="scroll-mt-16 border-b border-border bg-surface-subtle">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
         <SectionHeading title="From application to funded order in three steps." />
         <ol className="mt-12 grid gap-8 lg:grid-cols-3">
           {STEPS.map(({ icon: Icon, title, body }, index) => (
@@ -552,60 +552,62 @@ function HowItWorks() {
 function FundingCycle() {
   return (
     <section id="funding" className="scroll-mt-16 border-b border-border bg-header text-header-foreground">
-      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <div className="mx-auto text-center">
-          <h2 className="text-3xl font-extrabold leading-tight text-header-foreground sm:text-5xl lg:text-[clamp(2rem,3.4vw,2.75rem)]">
-            The CapEc Funding Cycle
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-header-muted sm:text-lg">
-            One purchase order, five simple stages, from placing the order to repayment.
-          </p>
-        </div>
+      <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6 sm:py-12 lg:px-8">
+        {/* Desktop: heading + CTA on the left, diagram on the right, so the whole section stays under one
+            screen tall. Tablet/mobile: stacked. The diagram is capped by viewport height (max-h-[60vh]). */}
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-12">
+          <div className="text-center lg:col-start-1 lg:row-start-1 lg:self-end lg:text-left">
+            <h2 className="text-3xl font-extrabold leading-tight text-header-foreground sm:text-4xl">
+              The CapEc Funding Cycle
+            </h2>
+            <p className="mx-auto mt-3 max-w-md text-base leading-relaxed text-header-muted sm:text-lg lg:mx-0">
+              One purchase order, five simple stages, from placing the order to repayment.
+            </p>
+          </div>
 
-        {/* Client-provided artwork, used as-is rather than recreated in HTML/SVG. The PNG has a
-            transparent background so it sits directly on this section's dark background. */}
-        <img
-          src={fundingCycleArtwork}
-          alt="The CapEc Funding Cycle: Place Order, Invoice Due (Paid by CapEc, e.g. $100,000), Shipping, Begin Selling, then Repayment Begins monthly after a 45-day grace period, typical sell-through is 2–6 months."
-          className="mx-auto mt-12 hidden w-full max-w-4xl sm:block"
-        />
+          {/* Client-provided artwork, used as-is (transparent margins trimmed, compressed for web). */}
+          <img
+            src={fundingCycleArtwork}
+            alt="The CapEc Funding Cycle: Place Order, Invoice Due (Paid by CapEc, e.g. $100,000), Shipping, Begin Selling, then Repayment Begins monthly after a 45-day grace period, typical sell-through is 2–6 months."
+            className="mx-auto hidden h-auto max-h-[60vh] w-auto max-w-full sm:block lg:col-start-2 lg:row-span-2 lg:row-start-1"
+          />
 
-        {/* Mobile fallback: stacked list (the artwork's fine text doesn't hold up at small widths) */}
-        <ol className="mt-10 space-y-4 sm:hidden">
-          {[
-            { icon: Factory, title: "Place Order", body: "You place a purchase order with your supplier." },
-            { icon: CircleDollarSign, title: "Invoice Due (Paid by CapEc)", body: "CapEc pays the invoice on your behalf, e.g. $100,000." },
-            { icon: Ship, title: "Shipping", body: "Your inventory ships to you or your fulfillment center." },
-            { icon: Handshake, title: "Begin Selling", body: "You receive stock and start selling through it." },
-            { icon: HandHeart, title: "Repayment Begins (Monthly)", body: "Repayments start after a 45-day grace period." },
-          ].map(({ icon: Icon, title, body }, i) => (
-            <li key={title} className="flex gap-4 rounded-md border border-header-border bg-header-border/10 p-4">
-              <div className="grid size-10 shrink-0 place-items-center rounded-full bg-signal text-header">
-                <Icon className="size-5" aria-hidden="true" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-header-foreground">{i + 1}. {title}</p>
-                <p className="mt-1 text-sm text-header-muted">{body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+          {/* Mobile fallback: stacked list (the artwork's fine text doesn't hold up at small widths) */}
+          <ol className="space-y-3 sm:hidden">
+            {[
+              { icon: Factory, title: "Place Order", body: "You place a purchase order with your supplier." },
+              { icon: CircleDollarSign, title: "Invoice Due (Paid by CapEc)", body: "CapEc pays the invoice on your behalf, e.g. $100,000." },
+              { icon: Ship, title: "Shipping", body: "Your inventory ships to you or your fulfillment center." },
+              { icon: Handshake, title: "Begin Selling", body: "You receive stock and start selling through it." },
+              { icon: HandHeart, title: "Repayment Begins (Monthly)", body: "Repayments start after a 45-day grace period." },
+            ].map(({ icon: Icon, title, body }, i) => (
+              <li key={title} className="flex gap-4 rounded-md border border-header-border bg-header-border/10 p-4">
+                <div className="grid size-10 shrink-0 place-items-center rounded-full bg-signal text-header">
+                  <Icon className="size-5" aria-hidden="true" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-header-foreground">{i + 1}. {title}</p>
+                  <p className="mt-1 text-sm text-header-muted">{body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
 
-        <div className="mt-12 flex justify-center">
-          <Button asChild className="h-14 px-8 text-base font-bold">
-            <a href="#offer-form">{CTA_LABEL}</a>
-          </Button>
+          <div className="flex justify-center lg:col-start-1 lg:row-start-2 lg:justify-start lg:self-start">
+            <Button asChild className="h-12 px-8 text-base font-bold">
+              <a href="#offer-form">{CTA_LABEL}</a>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
-
   );
 }
 
 function WhyCapec() {
   return (
     <section id="why-capec" className="scroll-mt-16 border-b border-border bg-background">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
         <SectionHeading
           title="Terms designed around how ecommerce sells."
           copy="Our team reviews your application with your sales history and purchase order in view."
@@ -649,9 +651,9 @@ function StatBreak() {
 function FundingRequirements() {
   return (
     <section className="border-b border-border bg-background">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-headline-emphasis sm:text-5xl">Funding Requirements:</h2>
+          <h2 className="text-3xl font-extrabold text-headline-emphasis sm:text-4xl">Funding Requirements:</h2>
           <p className="mt-4 text-lg text-muted-foreground">We support sellers across:</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-12" aria-label="Supported platforms">
             <img src={amazonLogo} alt="Amazon" className="h-auto w-36 object-contain sm:w-44" />
@@ -682,7 +684,7 @@ function OurPartners() {
   return (
     <section className="overflow-hidden border-b border-border bg-background">
       <div className="mx-auto max-w-7xl px-5 pt-16 text-center sm:px-6 sm:pt-24 lg:px-8">
-        <h2 className="text-3xl font-extrabold text-headline-emphasis sm:text-5xl">Our Partners</h2>
+        <h2 className="text-3xl font-extrabold text-headline-emphasis sm:text-4xl">Our Partners</h2>
       </div>
       <div className="capec-partners-marquee group mt-10 pb-16 sm:mt-12 sm:pb-24" aria-label="CapEc partners">
         <div className="capec-partners-track">
@@ -712,12 +714,12 @@ function OurPartners() {
 function FounderTrust() {
   return (
     <section id="about" className="scroll-mt-16 border-b border-border bg-surface-subtle">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6 sm:py-14 lg:px-8">
         <SectionHeading
           title="Ecommerce funding with people on the other side."
           copy="Meet Nadav and Daniel, the co-founders behind CapEc's purchase order financing."
         />
-        <div className="mx-auto mt-12 grid max-w-4xl gap-14 sm:grid-cols-2 sm:gap-10 lg:gap-16">
+        <div className="mx-auto mt-8 grid max-w-5xl gap-5 md:grid-cols-2">
           <FounderCard
             name="Nadav Gorlicki"
             role="CEO & Co-Founder"
@@ -738,15 +740,17 @@ function FounderTrust() {
 
 function FounderCard({ name, role, src, bio }: { name: string; role: string; src: string; bio: string }) {
   return (
-    <article className="flex flex-col items-center pb-4 text-center">
+    <article className="flex flex-col items-center gap-5 rounded-lg border border-border bg-card p-6 text-center shadow-capec sm:flex-row sm:items-start sm:text-left">
       <img
         src={src}
         alt={`${name}, ${role}`}
-        className="size-64 max-w-full rounded-full object-cover object-center sm:size-72 lg:size-[300px]"
+        className="size-24 shrink-0 rounded-full object-cover object-center ring-4 ring-signal/20 sm:size-28"
       />
-      <h3 className="mt-6 text-xl font-bold text-headline-emphasis">{name}</h3>
-      <p className="mt-1 text-sm text-muted-foreground">{role}</p>
-      <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">{bio}</p>
+      <div>
+        <h3 className="text-lg font-bold text-headline-emphasis">{name}</h3>
+        <p className="mt-0.5 text-xs font-bold uppercase tracking-wide text-signal">{role}</p>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{bio}</p>
+      </div>
     </article>
   );
 }
@@ -754,7 +758,7 @@ function FounderCard({ name, role, src, bio }: { name: string; role: string; src
 function Faq() {
   return (
     <section id="faq" className="scroll-mt-16 border-b border-border bg-background">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-16 lg:px-8">
         <SectionHeading title="Straight answers before you apply." />
         <Accordion type="single" collapsible className="mx-auto mt-10 max-w-3xl">
           {FAQS.map((faq) => (
@@ -774,13 +778,13 @@ function Faq() {
 function FinalCta() {
   return (
     <section id="offer-form" className="scroll-mt-16 bg-surface-subtle">
-      <div className="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-24 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-4xl font-extrabold leading-tight text-headline-emphasis sm:text-6xl lg:text-[clamp(2.25rem,4vw,3.75rem)]">{CTA_LABEL}</h2>
-          <p className="mt-5 text-lg text-muted-foreground">Approval in 24 hours. Fund up to 2.5x your monthly sales.</p>
-          <p className="mt-5 text-sm text-muted-foreground">Financing is subject to approval.</p>
-        </div>
-        <div className="mx-auto mt-10 max-w-2xl">
+      <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+          <div className="text-center lg:text-left">
+            <h2 className="text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-4xl lg:text-5xl">{CTA_LABEL}</h2>
+            <p className="mt-4 text-lg text-muted-foreground">Approval in 24 hours. Fund up to 2.5x your monthly sales.</p>
+            <p className="mt-3 text-sm text-muted-foreground">Financing is subject to approval.</p>
+          </div>
           <HeroQuizCard />
         </div>
       </div>
