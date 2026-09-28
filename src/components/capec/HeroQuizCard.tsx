@@ -24,7 +24,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { appendLeadToSheet } from "@/lib/leads-sheet.functions";
-import { NOT_QUALIFIED_STAGE, QUALIFIED_STAGE, evaluateQualification } from "@/lib/lead-qualification";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 
@@ -167,7 +166,6 @@ export function HeroQuizCard() {
       return;
     }
     setStatus("submitting");
-    const { qualified, reasons } = evaluateQualification(answers);
     const leadRow = {
       brand_name: answers.businessName.trim(),
       business_country: answers.businessCountry,
@@ -179,23 +177,17 @@ export function HeroQuizCard() {
       po_amount_range: answers.poAmountRange,
       email: answers.email.trim(),
       phone: answers.phone.trim(),
-      lead_stage: qualified ? QUALIFIED_STAGE : NOT_QUALIFIED_STAGE,
+      lead_stage: "quiz-complete",
       source_slug: "capec",
       offer: "first-deal-discount",
     };
     const { error } = await supabase.from("leads").insert(leadRow);
-    if (!error) {
-      void appendLeadToSheet({
-        data: { ...leadRow, qualification_notes: qualified ? "Qualified" : reasons.join("; ") },
-      }).catch(() => {});
-    }
+    if (!error) void appendLeadToSheet({ data: leadRow }).catch(() => {});
     if (error) {
       setStatus("error");
       return;
     }
-    // Only qualified leads count as a Meta conversion, so ad optimisation learns from good leads.
-    // Non-qualified leads are still saved (database + NonQualified sheet tab), just not reported.
-    if (qualified) void trackMetaLead();
+    void trackMetaLead();
     setStatus("done");
   };
 
