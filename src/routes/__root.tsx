@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { initMetaPixel } from "@/lib/meta-pixel";
+import { initClarity } from "@/lib/clarity";
 
 function NotFoundComponent() {
   return (
@@ -120,6 +121,7 @@ function RootComponent() {
 
   useEffect(() => {
     initMetaPixel();
+    initClarity();
   }, []);
 
   return (

@@ -2,15 +2,9 @@
 // Consent route chosen by the client: no banner. The pixel loads for visitors
 // outside consent-required regions and stays off in consent-required regions
 // or when the visitor's region cannot be determined.
-const PIXEL_ID = "624600358549348";
+import { trackingAllowed } from "@/lib/tracking-consent";
 
-// EEA plus the UK and Switzerland, the regions that require consent before
-// advertising tags load.
-const CONSENT_REGIONS = new Set([
-  "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR",
-  "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK",
-  "SI", "ES", "SE", "IS", "LI", "NO", "GB", "CH",
-]);
+const PIXEL_ID = "624600358549348";
 
 type Fbq = ((...args: unknown[]) => void) & {
   callMethod?: (...args: unknown[]) => void;
@@ -29,25 +23,8 @@ declare global {
 
 let initPromise: Promise<boolean> | null = null;
 
-async function readRegion(): Promise<string | null> {
-  if (typeof window === "undefined") return null;
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 2000);
-    const res = await fetch("/cdn-cgi/trace", { signal: controller.signal });
-    clearTimeout(timer);
-    if (!res.ok) return null;
-    const match = /(?:^|\n)loc=([A-Za-z0-9]{2,})/.exec(await res.text());
-    return match?.[1]?.toUpperCase() ?? null;
-  } catch {
-    return null;
-  }
-}
-
 async function start(): Promise<boolean> {
-  const loc = await readRegion();
-  // Unknown region or Tor exit: keep the pixel off.
-  if (!loc || loc === "T1" || CONSENT_REGIONS.has(loc)) return false;
+  if (!(await trackingAllowed())) return false;
   loadPixel();
   return true;
 }
