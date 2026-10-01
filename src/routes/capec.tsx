@@ -396,7 +396,7 @@ function PerformanceOverview() {
               your next order moving.
             </p>
             <Button asChild className="mt-7 h-14 px-8 text-base font-bold">
-              <a href="#top">{CTA_LABEL}</a>
+              <a href="#offer-form">{CTA_LABEL}</a>
             </Button>
           </div>
         </div>
