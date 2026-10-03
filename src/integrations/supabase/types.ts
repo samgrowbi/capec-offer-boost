@@ -26,9 +26,11 @@ export type Database = {
           lead_stage: string | null
           offer: string | null
           online_store_url: string | null
+          owns_brand: string | null
           phone: string | null
           platform: string | null
           po_amount_range: string | null
+          po_at_least_10k: string | null
           revenue_range: string | null
           selling_history: string | null
           source_slug: string | null
@@ -47,9 +49,11 @@ export type Database = {
           lead_stage?: string | null
           offer?: string | null
           online_store_url?: string | null
+          owns_brand?: string | null
           phone?: string | null
           platform?: string | null
           po_amount_range?: string | null
+          po_at_least_10k?: string | null
           revenue_range?: string | null
           selling_history?: string | null
           source_slug?: string | null
@@ -68,9 +72,11 @@ export type Database = {
           lead_stage?: string | null
           offer?: string | null
           online_store_url?: string | null
+          owns_brand?: string | null
           phone?: string | null
           platform?: string | null
           po_amount_range?: string | null
+          po_at_least_10k?: string | null
           revenue_range?: string | null
           selling_history?: string | null
           source_slug?: string | null

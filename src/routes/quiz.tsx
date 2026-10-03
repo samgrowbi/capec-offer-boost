@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { trackMetaLead } from "@/lib/meta-pixel";
+import { evaluateQualification, isDisqualifyingAnswer, NOT_QUALIFIED_MESSAGE, type QualificationField } from "@/lib/lead-qualification";
 import { z } from "zod";
 import {
   ArrowLeft,
@@ -9,6 +10,7 @@ import {
   BarChart3,
   CheckCircle2,
   Layers,
+  ShieldAlert,
   Loader2,
   MoreHorizontal,
   Rocket,
@@ -53,7 +55,7 @@ export const Route = createFileRoute("/quiz")({
   component: QuizPage,
 });
 
-const TOTAL_QUESTIONS = 7;
+const TOTAL_QUESTIONS = 9;
 
 const PLATFORM_OPTIONS = ["Amazon", "Shopify", "Both", "Other"];
 const REVENUE_OPTIONS = ["Under $100K", "$100K – $500K", "$500K – $1M", "$1M+"];
@@ -74,11 +76,14 @@ const REVENUE_ICONS: Record<string, React.ReactNode> = {
 const HISTORY_OPTIONS = ["Under 6 months", "6 – 12 months", "1 – 3 years", "3+ years"];
 const PO_OPTIONS = ["Under $25K", "$25K – $100K", "$100K – $500K", "$500K+"];
 const COUNTRY_OPTIONS = ["United States", "Canada", "United Kingdom", "European Union", "Other"];
+const YES_NO_OPTIONS = ["Yes", "No"];
 
 type Answers = {
   platform: string;
   revenueRange: string;
   sellingHistory: string;
+  ownsBrand: string;
+  poAtLeast10k: string;
   poAmountRange: string;
   storeUrl: string;
   businessName: string;
@@ -93,6 +98,8 @@ const EMPTY_ANSWERS: Answers = {
   platform: "",
   revenueRange: "",
   sellingHistory: "",
+  ownsBrand: "",
+  poAtLeast10k: "",
   poAmountRange: "",
   storeUrl: "",
   businessName: "",
@@ -103,7 +110,7 @@ const EMPTY_ANSWERS: Answers = {
   additionalNotes: "",
 };
 
-type Screen = "intro" | "question" | "done";
+type Screen = "intro" | "question" | "done" | "blocked";
 
 const urlSchema = z
   .string()
@@ -168,6 +175,20 @@ function QuizPage() {
     goTo(nextStep);
   };
 
+  // Qualifying questions (platform, revenue, selling history, brand ownership, PO size, country)
+  // use this instead of plain pick(): a disqualifying answer stops the funnel right there instead
+  // of advancing. Per the client (2026-10-02): these answers must block the visitor from
+  // continuing or submitting at all, not just be flagged after the fact once they're a lead.
+  const pickGated = (field: QualificationField, value: string, nextStep: number) => {
+    set(field, value);
+    if (isDisqualifyingAnswer(field, value)) {
+      setAnimKey((k) => k + 1);
+      setScreen("blocked");
+      return;
+    }
+    goTo(nextStep);
+  };
+
   const back = () => {
     if (step === 1) {
       setAnimKey((k) => k + 1);
@@ -177,8 +198,13 @@ function QuizPage() {
     goTo(step - 1);
   };
 
+  const backFromBlocked = () => {
+    setAnimKey((k) => k + 1);
+    setScreen("question");
+  };
+
   function validateStep(current: number): boolean {
-    if (current === 5) {
+    if (current === 7) {
       const r = urlSchema.safeParse(answers.storeUrl);
       if (!r.success) {
         setErrors((e) => ({ ...e, storeUrl: r.error.issues[0]?.message ?? "Invalid" }));
@@ -186,7 +212,7 @@ function QuizPage() {
       }
       return true;
     }
-    if (current === 6) {
+    if (current === 8) {
       const next: Partial<Record<keyof Answers, string>> = {};
       const n = nameSchema.safeParse(answers.businessName);
       if (!n.success) next.businessName = n.error.issues[0]?.message ?? "Invalid";
@@ -195,10 +221,15 @@ function QuizPage() {
         setErrors((e) => ({ ...e, ...next }));
         return false;
       }
+      if (isDisqualifyingAnswer("businessCountry", answers.businessCountry)) {
+        setAnimKey((k) => k + 1);
+        setScreen("blocked");
+        return false;
+      }
       return true;
     }
 
-    if (current === 7) {
+    if (current === 9) {
       const next: Partial<Record<keyof Answers, string>> = {};
       const n = nameSchema.safeParse(answers.fullName);
       if (!n.success) next.fullName = n.error.issues[0]?.message ?? "Invalid";
@@ -216,13 +247,22 @@ function QuizPage() {
   }
 
   async function submitLead() {
-    if (!validateStep(7)) return;
+    if (!validateStep(9)) return;
+    // Safety net: re-check the full answer set right before submitting, in case any gate above
+    // was somehow skipped. Never submit a disqualified lead.
+    if (!evaluateQualification(answers).qualified) {
+      setAnimKey((k) => k + 1);
+      setScreen("blocked");
+      return;
+    }
     setStatus("submitting");
     const leadRow = {
       brand_name: answers.businessName.trim(),
       business_country: answers.businessCountry,
       full_name: answers.fullName.trim(),
       online_store_url: answers.storeUrl.trim(),
+      owns_brand: answers.ownsBrand,
+      po_at_least_10k: answers.poAtLeast10k,
       revenue_range: answers.revenueRange,
       platform: answers.platform,
       selling_history: answers.sellingHistory,
@@ -284,7 +324,7 @@ function QuizPage() {
               title="Where do you sell?"
               options={PLATFORM_OPTIONS}
               value={answers.platform}
-              onSelect={(v) => pick("platform", v, 2)}
+              onSelect={(v) => pickGated("platform", v, 2)}
               icons={PLATFORM_ICONS}
             />
           )}
@@ -294,7 +334,7 @@ function QuizPage() {
               title="What's your annual revenue?"
               options={REVENUE_OPTIONS}
               value={answers.revenueRange}
-              onSelect={(v) => pick("revenueRange", v, 3)}
+              onSelect={(v) => pickGated("revenueRange", v, 3)}
               icons={REVENUE_ICONS}
             />
           )}
@@ -304,20 +344,38 @@ function QuizPage() {
               title="How long have you been selling?"
               options={HISTORY_OPTIONS}
               value={answers.sellingHistory}
-              onSelect={(v) => pick("sellingHistory", v, 4)}
+              onSelect={(v) => pickGated("sellingHistory", v, 4)}
             />
           )}
 
           {screen === "question" && step === 4 && (
             <QuestionCards
-              title="What's the purchase order or restock amount you're looking to fund?"
-              options={PO_OPTIONS}
-              value={answers.poAmountRange}
-              onSelect={(v) => pick("poAmountRange", v, 5)}
+              title="Do you own your brand (trademark)?"
+              options={YES_NO_OPTIONS}
+              value={answers.ownsBrand}
+              onSelect={(v) => pickGated("ownsBrand", v, 5)}
             />
           )}
 
           {screen === "question" && step === 5 && (
+            <QuestionCards
+              title="Is this purchase order or invoice at least $10,000?"
+              options={YES_NO_OPTIONS}
+              value={answers.poAtLeast10k}
+              onSelect={(v) => pickGated("poAtLeast10k", v, 6)}
+            />
+          )}
+
+          {screen === "question" && step === 6 && (
+            <QuestionCards
+              title="What's the purchase order or restock amount you're looking to fund?"
+              options={PO_OPTIONS}
+              value={answers.poAmountRange}
+              onSelect={(v) => pick("poAmountRange", v, 7)}
+            />
+          )}
+
+          {screen === "question" && step === 7 && (
             <StepShell title="What's your online store URL?">
               <Field
                 label="Online store URL"
@@ -333,16 +391,16 @@ function QuizPage() {
                   value={answers.storeUrl}
                   onChange={(e) => set("storeUrl", e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter" && validateStep(5)) goTo(6);
+                    if (e.key === "Enter" && validateStep(7)) goTo(8);
                   }}
                   aria-invalid={Boolean(errors.storeUrl)}
                 />
               </Field>
-              <NextButton onClick={() => { if (validateStep(5)) goTo(6); }} />
+              <NextButton onClick={() => { if (validateStep(7)) goTo(8); }} />
             </StepShell>
           )}
 
-          {screen === "question" && step === 6 && (
+          {screen === "question" && step === 8 && (
             <StepShell title="Your legal business name">
               <div className="space-y-4">
                 <Field label="Legal business name" htmlFor="quiz-business" error={errors.businessName}>
@@ -378,11 +436,11 @@ function QuizPage() {
                   </select>
                 </Field>
               </div>
-              <NextButton onClick={() => { if (validateStep(6)) goTo(7); }} />
+              <NextButton onClick={() => { if (validateStep(8)) goTo(9); }} />
             </StepShell>
           )}
 
-          {screen === "question" && step === 7 && (
+          {screen === "question" && step === 9 && (
             <StepShell title="Almost done, where should we send your offer?">
               <div className="space-y-4">
                 <Field label="Full name" htmlFor="quiz-name" error={errors.fullName}>
@@ -469,6 +527,27 @@ function QuizPage() {
                 "If you accept, we move to funding your purchase order, no obligation to accept.",
               ]}
             />
+          )}
+
+          {screen === "blocked" && (
+            <div className="py-10 text-center">
+              <ShieldAlert className="mx-auto size-12 text-signal" strokeWidth={1.5} />
+              <h1 className="mt-5 text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-4xl">
+                Thanks for your interest.
+              </h1>
+              <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+                {NOT_QUALIFIED_MESSAGE}
+              </p>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={backFromBlocked}
+                className="mt-6 gap-1.5 text-sm font-semibold text-foreground"
+              >
+                <ArrowLeft className="size-4" />
+                Back
+              </Button>
+            </div>
           )}
         </div>
       </main>

@@ -20,6 +20,8 @@ const COLUMNS = [
   ["business_country", "Country"],
   ["additional_notes", "Notes"],
   ["offer", "Offer"],
+  ["owns_brand", "Owns Brand"],
+  ["po_at_least_10k", "PO At Least $10K"],
   ["utm_source", "UTM Source"],
   ["utm_medium", "UTM Medium"],
   ["utm_campaign", "UTM Campaign"],

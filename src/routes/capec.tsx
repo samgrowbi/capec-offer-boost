@@ -128,13 +128,13 @@ const DIFFERENTIATORS: Array<{ icon: LucideIcon; title: string; body: string }> 
 ];
 
 const REQUIREMENTS: Array<{ icon: LucideIcon; title: string; body: string }> = [
-  { icon: TrendingUp, title: "Sales History", body: "We fund brands selling for over 6 months." },
-  { icon: ShoppingBag, title: "Private Label", body: "For best results, we focus on private label products." },
+  { icon: TrendingUp, title: "Sales History", body: "We fund brands selling for over 1 year." },
+  { icon: ShoppingBag, title: "Private Label", body: "You must own the brand and trademark. No resellers or wholesalers." },
   { icon: CircleDollarSign, title: "Minimum Revenue", body: "Annual revenue that exceeds $100,000." },
   {
     icon: PackageCheck,
     title: "Existing Products",
-    body: "We fund existing ASINs/SKUs (new products not eligible).",
+    body: "The product funded needs at least 3 months of sales history. New launches aren't eligible.",
   },
   { icon: MapPin, title: "Location", body: "Brands selling in the US, CA, EU, or UK (based anywhere)." },
 ];
