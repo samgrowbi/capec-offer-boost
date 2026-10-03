@@ -1,31 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { COLUMNS, colLetter, planLayout, rowFor, type ColumnKey } from "@/lib/sheet-layout";
 
 const SPREADSHEET_ID = "1oKWKeGVWmyxQ93iEGaLjER_I5Ad1-uaM6iosST22QZY";
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/google_sheets/v4";
-
-const COLUMNS = [
-  ["created_at", "Submitted At"],
-  ["source_slug", "Source"],
-  ["lead_stage", "Stage"],
-  ["full_name", "Full Name"],
-  ["brand_name", "Business Name"],
-  ["email", "Email"],
-  ["phone", "Phone"],
-  ["online_store_url", "Store URL"],
-  ["platform", "Platform"],
-  ["revenue_range", "Revenue"],
-  ["selling_history", "Selling History"],
-  ["po_amount_range", "PO Amount"],
-  ["business_country", "Country"],
-  ["additional_notes", "Notes"],
-  ["offer", "Offer"],
-  ["owns_brand", "Owns Brand"],
-  ["po_at_least_10k", "PO At Least $10K"],
-  ["utm_source", "UTM Source"],
-  ["utm_medium", "UTM Medium"],
-  ["utm_campaign", "UTM Campaign"],
-] as const;
 
 const str = z.string().max(2000).nullish();
 const leadSchema = z.object(
@@ -50,24 +28,36 @@ export const appendLeadToSheet = createServerFn({ method: "POST" })
       "Content-Type": "application/json",
     };
     const base = `${GATEWAY_URL}/spreadsheets/${SPREADSHEET_ID}/values`;
+    const tab = "Sheet1";
 
-    // Write header row if the sheet is empty.
-    const head = await fetch(`${base}/Sheet1!A1:A1`, { headers });
+    // Place each value under the header with the matching name (see sheet-layout.ts). The team edits
+    // this sheet by hand, so writing by fixed column position puts values under the wrong heading the
+    // moment a column is reordered, renamed, or inserted — that already happened once in production.
+    let existing: string[] | null = null;
+    const head = await fetch(`${base}/${tab}!1:1`, { headers });
     if (head.ok) {
-      const body = (await head.json()) as { values?: unknown[] };
-      if (!body.values?.length) {
-        await fetch(`${base}/Sheet1!A1:R1?valueInputOption=RAW`, {
-          method: "PUT",
-          headers,
-          body: JSON.stringify({ values: [COLUMNS.map(([, label]) => label)] }),
-        });
-      }
+      const body = (await head.json()) as { values?: unknown[][] };
+      existing = (body.values?.[0] ?? []).map((c) => String(c ?? ""));
+    } else {
+      console.error(`Sheets header read failed [${head.status}]: ${await head.text()}; using the known layout`);
+    }
+    const { layout, write } = planLayout(existing);
+    if (write) {
+      const range = `${tab}!${colLetter(write.startCol)}1:${colLetter(write.startCol + write.labels.length - 1)}1`;
+      const put = await fetch(`${base}/${range}?valueInputOption=RAW`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({ values: [write.labels] }),
+      });
+      if (!put.ok) console.error(`Sheets header write failed [${put.status}]: ${await put.text()}`);
     }
 
-    const row = COLUMNS.map(([key]) =>
-      key === "created_at" ? new Date().toISOString() : ((data as Record<string, string | null | undefined>)[key] ?? ""),
-    );
-    const res = await fetch(`${base}/Sheet1!A:R:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {
+    const values: Partial<Record<ColumnKey, string | null | undefined>> = {
+      ...(data as Partial<Record<ColumnKey, string | null | undefined>>),
+      created_at: new Date().toISOString(),
+    };
+    const row = rowFor(layout, values);
+    const res = await fetch(`${base}/${tab}!A:${colLetter(layout.length)}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {
       method: "POST",
       headers,
       body: JSON.stringify({ values: [row] }),

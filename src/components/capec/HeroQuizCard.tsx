@@ -226,7 +226,10 @@ export function HeroQuizCard() {
       offer: "first-deal-discount",
     };
     const { error } = await supabase.from("leads").insert(leadRow);
-    if (!error) void appendLeadToSheet({ data: leadRow }).catch(() => {});
+    // "qualified" has no column in the leads table (inserting it there would 400), but the sheet
+    // has a real "Qualified" column: every lead reaching this point already passed every gate above
+    // (a disqualifying answer blocks the funnel before this code can run), so it's always "Yes" here.
+    if (!error) void appendLeadToSheet({ data: { ...leadRow, qualified: "Yes" } }).catch(() => {});
     if (error) {
       setStatus("error");
       return;
