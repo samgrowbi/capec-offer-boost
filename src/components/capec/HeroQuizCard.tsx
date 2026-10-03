@@ -12,6 +12,7 @@ import {
   NOT_QUALIFIED_MESSAGE,
   type QualificationField,
 } from "@/lib/lead-qualification";
+import { dialCodeFor, formatPhoneForSubmit, toPhoneDigits } from "@/lib/phone";
 import { z } from "zod";
 import {
   ArrowLeft,
@@ -94,12 +95,12 @@ const emailSchema = z
   .email({ message: "That email doesn't look right" })
   .max(255, { message: "Keep this under 255 characters" });
 
+// The field holds digits only (the dial code is shown separately, next to the input, based on the
+// business-country answer) — see src/lib/phone.ts.
 const phoneSchema = z
   .string()
   .trim()
-  .min(7, { message: "Enter your phone number" })
-  .max(30, { message: "Keep this under 30 characters" })
-  .regex(/^[+()\-\s\d.]+$/, { message: "Use digits, spaces, and + ( ) - only" });
+  .regex(/^\d{10}$/, { message: "Enter a 10-digit phone number" });
 
 const nameSchema = z
   .string()
@@ -117,6 +118,7 @@ export function HeroQuizCard() {
   const [answers, setAnswers] = useState<Answers>(EMPTY);
   const [errors, setErrors] = useState<Partial<Record<keyof Answers, string>>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "error" | "done" | "blocked">("idle");
+  const phoneDialCode = dialCodeFor(answers.businessCountry);
 
   const set = (key: keyof Answers, value: string) => {
     setAnswers((a) => ({ ...a, [key]: value }));
@@ -218,7 +220,7 @@ export function HeroQuizCard() {
       selling_history: answers.sellingHistory,
       po_amount_range: answers.poAmountRange,
       email: answers.email.trim(),
-      phone: answers.phone.trim(),
+      phone: formatPhoneForSubmit(answers.phone.trim(), phoneDialCode),
       lead_stage: "quiz-complete",
       source_slug: "capec",
       offer: "first-deal-discount",
@@ -424,14 +426,23 @@ export function HeroQuizCard() {
                 {errors.email && <p className="mt-1.5 text-xs text-destructive">{errors.email}</p>}
               </div>
               <div>
-                <input
-                  type="tel"
-                  className={fieldClass}
-                  placeholder="+1 555 000 1234"
-                  value={answers.phone}
-                  onChange={(e) => set("phone", e.target.value)}
-                  aria-invalid={Boolean(errors.phone)}
-                />
+                <div className="flex gap-2">
+                  {phoneDialCode && (
+                    <span className="flex shrink-0 items-center rounded-lg border border-input bg-secondary px-3 text-sm font-semibold text-foreground">
+                      {phoneDialCode}
+                    </span>
+                  )}
+                  <input
+                    type="tel"
+                    inputMode="numeric"
+                    className={fieldClass}
+                    placeholder="5550001234"
+                    maxLength={10}
+                    value={answers.phone}
+                    onChange={(e) => set("phone", toPhoneDigits(e.target.value))}
+                    aria-invalid={Boolean(errors.phone)}
+                  />
+                </div>
                 {errors.phone && <p className="mt-1.5 text-xs text-destructive">{errors.phone}</p>}
               </div>
               {status === "error" && (
