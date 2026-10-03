@@ -43,8 +43,10 @@ export type ColumnKey =
   | "utm_campaign"
   | "qualification_notes";
 
-// Default order and header labels, for a brand-new empty tab. The first 16 match the team's real
-// sheet (confirmed by direct read, 2026-10-03) exactly, including "Qualified" as the 16th column.
+// Default order and header labels, for a brand-new empty tab. "Qualified" is deliberately last among
+// the qualification-related columns (per request, 2026-10-03): Owns Brand and PO At Least $10K come
+// right after the other qualifying-question answers, with Qualified — the overall pass/fail flag —
+// appearing after them as a summary column rather than in between the raw answers.
 export const COLUMNS: readonly (readonly [ColumnKey, string])[] = [
   ["created_at", "Submitted At"],
   ["source_slug", "Source"],
@@ -61,16 +63,19 @@ export const COLUMNS: readonly (readonly [ColumnKey, string])[] = [
   ["business_country", "Country"],
   ["additional_notes", "Notes"],
   ["offer", "Offer"],
-  ["qualified", "Qualified"],
   ["owns_brand", "Owns Brand"],
   ["po_at_least_10k", "PO At Least $10K"],
+  ["qualified", "Qualified"],
   ["utm_source", "UTM Source"],
   ["utm_medium", "UTM Medium"],
   ["utm_campaign", "UTM Campaign"],
   ["qualification_notes", "Qualification Notes"],
 ];
 
-const CORE_COLUMN_COUNT = 16; // through "Qualified" — the sheet's real layout as of 2026-10-03
+// Through "Qualified" in the order above. The real sheet's physical column positions don't have to
+// match this (matching is by header name, not position — see planLayout), but this is still used as
+// the fallback layout when the header row can't be read at all.
+const CORE_COLUMN_COUNT = 18;
 
 export type HeaderWrite = { startCol: number; labels: string[] }; // startCol is 1-based (A = 1)
 export type LayoutPlan = { layout: (ColumnKey | null)[]; write: HeaderWrite | null };
