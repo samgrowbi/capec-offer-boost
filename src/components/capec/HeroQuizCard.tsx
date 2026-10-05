@@ -5,22 +5,15 @@
 // a separate route with its own full-page flow, keeping this
 // self-contained avoids coupling the two.
 import { useState } from "react";
-import { trackMetaLead } from "@/lib/meta-pixel";
-import {
-  evaluateQualification,
-  isDisqualifyingAnswer,
-  NOT_QUALIFIED_MESSAGE,
-  type QualificationField,
-} from "@/lib/lead-qualification";
+import { useNavigate } from "@tanstack/react-router";
+import { evaluateQualification, QUALIFIED_STAGE, NOT_QUALIFIED_STAGE } from "@/lib/lead-qualification";
 import { dialCodeFor, formatPhoneForSubmit, toPhoneDigits } from "@/lib/phone";
 import { z } from "zod";
 import {
   ArrowLeft,
   ArrowRight,
   BarChart3,
-  CheckCircle2,
   Layers,
-  ShieldAlert,
   Loader2,
   MoreHorizontal,
   Rocket,
@@ -117,8 +110,9 @@ export function HeroQuizCard() {
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState<Answers>(EMPTY);
   const [errors, setErrors] = useState<Partial<Record<keyof Answers, string>>>({});
-  const [status, setStatus] = useState<"idle" | "submitting" | "error" | "done" | "blocked">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const phoneDialCode = dialCodeFor(answers.businessCountry);
+  const navigate = useNavigate();
 
   const set = (key: keyof Answers, value: string) => {
     setAnswers((a) => ({ ...a, [key]: value }));
@@ -177,36 +171,16 @@ export function HeroQuizCard() {
     (step === 6 && Boolean(answers.poAmountRange)) ||
     step >= 7;
 
-  // Qualifying questions, checked against the answer just given on this step, immediately on
-  // "Next" rather than waiting until submission. Per the client (2026-10-02): a disqualifying
-  // answer must block the visitor from continuing or submitting at all, not just be flagged
-  // after the fact once they're already a lead.
-  const blockingFieldForStep: Partial<Record<number, QualificationField>> = {
-    1: "platform",
-    2: "revenueRange",
-    3: "sellingHistory",
-    4: "ownsBrand",
-    5: "poAtLeast10k",
-    8: "businessCountry",
-  };
-
   const next = async () => {
     if (!validate()) return;
-    const blockingField = blockingFieldForStep[step];
-    if (blockingField && isDisqualifyingAnswer(blockingField, answers[blockingField])) {
-      setStatus("blocked");
-      return;
-    }
     if (step < TOTAL_STEPS) {
       setStep((s) => s + 1);
       return;
     }
-    // Safety net: re-check the full answer set right before submitting, in case any gate above
-    // was somehow skipped. Never submit a disqualified lead.
-    if (!evaluateQualification(answers).qualified) {
-      setStatus("blocked");
-      return;
-    }
+    // Every visitor is captured as a lead regardless of their answers — qualification only decides
+    // which outcome page they land on and which sheet tab they're written to, checked once here
+    // rather than blocking progress earlier in the funnel.
+    const result = evaluateQualification(answers);
     setStatus("submitting");
     const leadRow = {
       brand_name: answers.businessName.trim(),
@@ -221,57 +195,29 @@ export function HeroQuizCard() {
       po_amount_range: answers.poAmountRange,
       email: answers.email.trim(),
       phone: formatPhoneForSubmit(answers.phone.trim(), phoneDialCode),
-      lead_stage: "quiz-complete",
+      lead_stage: result.qualified ? QUALIFIED_STAGE : NOT_QUALIFIED_STAGE,
       source_slug: "capec",
       offer: "first-deal-discount",
     };
     const { error } = await supabase.from("leads").insert(leadRow);
     // "qualified" has no column in the leads table (inserting it there would 400), but the sheet
-    // has a real "Qualified" column: every lead reaching this point already passed every gate above
-    // (a disqualifying answer blocks the funnel before this code can run), so it's always "Yes" here.
-    if (!error) void appendLeadToSheet({ data: { ...leadRow, qualified: "Yes" } }).catch(() => {});
+    // has a real "Qualified" column, and the sheet-sync function also uses lead_stage to route this
+    // row to the right tab (Sheet1 vs NonQualified) — see leads-sheet.functions.ts.
+    if (!error) {
+      void appendLeadToSheet({ data: { ...leadRow, qualified: result.qualified ? "Yes" : "No" } }).catch(() => {});
+    }
     if (error) {
       setStatus("error");
       return;
     }
-    void trackMetaLead();
-    setStatus("done");
+    // trackMetaLead() fires on /thank-you itself, not here, so only qualified visitors who actually
+    // reach that page ever trigger it.
+    void navigate({ to: result.qualified ? "/thank-you" : "/not-qualified" });
   };
 
   const back = () => {
-    // Also clears a "blocked" state, so a visitor who tripped a gate can go back and change an
-    // honest misclick rather than being stuck on the blocked screen with no way out.
-    setStatus("idle");
     if (step > 1) setStep((s) => s - 1);
   };
-
-  if (status === "done") {
-    return (
-      <div className="rounded-md border border-border bg-card p-6 text-center shadow-capec sm:p-8">
-        <CheckCircle2 className="mx-auto size-10 text-signal" strokeWidth={1.5} />
-        <p className="mt-4 text-lg font-bold text-headline-emphasis">
-          Thanks, {answers.fullName.trim().split(" ")[0] || "there"}, we've got your details.
-        </p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          A member of our team will review your eligibility and be in touch within one business day.
-        </p>
-      </div>
-    );
-  }
-
-  if (status === "blocked") {
-    return (
-      <div className="rounded-md border border-border bg-card p-6 text-center shadow-capec sm:p-8">
-        <ShieldAlert className="mx-auto size-10 text-signal" strokeWidth={1.5} />
-        <p className="mt-4 text-lg font-bold text-headline-emphasis">Thanks for your interest.</p>
-        <p className="mt-2 text-sm text-muted-foreground">{NOT_QUALIFIED_MESSAGE}</p>
-        <Button type="button" variant="ghost" onClick={back} className="mt-5 gap-1.5 text-sm font-semibold text-foreground">
-          <ArrowLeft className="size-4" />
-          Back
-        </Button>
-      </div>
-    );
-  }
 
   return (
     <div className="rounded-md border border-border bg-card p-5 shadow-capec sm:p-6">

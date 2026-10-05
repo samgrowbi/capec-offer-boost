@@ -1,7 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { trackMetaLead } from "@/lib/meta-pixel";
-import { evaluateQualification, isDisqualifyingAnswer, NOT_QUALIFIED_MESSAGE, type QualificationField } from "@/lib/lead-qualification";
+import { evaluateQualification, QUALIFIED_STAGE, NOT_QUALIFIED_STAGE } from "@/lib/lead-qualification";
 import { dialCodeFor, formatPhoneForSubmit, toPhoneDigits } from "@/lib/phone";
 import { z } from "zod";
 import {
@@ -9,9 +8,7 @@ import {
   ArrowRight,
   BadgeCheck,
   BarChart3,
-  CheckCircle2,
   Layers,
-  ShieldAlert,
   Loader2,
   MoreHorizontal,
   Rocket,
@@ -111,7 +108,7 @@ const EMPTY_ANSWERS: Answers = {
   additionalNotes: "",
 };
 
-type Screen = "intro" | "question" | "done" | "blocked";
+type Screen = "intro" | "question";
 
 const urlSchema = z
   .string()
@@ -152,6 +149,7 @@ function QuizPage() {
   const [utm, setUtm] = useState({ utm_source: "", utm_medium: "", utm_campaign: "" });
   const [animKey, setAnimKey] = useState(0);
   const phoneDialCode = dialCodeFor(answers.businessCountry);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -177,20 +175,6 @@ function QuizPage() {
     goTo(nextStep);
   };
 
-  // Qualifying questions (platform, revenue, selling history, brand ownership, PO size, country)
-  // use this instead of plain pick(): a disqualifying answer stops the funnel right there instead
-  // of advancing. Per the client (2026-10-02): these answers must block the visitor from
-  // continuing or submitting at all, not just be flagged after the fact once they're a lead.
-  const pickGated = (field: QualificationField, value: string, nextStep: number) => {
-    set(field, value);
-    if (isDisqualifyingAnswer(field, value)) {
-      setAnimKey((k) => k + 1);
-      setScreen("blocked");
-      return;
-    }
-    goTo(nextStep);
-  };
-
   const back = () => {
     if (step === 1) {
       setAnimKey((k) => k + 1);
@@ -198,11 +182,6 @@ function QuizPage() {
       return;
     }
     goTo(step - 1);
-  };
-
-  const backFromBlocked = () => {
-    setAnimKey((k) => k + 1);
-    setScreen("question");
   };
 
   function validateStep(current: number): boolean {
@@ -221,11 +200,6 @@ function QuizPage() {
       if (!answers.businessCountry) next.businessCountry = "Select where your business is based";
       if (Object.keys(next).length > 0) {
         setErrors((e) => ({ ...e, ...next }));
-        return false;
-      }
-      if (isDisqualifyingAnswer("businessCountry", answers.businessCountry)) {
-        setAnimKey((k) => k + 1);
-        setScreen("blocked");
         return false;
       }
       return true;
@@ -250,13 +224,10 @@ function QuizPage() {
 
   async function submitLead() {
     if (!validateStep(9)) return;
-    // Safety net: re-check the full answer set right before submitting, in case any gate above
-    // was somehow skipped. Never submit a disqualified lead.
-    if (!evaluateQualification(answers).qualified) {
-      setAnimKey((k) => k + 1);
-      setScreen("blocked");
-      return;
-    }
+    // Every visitor is captured as a lead regardless of their answers — qualification only decides
+    // which outcome page they land on and which sheet tab they're written to, checked once here
+    // rather than blocking progress earlier in the funnel.
+    const result = evaluateQualification(answers);
     setStatus("submitting");
     const leadRow = {
       brand_name: answers.businessName.trim(),
@@ -272,7 +243,7 @@ function QuizPage() {
       email: answers.email.trim(),
       phone: formatPhoneForSubmit(answers.phone.trim(), phoneDialCode),
       additional_notes: answers.additionalNotes.trim() || null,
-      lead_stage: "quiz-complete",
+      lead_stage: result.qualified ? QUALIFIED_STAGE : NOT_QUALIFIED_STAGE,
       source_slug: "capec-quiz",
       offer: "first-deal-discount",
       utm_source: utm.utm_source || null,
@@ -281,17 +252,18 @@ function QuizPage() {
     };
     const { error } = await supabase.from("leads").insert(leadRow);
     // "qualified" has no column in the leads table (inserting it there would 400), but the sheet
-    // has a real "Qualified" column: every lead reaching this point already passed every gate above
-    // (a disqualifying answer blocks the funnel before this code can run), so it's always "Yes" here.
-    if (!error) void appendLeadToSheet({ data: { ...leadRow, qualified: "Yes" } }).catch(() => {});
+    // has a real "Qualified" column, and the sheet-sync function also uses lead_stage to route this
+    // row to the right tab (Sheet1 vs NonQualified) — see leads-sheet.functions.ts.
+    if (!error) {
+      void appendLeadToSheet({ data: { ...leadRow, qualified: result.qualified ? "Yes" : "No" } }).catch(() => {});
+    }
     if (error) {
       setStatus("error");
       return;
     }
-    void trackMetaLead();
-    setStatus("idle");
-    setAnimKey((k) => k + 1);
-    setScreen("done");
+    // trackMetaLead() fires on /thank-you itself, not here, so only qualified visitors who actually
+    // reach that page ever trigger it.
+    void navigate({ to: result.qualified ? "/thank-you" : "/not-qualified" });
   }
 
   const progress = useMemo(() => (step / TOTAL_QUESTIONS) * 100, [step]);
@@ -329,7 +301,7 @@ function QuizPage() {
               title="Where do you sell?"
               options={PLATFORM_OPTIONS}
               value={answers.platform}
-              onSelect={(v) => pickGated("platform", v, 2)}
+              onSelect={(v) => pick("platform", v, 2)}
               icons={PLATFORM_ICONS}
             />
           )}
@@ -339,7 +311,7 @@ function QuizPage() {
               title="What's your annual revenue?"
               options={REVENUE_OPTIONS}
               value={answers.revenueRange}
-              onSelect={(v) => pickGated("revenueRange", v, 3)}
+              onSelect={(v) => pick("revenueRange", v, 3)}
               icons={REVENUE_ICONS}
             />
           )}
@@ -349,7 +321,7 @@ function QuizPage() {
               title="How long have you been selling?"
               options={HISTORY_OPTIONS}
               value={answers.sellingHistory}
-              onSelect={(v) => pickGated("sellingHistory", v, 4)}
+              onSelect={(v) => pick("sellingHistory", v, 4)}
             />
           )}
 
@@ -358,7 +330,7 @@ function QuizPage() {
               title="Do you own your brand (trademark)?"
               options={YES_NO_OPTIONS}
               value={answers.ownsBrand}
-              onSelect={(v) => pickGated("ownsBrand", v, 5)}
+              onSelect={(v) => pick("ownsBrand", v, 5)}
             />
           )}
 
@@ -367,7 +339,7 @@ function QuizPage() {
               title="Is this purchase order or invoice at least $10,000?"
               options={YES_NO_OPTIONS}
               value={answers.poAtLeast10k}
-              onSelect={(v) => pickGated("poAtLeast10k", v, 6)}
+              onSelect={(v) => pick("poAtLeast10k", v, 6)}
             />
           )}
 
@@ -528,39 +500,6 @@ function QuizPage() {
               </Button>
               {status === "error" && <ErrorNote />}
             </StepShell>
-          )}
-
-          {screen === "done" && (
-            <Confirmation
-              title={`Thanks, ${answers.fullName.trim().split(" ")[0] || "there"}, we've got your details.`}
-              body="A member of our team will review your eligibility and be in touch within one business day with your offer."
-              nextSteps={[
-                "Our team reviews your details and confirms eligibility, usually within one business day.",
-                "We call or email you with your funding offer, including your first-deal fee.",
-                "If you accept, we move to funding your purchase order, no obligation to accept.",
-              ]}
-            />
-          )}
-
-          {screen === "blocked" && (
-            <div className="py-10 text-center">
-              <ShieldAlert className="mx-auto size-12 text-signal" strokeWidth={1.5} />
-              <h1 className="mt-5 text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-4xl">
-                Thanks for your interest.
-              </h1>
-              <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
-                {NOT_QUALIFIED_MESSAGE}
-              </p>
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={backFromBlocked}
-                className="mt-6 gap-1.5 text-sm font-semibold text-foreground"
-              >
-                <ArrowLeft className="size-4" />
-                Back
-              </Button>
-            </div>
           )}
         </div>
       </main>
@@ -791,44 +730,7 @@ function ErrorNote() {
   );
 }
 
-function Confirmation({
-  title,
-  body,
-  nextSteps,
-}: {
-  title: string;
-  body: string;
-  nextSteps?: string[];
-}) {
-  return (
-    <div className="py-10 text-center">
-      <CheckCircle2 className="mx-auto size-12 text-signal" strokeWidth={1.5} />
-      <h1 className="mt-5 text-3xl font-extrabold leading-tight text-headline-emphasis sm:text-4xl">
-        {title}
-      </h1>
-      <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
-        {body}
-      </p>
-      {nextSteps && nextSteps.length > 0 && (
-        <div className="mx-auto mt-7 max-w-md rounded-xl border border-hairline bg-surface-subtle px-5 py-5 text-left">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-            What happens next
-          </p>
-          <ol className="mt-3 space-y-3">
-            {nextSteps.map((stepText, i) => (
-              <li key={stepText} className="flex items-start gap-3">
-                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-signal text-[0.65rem] font-bold text-white">
-                  {i + 1}
-                </span>
-                <span className="text-sm leading-relaxed text-foreground">{stepText}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
-    </div>
-  );
-}
+
 
 function Field({
   label,

@@ -1,9 +1,15 @@
 // Shared qualification rules for CapEc's lead funnel (hero/bottom quiz card + /quiz).
 //
-// Per the client (confirmed 2026-10-02), these answers now BLOCK the visitor from continuing or
-// submitting the form at all — not just flagged after the fact. The goal is that only qualifying
-// prospects are ever counted as leads. A single source of truth here, imported by both quiz
-// components, so a future threshold change can't update one form and miss the other.
+// Per the client (updated 2026-10-03): every visitor completes the full form and is captured as a
+// lead either way — qualification no longer blocks progress mid-funnel. Instead, the full answer
+// set is checked once at submission, and that result decides which of two outcomes the visitor
+// gets: the /thank-you page (qualified) or the /not-qualified page (not qualified), each a distinct
+// URL so the client can set up a Meta conversion rule that only counts the qualified one. It also
+// decides which Google Sheet tab the lead is written to (Sheet1 vs NonQualified), so the two
+// populations don't get mixed together in the sheet.
+//
+// A single source of truth here, imported by both quiz components and the sheet-sync function, so a
+// future threshold change can't update one form and miss the other.
 //
 // Not enforced by this form, flagged rather than silently skipped:
 //  - The specific SKU being funded needs 3-6 months of its own sales history (no new launches /
@@ -24,6 +30,11 @@ export type QualificationInput = {
 
 export type QualificationField = keyof QualificationInput;
 
+// Written to the lead's lead_stage field, and used by the sheet-sync function to pick which tab a
+// lead is written to (see leads-sheet.functions.ts).
+export const QUALIFIED_STAGE = "quiz-complete";
+export const NOT_QUALIFIED_STAGE = "quiz-not-qualified";
+
 // The exact answer values (from each quiz's own option lists) that disqualify a lead.
 const DISQUALIFYING: { [K in QualificationField]: readonly string[] } = {
   platform: ["Other"], // must sell on Amazon, Shopify, or both
@@ -34,14 +45,16 @@ const DISQUALIFYING: { [K in QualificationField]: readonly string[] } = {
   businessCountry: ["Other"], // must sell into US, Canada, UK, or EU (can be registered anywhere)
 };
 
-/** True if this single answer, on its own, disqualifies the lead. Used to block mid-funnel, as soon as a disqualifying answer is given, rather than waiting until the end. */
+/** True if this single answer, on its own, disqualifies the lead. A building block for
+ * evaluateQualification below; not used to block progress mid-funnel anymore. */
 export function isDisqualifyingAnswer(field: QualificationField, value: string): boolean {
   return DISQUALIFYING[field].includes(value);
 }
 
 export type QualificationResult = { qualified: boolean; reasons: string[] };
 
-/** Full-answer-set check, used as a safety net right before submission in case any field was skipped or mis-set upstream. */
+/** Full-answer-set check, run once at submission to decide which outcome (thank-you vs
+ * not-qualified) and which sheet tab a lead gets. */
 export function evaluateQualification(input: Partial<QualificationInput>): QualificationResult {
   const reasons: string[] = [];
   (Object.keys(DISQUALIFYING) as QualificationField[]).forEach((field) => {
@@ -51,9 +64,9 @@ export function evaluateQualification(input: Partial<QualificationInput>): Quali
   return { qualified: reasons.length === 0, reasons };
 }
 
-/** Shown to a visitor once a disqualifying answer blocks them from continuing. Deliberately a single
- * summary of all criteria, not the specific rule they tripped, so the message reads as informational
- * rather than as a hint to go back and pick a different answer to get through. */
+/** Shown on the /not-qualified page. Deliberately a single summary of all criteria, not the specific
+ * rule(s) this lead tripped, so it reads as informational rather than as a hint to resubmit with
+ * different answers to get through. */
 export const NOT_QUALIFIED_MESSAGE =
   "Based on your answers, CapEc isn't a fit for this purchase order right now. We currently fund " +
   "private-label e-commerce brands (no resellers or wholesalers) selling on Amazon or Shopify into " +

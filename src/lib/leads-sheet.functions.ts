@@ -1,9 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { COLUMNS, colLetter, planLayout, rowFor, type ColumnKey } from "@/lib/sheet-layout";
+import { NOT_QUALIFIED_STAGE } from "@/lib/lead-qualification";
 
 const SPREADSHEET_ID = "1oKWKeGVWmyxQ93iEGaLjER_I5Ad1-uaM6iosST22QZY";
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/google_sheets/v4";
+const QUALIFIED_TAB = "Sheet1";
+const NOT_QUALIFIED_TAB = "NonQualified";
 
 const str = z.string().max(2000).nullish();
 const leadSchema = z.object(
@@ -12,6 +15,38 @@ const leadSchema = z.object(
     typeof str
   >,
 );
+
+// Reads a tab's header row. If the tab itself doesn't exist yet (the common case for "NonQualified"
+// the first time a non-qualified lead comes in), creates it and reads again. Returns null if the
+// header row genuinely can't be determined (read failed for a reason other than a missing tab, or
+// the create/retry also failed) — the caller falls back to the known default layout in that case.
+async function ensureTab(base: string, headers: Record<string, string>, tab: string): Promise<string[] | null> {
+  const head = await fetch(`${base}/${encodeURIComponent(tab)}!1:1`, { headers });
+  if (head.ok) {
+    const body = (await head.json()) as { values?: unknown[][] };
+    return (body.values?.[0] ?? []).map((c) => String(c ?? ""));
+  }
+  // Not necessarily a missing tab (could be a transient error), but attempting to create it is safe
+  // either way: Sheets rejects adding a sheet whose title already exists, so this is a no-op if the
+  // tab is actually already there for some other reason.
+  const spreadsheetBase = base.replace(/\/values$/, "");
+  const create = await fetch(`${spreadsheetBase}:batchUpdate`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ requests: [{ addSheet: { properties: { title: tab } } }] }),
+  });
+  if (!create.ok) {
+    console.error(`Sheets tab create failed [${create.status}] for "${tab}": ${await create.text()}`);
+    return null;
+  }
+  const retry = await fetch(`${base}/${encodeURIComponent(tab)}!1:1`, { headers });
+  if (!retry.ok) {
+    console.error(`Sheets header read failed after creating tab "${tab}" [${retry.status}]: ${await retry.text()}`);
+    return null;
+  }
+  const body = (await retry.json()) as { values?: unknown[][] };
+  return (body.values?.[0] ?? []).map((c) => String(c ?? ""));
+}
 
 export const appendLeadToSheet = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => leadSchema.parse(d))
@@ -28,19 +63,17 @@ export const appendLeadToSheet = createServerFn({ method: "POST" })
       "Content-Type": "application/json",
     };
     const base = `${GATEWAY_URL}/spreadsheets/${SPREADSHEET_ID}/values`;
-    const tab = "Sheet1";
+
+    // Non-qualified leads go to their own tab, so the two populations never mix in the sheet the
+    // team actually looks at.
+    const tab = (data as Partial<Record<ColumnKey, string | null | undefined>>)["lead_stage"] === NOT_QUALIFIED_STAGE
+      ? NOT_QUALIFIED_TAB
+      : QUALIFIED_TAB;
 
     // Place each value under the header with the matching name (see sheet-layout.ts). The team edits
     // this sheet by hand, so writing by fixed column position puts values under the wrong heading the
     // moment a column is reordered, renamed, or inserted — that already happened once in production.
-    let existing: string[] | null = null;
-    const head = await fetch(`${base}/${tab}!1:1`, { headers });
-    if (head.ok) {
-      const body = (await head.json()) as { values?: unknown[][] };
-      existing = (body.values?.[0] ?? []).map((c) => String(c ?? ""));
-    } else {
-      console.error(`Sheets header read failed [${head.status}]: ${await head.text()}; using the known layout`);
-    }
+    const existing = await ensureTab(base, headers, tab);
     const { layout, write } = planLayout(existing);
     if (write) {
       const range = `${tab}!${colLetter(write.startCol)}1:${colLetter(write.startCol + write.labels.length - 1)}1`;
