@@ -25,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { appendLeadToSheet } from "@/lib/leads-sheet.functions";
+import { sendLeadToZapier } from "@/lib/zapier";
 import amazonLogo from "@/assets/capec/amazon-logo.png";
 import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 
@@ -205,6 +206,7 @@ export function HeroQuizCard() {
     // row to the right tab (Sheet1 vs NonQualified) — see leads-sheet.functions.ts.
     if (!error) {
       void appendLeadToSheet({ data: { ...leadRow, qualified: result.qualified ? "Yes" : "No" } }).catch(() => {});
+      sendLeadToZapier({ ...leadRow, qualified: result.qualified ? "Yes" : "No" });
     }
     if (error) {
       setStatus("error");
