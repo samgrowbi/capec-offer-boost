@@ -22,6 +22,7 @@ import shopifyLogo from "@/assets/capec/shopify-logo.svg";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { appendLeadToSheet } from "@/lib/leads-sheet.functions";
+import { getTrafficSource } from "@/lib/traffic-source";
 import { sendLeadToZapier } from "@/lib/zapier";
 import {
   QuizFaq,
@@ -256,7 +257,7 @@ function QuizPage() {
     // has a real "Qualified" column, and the sheet-sync function also uses lead_stage to route this
     // row to the right tab (Sheet1 vs NonQualified) — see leads-sheet.functions.ts.
     if (!error) {
-      void appendLeadToSheet({ data: { ...leadRow, qualified: result.qualified ? "Yes" : "No" } }).catch(() => {});
+      void appendLeadToSheet({ data: { ...leadRow, qualified: result.qualified ? "Yes" : "No", traffic_source: getTrafficSource() } }).catch(() => {});
       sendLeadToZapier({ ...leadRow, qualified: result.qualified ? "Yes" : "No" });
     }
     if (error) {

@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { initMetaPixel } from "@/lib/meta-pixel";
 import { initClarity } from "@/lib/clarity";
+import { captureTrafficSource } from "@/lib/traffic-source";
 
 function NotFoundComponent() {
   return (
@@ -133,6 +134,7 @@ function RootComponent() {
   useEffect(() => {
     initMetaPixel();
     initClarity();
+    captureTrafficSource();
   }, []);
 
   return (
