@@ -6,6 +6,7 @@ import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { appendLeadToSheet } from "@/lib/leads-sheet.functions";
+import { getTrafficSource } from "@/lib/traffic-source";
 import { sendLeadToZapier } from "@/lib/zapier";
 
 const REVENUE_RANGES = [
@@ -111,7 +112,7 @@ export function LeadForm({ formId }: { formId: string }) {
     };
     const { error } = await supabase.from("leads").insert(leadRow);
     if (!error) {
-      void appendLeadToSheet({ data: leadRow }).catch(() => {});
+      void appendLeadToSheet({ data: { ...leadRow, traffic_source: getTrafficSource() } }).catch(() => {});
       sendLeadToZapier(leadRow);
     }
 
