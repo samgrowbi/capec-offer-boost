@@ -41,7 +41,8 @@ export type ColumnKey =
   | "utm_source"
   | "utm_medium"
   | "utm_campaign"
-  | "qualification_notes";
+  | "qualification_notes"
+  | "traffic_source";
 
 // Default order and header labels, for a brand-new empty tab. "Qualified" is deliberately last among
 // the qualification-related columns (per request, 2026-10-03): Owns Brand and PO At Least $10K come
@@ -70,6 +71,8 @@ export const COLUMNS: readonly (readonly [ColumnKey, string])[] = [
   ["utm_medium", "UTM Medium"],
   ["utm_campaign", "UTM Campaign"],
   ["qualification_notes", "Qualification Notes"],
+  // Facebook / Google / Other / Direct — see traffic-source.ts. Sheet-only (not a leads table column).
+  ["traffic_source", "Lead Source"],
 ];
 
 // Through "Qualified" in the order above. The real sheet's physical column positions don't have to
@@ -97,7 +100,7 @@ export function colLetter(n: number): string {
 // Fields we add a header for on the right if the sheet doesn't have one yet, in the order they were
 // introduced. "qualified" isn't here: the real sheet already has it, and a sheet that doesn't should
 // get it from the default full header (empty-tab case), not appended as an afterthought.
-const AUTO_ADD_IF_MISSING: readonly ColumnKey[] = ["owns_brand", "po_at_least_10k"];
+const AUTO_ADD_IF_MISSING: readonly ColumnKey[] = ["owns_brand", "po_at_least_10k", "traffic_source"];
 
 // `existing` is the tab's header row, or null if it couldn't be read.
 export function planLayout(existing: string[] | null): LayoutPlan {
