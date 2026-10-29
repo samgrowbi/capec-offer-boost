@@ -75,3 +75,45 @@ export function getTrafficSource(): TrafficSource {
   if (typeof window === "undefined") return "Direct";
   return read() ?? detectTrafficSource(window.location.search, document.referrer);
 }
+
+// ---------------------------------------------------------------------------------------------------
+// Ad name, for the "Ad Name" column in the leads sheet.
+//
+// Each Meta ad carries its name in the URL via the UTM template (utm_content={{ad.name}}). An explicit
+// ad_name param is also accepted, and utm_term is the last fallback. Like the lead source above, it's
+// read from the page the visitor first lands on and kept for the session — the ad URL usually lands on
+// /capec, and the UTMs are gone from the address bar by the time the visitor submits (e.g. on /quiz).
+
+const AD_NAME_KEY = "capec_ad_name";
+
+function adNameFrom(search: string): string {
+  const params = new URLSearchParams(search);
+  for (const key of ["ad_name", "utm_content", "utm_term"]) {
+    const v = (params.get(key) ?? "").trim();
+    // Skip un-substituted macros like "{{ad.name}}" (e.g. from ad previews).
+    if (v && !/^\{\{.*\}\}$/.test(v)) return v.slice(0, 500);
+  }
+  return "";
+}
+
+export function captureAdName(): void {
+  if (typeof window === "undefined") return;
+  const now = adNameFrom(window.location.search);
+  if (!now) return; // keep whatever an earlier ad landing stored
+  try {
+    if (!window.sessionStorage.getItem(AD_NAME_KEY)) window.sessionStorage.setItem(AD_NAME_KEY, now);
+  } catch {
+    // Storage blocked — getAdName() falls back to the current URL.
+  }
+}
+
+export function getAdName(): string {
+  if (typeof window === "undefined") return "";
+  try {
+    const stored = window.sessionStorage.getItem(AD_NAME_KEY);
+    if (stored) return stored;
+  } catch {
+    // fall through
+  }
+  return adNameFrom(window.location.search);
+}
