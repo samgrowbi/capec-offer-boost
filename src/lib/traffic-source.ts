@@ -79,19 +79,23 @@ export function getTrafficSource(): TrafficSource {
 // ---------------------------------------------------------------------------------------------------
 // Ad name, for the "Ad Name" column in the leads sheet.
 //
-// Each Meta ad carries its name in the URL via the UTM template (utm_content={{ad.name}}). An explicit
-// ad_name param is also accepted, and utm_term is the last fallback. Like the lead source above, it's
+// The Meta ads' URL template puts the ad name in utm_medium (e.g. "B 07", "Script 4") and the numeric
+// ad ID in utm_content. An explicit ad_name param wins if present; a generic utm_medium like "paid" is
+// skipped, and the ad ID from utm_content is the last fallback. Like the lead source above, it's
 // read from the page the visitor first lands on and kept for the session — the ad URL usually lands on
 // /capec, and the UTMs are gone from the address bar by the time the visitor submits (e.g. on /quiz).
 
 const AD_NAME_KEY = "capec_ad_name";
+const GENERIC_MEDIUM = /^(paid|paid[_ ]?social|social|cpc|ppc|cpm|ads?|display|referral|organic|email)$/i;
 
 function adNameFrom(search: string): string {
   const params = new URLSearchParams(search);
-  for (const key of ["ad_name", "utm_content", "utm_term"]) {
+  for (const key of ["ad_name", "utm_medium", "utm_content"]) {
     const v = (params.get(key) ?? "").trim();
     // Skip un-substituted macros like "{{ad.name}}" (e.g. from ad previews).
-    if (v && !/^\{\{.*\}\}$/.test(v)) return v.slice(0, 500);
+    if (!v || /^\{\{.*\}\}$/.test(v)) continue;
+    if (key === "utm_medium" && GENERIC_MEDIUM.test(v)) continue;
+    return v.slice(0, 500);
   }
   return "";
 }
