@@ -24,6 +24,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { appendLeadToSheet } from "@/lib/leads-sheet.functions";
 import { getAdName, getTrafficSource } from "@/lib/traffic-source";
 import { sendLeadToZapier } from "@/lib/zapier";
+import { createLeadEventId } from "@/lib/meta-pixel";
 import {
   QuizFaq,
   QuizFounderTrust,
@@ -253,12 +254,14 @@ function QuizPage() {
       utm_campaign: utm.utm_campaign || null,
     };
     const { error } = await supabase.from("leads").insert(leadRow);
+    // Shared with the pixel Lead on /thank-you so Meta can dedupe it against the Zapier/CAPI Lead.
+    const eventId = createLeadEventId();
     // "qualified" has no column in the leads table (inserting it there would 400), but the sheet
     // has a real "Qualified" column, and the sheet-sync function also uses lead_stage to route this
     // row to the right tab (Sheet1 vs NonQualified) — see leads-sheet.functions.ts.
     if (!error) {
       void appendLeadToSheet({ data: { ...leadRow, qualified: result.qualified ? "Yes" : "No", traffic_source: getTrafficSource(), ad_name: getAdName() || null } }).catch(() => {});
-      sendLeadToZapier({ ...leadRow, qualified: result.qualified ? "Yes" : "No" });
+      sendLeadToZapier({ ...leadRow, qualified: result.qualified ? "Yes" : "No", event_id: eventId });
     }
     if (error) {
       setStatus("error");
