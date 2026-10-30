@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { trackMetaLead } from "@/lib/meta-pixel";
+import { createLeadEventId, trackMetaLead } from "@/lib/meta-pixel";
 import { z } from "zod";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 
@@ -111,16 +111,17 @@ export function LeadForm({ formId }: { formId: string }) {
       utm_campaign: utm.utm_campaign || null,
     };
     const { error } = await supabase.from("leads").insert(leadRow);
+    const eventId = createLeadEventId();
     if (!error) {
       void appendLeadToSheet({ data: { ...leadRow, traffic_source: getTrafficSource(), ad_name: getAdName() || null } }).catch(() => {});
-      sendLeadToZapier(leadRow);
+      sendLeadToZapier({ ...leadRow, event_id: eventId });
     }
 
     if (error) {
       setStatus("error");
       return;
     }
-    void trackMetaLead();
+    void trackMetaLead(eventId);
     setStatus("success");
   }
 
