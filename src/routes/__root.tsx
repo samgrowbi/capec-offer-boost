@@ -115,7 +115,12 @@ function RootShell({ children }: { children: ReactNode }) {
             __html: `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', 'AW-17934232398');`,
+gtag('config', 'AW-17934232398');
+// Phone link clicks -> Google Ads "Phone Click (website tel link)" conversion
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest && e.target.closest('a[href^="tel:"]');
+  if (a) gtag('event', 'conversion', { send_to: 'AW-11238782458/W_4DCLr_rbMdEPrriO8p' });
+}, true);`,
           }}
         />
         <HeadContent />
